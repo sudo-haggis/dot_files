@@ -1,0 +1,15 @@
+[user]
+	name = weedavedev
+	email = admin@wallacedevelopment.co.uk
+[core]
+	autocrlf = input
+	editor = vim
+[credential]
+	helper = store
+[init]
+	defaultBranch = main
+[alias]
+	am = commit -am
+[safe]
+	directory = /home/weedavedev/webDev/latepoint_dev/wp-content-lp5/plugins/latepoint-gate-codes/
+	directory = /home/weedavedev/webDev/latepoint_dev/wp-content-lp5/plugins/latepoint-gate-codes

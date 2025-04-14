@@ -1,0 +1,157 @@
+# Ignore everything by default
+*
+
+# Explicitly add dotfiles you want to track
+!.gitignore
+!.bashrc
+!.bash_profile
+!.profile
+!.zshrc
+!.zprofile
+!.zshenv
+!.aliases
+!.functions
+!.vimrc
+!.gvimrc
+!.vim/
+!.config/
+!.config/nvim/
+!.config/nvim/init.lua
+!.tmux.conf
+!.ssh/config
+!.gitconfig
+
+# Shell history files
+.bash_history
+.zsh_history
+
+# Common directories to ignore
+Downloads/
+Documents/
+Pictures/
+Music/
+Videos/
+Desktop/
+
+# Cache and temporary files
+.cache/
+.local/share/
+.npm/
+node_modules/
+**/node_modules/
+.yarn/
+.pnpm/
+.composer/
+.cargo/
+.rustup/
+.gradle/
+.m2/
+.nuget/
+.kube/
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Browser data
+.mozilla/
+.config/google-chrome/
+.config/chromium/
+.config/BraveSoftware/
+
+# VSCode
+.vscode/
+.vscode-insiders/
+.config/Code/
+.config/VSCodium/
+
+# JetBrains IDEs
+.idea/
+.fleet/
+.WebStorm*/
+.IntelliJIdea*/
+.CLion*/
+.PyCharm*/
+.DataGrip*/
+
+# Runtime files
+.X*
+.dbus/
+.gvfs/
+
+# Potentially sensitive files
+.aws/
+.ssh/id_*
+.gnupg/
+.config/**/token
+.config/**/*token*
+.config/**/*auth*
+.netrc
+.docker/config.json
+
+# Mail and communications
+.thunderbird/
+.config/Signal/
+.config/Slack/
+.config/discord/
+.config/zoom/
+.config/Microsoft/
+.config/teams/
+
+# Game launchers and games
+.steam/
+.config/steam/
+.local/share/Steam/
+.config/Epic/
+.wine/
+
+# Logs
+.local/state/
+logs/
+*.log
+**/log/
+**/logs/
+
+# Editor swap/backup files
+*.swp
+*.swo
+*~
+.*.sw?
+.netrwhist
+
+# Config subdirectories - be selective
+# Whitelist specific subdirectories you want to track
+.config/*
+!.config/nvim/
+!.config/i3/
+!.config/alacritty/
+!.config/kitty/
+!.config/sway/
+!.config/bspwm/
+!.config/polybar/
+!.config/rofi/
+!.config/dunst/
+!.config/picom/
+!.config/fish/
+
+# macOS specific
+.DS_Store
+.Trash/
+.CFUserTextEncoding
+Library/
+!Library/Application Support/Code/User/settings.json
+!Library/Application Support/Code/User/keybindings.json
+!Library/Application Support/Alfred/
+!Library/Preferences/com.googlecode.iterm2.plist
+
+# Various application data directories
+.python_history
+.lesshst
+.wget-hsts
+.mysql_history
+.node_repl_history
+.psql_history
+.rediscli_history
+.sqlite_history
+.ipython/
+.jupyter/
