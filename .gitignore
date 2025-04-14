@@ -5,6 +5,7 @@
 !.gitignore
 !.bashrc
 !.bash_profile
+!.bash_aliases
 !.profile
 !.zshrc
 !.zprofile
