@@ -123,7 +123,7 @@ logs/
 # Config subdirectories - be selective
 # Whitelist specific subdirectories you want to track
 .config/*
-!.config/nvim/
+!.config/nvim/*
 !.config/i3/
 !.config/alacritty/
 !.config/kitty/
