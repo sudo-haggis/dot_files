@@ -22,6 +22,15 @@
 !.ssh/config
 !.gitconfig
 
+# Explicitly include all Neovim configuration
+!.config/nvim/
+!.config/nvim/lua/
+!.config/nvim/lua/core/
+!.config/nvim/lua/plugins/
+!.config/nvim/lua/plugins/lsp/
+!.config/nvim/after/
+!.config/nvim/after/plugin/
+
 # Shell history files
 .bash_history
 .zsh_history
@@ -123,7 +132,7 @@ logs/
 # Config subdirectories - be selective
 # Whitelist specific subdirectories you want to track
 .config/*
-!.config/nvim/*
+!.config/nvim/**
 !.config/i3/
 !.config/alacritty/
 !.config/kitty/
