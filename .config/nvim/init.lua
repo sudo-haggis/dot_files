@@ -12,6 +12,52 @@ vim.opt.clipboard = 'unnamedplus' -- Use system clipboard
 vim.opt.termguicolors = true      -- Enable true color support
 vim.opt.completeopt = 'menu,menuone,noselect'  -- Required for LSP
 
+-- Enable autoread
+vim.opt.autoread = true
+
+-- Create an autocommand group for file change detection
+local augroup = vim.api.nvim_create_augroup("AutoReload", { clear = true })
+
+-- Check for file changes when terminal focus returns to Neovim
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+    group = augroup,
+    pattern = "*",
+    callback = function()
+        if vim.fn.getcmdwintype() == "" then
+            local current_buffer = vim.api.nvim_get_current_buf()
+            
+            -- Check if file has been modified outside vim
+            local file_changed = vim.fn.getbufvar(current_buffer, "&filechanged_outside")
+            
+            -- Check if buffer has unsaved changes
+            local buffer_modified = vim.api.nvim_buf_get_option(current_buffer, "modified")
+            
+            if file_changed == 1 and buffer_modified then
+                -- Prompt user when there are unsaved changes
+                vim.ui.input({
+                    prompt = "File changed on disk. Reload? (y/n): ",
+                }, function(input)
+                    if input == "y" or input == "Y" then
+                        vim.cmd("checktime")
+                    end
+                end)
+            else
+                -- Auto reload if no unsaved changes
+                vim.cmd("checktime")
+            end
+        end
+    end,
+})
+
+-- Notification after file change
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+    group = augroup,
+    pattern = "*",
+    callback = function()
+        vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
+    end,
+})
+
 -- Set leader key to space
 vim.g.mapleader = ' '
 
