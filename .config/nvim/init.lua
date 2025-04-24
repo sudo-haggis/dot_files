@@ -10,3 +10,4 @@ require('plugins.completion') -- Completion setup
 require('plugins.lsp')       -- LSP configurations
 require('plugins.treesitter') -- Treesitter configuration
 require('plugins.go')        -- Go-specific config
+require('plugins.fzf')       --adding fuzzeehh

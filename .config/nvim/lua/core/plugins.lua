@@ -36,6 +36,11 @@ packer.startup(function(use)
     end
   }
   
+  -- Fuzzeh findin'
+  use {'junegunn/fzf', run = ':call fzf#install()' }
+  use 'junegunn/fzf.vim'
+  use 'jremmen/vim-ripgrep'  -- Better ripgrep integration
+
   -- LSP and completion plugins
   use {
     'neovim/nvim-lspconfig',

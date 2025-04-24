@@ -99,6 +99,16 @@ _G.packer_plugins = {
     path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  fzf = {
+    loaded = true,
+    path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/fzf",
+    url = "https://github.com/junegunn/fzf"
+  },
+  ["fzf.vim"] = {
+    loaded = true,
+    path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/fzf.vim",
+    url = "https://github.com/junegunn/fzf.vim"
+  },
   ["go.nvim"] = {
     loaded = true,
     path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/go.nvim",
@@ -108,6 +118,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/guihua.lua",
     url = "https://github.com/ray-x/guihua.lua"
+  },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
+    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -135,6 +150,28 @@ _G.packer_plugins = {
     path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
   },
+  ["typescript.nvim"] = {
+    loaded = true,
+    path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/typescript.nvim",
+    url = "https://github.com/jose-elias-alvarez/typescript.nvim"
+  },
+  ["vim-ripgrep"] = {
+    loaded = true,
+    path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/vim-ripgrep",
+    url = "https://github.com/jremmen/vim-ripgrep"
+  },
+  ["vim-svelte"] = {
+    loaded = true,
+    path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/vim-svelte",
+    url = "https://github.com/evanleck/vim-svelte"
+  },
+  ["vim-svelte-plugin"] = {
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/weedavedev/.local/share/nvim/site/pack/packer/opt/vim-svelte-plugin",
+    url = "https://github.com/leafOfTree/vim-svelte-plugin"
+  },
   ["vim-tmux-navigator"] = {
     loaded = true,
     path = "/home/weedavedev/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator",
@@ -147,6 +184,18 @@ time([[Defining packer_plugins]], false)
 time([[Config for tokyonight.nvim]], true)
 try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0!colorscheme tokyonight-storm\bcmd\bvim\0", "config", "tokyonight.nvim")
 time([[Config for tokyonight.nvim]], false)
+vim.cmd [[augroup packer_load_aucmds]]
+vim.cmd [[au!]]
+  -- Filetype lazy-loads
+time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType svelte ++once lua require("packer.load")({'vim-svelte-plugin'}, { ft = "svelte" }, _G.packer_plugins)]]
+time([[Defining lazy-load filetype autocommands]], false)
+vim.cmd("augroup END")
+vim.cmd [[augroup filetypedetect]]
+time([[Sourcing ftdetect script at: /home/weedavedev/.local/share/nvim/site/pack/packer/opt/vim-svelte-plugin/ftdetect/svelte.vim]], true)
+vim.cmd [[source /home/weedavedev/.local/share/nvim/site/pack/packer/opt/vim-svelte-plugin/ftdetect/svelte.vim]]
+time([[Sourcing ftdetect script at: /home/weedavedev/.local/share/nvim/site/pack/packer/opt/vim-svelte-plugin/ftdetect/svelte.vim]], false)
+vim.cmd("augroup END")
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

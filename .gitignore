@@ -31,6 +31,8 @@
 !.config/nvim/lua/plugins/lsp/
 !.config/nvim/after/
 !.config/nvim/after/plugin/
+!.config/nivm/lua/plugins/fzf.lua
+!.config/nivm/lua/plugins/treesitter.lua
 
 # Shell history files
 .bash_history
