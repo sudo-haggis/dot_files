@@ -33,6 +33,13 @@ command! -bang -nargs=* RgFzf
   \   }), <bang>0)
 ]]
 
+vim.cmd([[
+    augroup fzf
+        autocmd!
+        autocmd! FileType fzf tnoremap <buffer>? <Esc> <C-c>
+    augroup END
+    ]])
+
 -- Key mappings - using different keys to avoid conflicts with LSP mappings
 local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<leader>ff', ':Files<CR>', opts)      -- "find files"
