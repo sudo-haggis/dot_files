@@ -109,6 +109,10 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+if [ -f ~/.bash_functions ]; then
+    . ~/.bash_functions
+fi
+
 #trap 'echo "DEBUG trap: $BASH_COMMAND in ${BASH_SOURCE[0]}"' DEBUG
 
 # enable programmable completion features (you don't need to enable
@@ -186,6 +190,8 @@ copy_files(){
     #echo -e "$OUTPUT"
     printf "%b" "$OUTPUT"
 }
+
+
 
 
 # Set the prompt - no username or hostname, just the shortened path
