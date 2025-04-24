@@ -6,5 +6,13 @@ rgfzf() {
 }
 
 nvimrg() {
-    nvim $(rg -l "$1" "$2" | fzf)
+  local selection=$(rg --line-number "$1" "$2" | fzf --ansi \
+    --preview "bat --color=always --highlight-line \$(echo {} | cut -d: -f2) \$(echo {} | cut -d: -f1) 2>/dev/null || rg --color=always --context 5 --line-number '$1' \$(echo {} | cut -d: -f1)" \
+    --preview-window=up:60%)
+  
+  if [ -n "$selection" ]; then
+    local file=$(echo "$selection" | cut -d: -f1)
+    local line=$(echo "$selection" | cut -d: -f2)
+    nvim "$file" +"$line"
+  fi
 }
