@@ -126,7 +126,6 @@ if ! shopt -oq posix; then
   fi
 fi
 #trap - DEBUG
-export PATH=$PATH:$HOME/go/bin
 
 #set vi style controlls in terminal... be brave! 
 set -o vi
@@ -224,3 +223,8 @@ PS1='\[\033[01;34m\]$(shorten_path)\[\033[00m\]$ '
 #alias dckLogLP5='docker logs latepoint_wordpress_lp5 -n 15'
 #alias dckExecLP5='docker exec -it latepoint_wordpress_lp5 '
 
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+export PATH="/home/weedavedev/.local/bin:/home/weedavedev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/weedavedev/go/bin:/home/weedavedev/bootdev/worldbanc/private/bin"
+export PATH="$HOME/.local/opt/go/bin:$PATH"
