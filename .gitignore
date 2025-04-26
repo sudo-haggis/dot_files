@@ -20,6 +20,8 @@
 !.config/nvim/
 !.config/nvim/init.lua
 !.tmux.conf
+!.tmux/*
+!.tmux/**/*
 !.ssh/config
 !.gitconfig
 
