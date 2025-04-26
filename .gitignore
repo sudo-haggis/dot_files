@@ -7,6 +7,14 @@
 !.bash_profile
 !.bash_functions
 !.bash_aliases
+
+#include all tmux, then ignore plugin directories
+!.tmux
+!.tmux/**
+#exclude plugins.. 
+.tmux/plugins/
+
+
 !.profile
 !.zshrc
 !.zprofile
@@ -19,9 +27,6 @@
 !.config/
 !.config/nvim/
 !.config/nvim/init.lua
-!.tmux.conf
-!.tmux/**/*
-!.tmux/*
 !.ssh/config
 !.gitconfig
 
