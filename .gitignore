@@ -18,7 +18,11 @@
 !.config/
 !.config/nvim/
 !.config/nvim/init.lua
-!.tmux.conf
+#include all tmux, then ignore plugin directories
+!.tmux
+!.tmux/**
+.tmux/plugins/
+
 !.ssh/config
 !.gitconfig
 
