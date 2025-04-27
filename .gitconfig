@@ -3,7 +3,7 @@
 	email = admin@wallacedevelopment.co.uk
 [core]
 	autocrlf = input
-	editor = vim
+	editor = nvim
 [credential]
 	helper = store
 [init]
