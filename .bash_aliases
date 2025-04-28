@@ -29,3 +29,6 @@ alias dckLogLP5='docker logs latepoint_wordpress_lp5 -n 15'
 alias dckExecLP5='docker exec -it latepoint_wordpress_lp5 '
 alias cdresources='cd ~/webDev/resources '
 alias cdpluginZip='cd ~/webDev/resources/wordpress_scripts/build_scripts/plugin_zipperooo'
+
+#tree outputs
+alias Tree='tree --filelimit 10 -L'
