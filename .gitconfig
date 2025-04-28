@@ -7,7 +7,8 @@
 [credential]
 	helper = store
 [init]
-	defaultBranch = master
+	defaultbranch = main
+	default = main
 [alias]
 	am = commit -am
 [safe]
