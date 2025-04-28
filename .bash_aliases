@@ -5,7 +5,6 @@ alias nvimAlias='nvim ~/.bash_aliases'
 alias ll='exa -l --icons --git'
 alias la='exa -lg --icons --git'
 alias lt='exa -T --icons --git-ignore'
-alias copy='xclip -selection clipboard'
 alias dpsa='docker ps -a --format "table {{.Names}}\t{{.Ports | printf \"%.12s\"}}\t{{.Status}}"'
 alias dckUp='docker compose up -d'
 alias dckDown='docker compose down'
@@ -32,3 +31,6 @@ alias cdpluginZip='cd ~/webDev/resources/wordpress_scripts/build_scripts/plugin_
 
 #tree outputs
 alias Tree='tree --filelimit 10 -L'
+
+alias copy='xclip -selection clipboard'
+alias ccopy='copy_code'

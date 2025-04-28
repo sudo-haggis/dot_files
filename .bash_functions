@@ -18,3 +18,17 @@ nvimrg() {
     nvim "$file" +"$line"
   fi
 }
+
+copy_code() {
+    #sanitise the copyingf input for code copyiong purposese
+    cat | sed 's/\x1B\[[0-9;]*[JKmsu]//g' | sed 's/\r$//' | sed 's/[ \t]*$//' | copy
+    echo -e "\033[36m"
+    echo "   < Code sanitized! >"
+    echo "   ----------------"
+    echo "          \   ^__^"
+    echo "           \  (oo)\_______"
+    echo "              (__)\       )\/\\"
+    echo "                  ||----w |"
+    echo "                  ||     ||"
+    echo -e "\033[0m"
+}
