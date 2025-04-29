@@ -34,3 +34,5 @@ alias Tree='tree --filelimit 10 -L'
 
 alias copy='xclip -selection clipboard'
 alias ccopy='copy_code'
+
+alias py='python3 ' 
