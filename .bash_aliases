@@ -31,6 +31,7 @@ alias cdpluginZip='cd ~/webDev/resources/wordpress_scripts/build_scripts/plugin_
 
 #tree outputs
 alias Tree='tree --filelimit 10 -L'
+alias WatchTree='watch -n 5 tree -d --filelimit 10'
 
 alias copy='xclip -selection clipboard'
 alias ccopy='copy_code'
