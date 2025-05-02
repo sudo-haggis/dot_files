@@ -37,3 +37,6 @@ alias copy='xclip -selection clipboard'
 alias ccopy='copy_code'
 
 alias py='python3 ' 
+
+#the start of the gir aliasathon... aparently there will be more of these
+alias ggraph='git log --graph --oneline --all -n 10'
