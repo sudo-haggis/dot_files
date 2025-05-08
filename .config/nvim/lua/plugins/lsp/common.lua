@@ -1,5 +1,5 @@
 -- plugins/lsp/common.lua
--- Central shared LSP functionality for all language servers
+-- Central shared LSP functionality with consistent keybindings across all languages
 
 local M = {}
 
@@ -26,31 +26,51 @@ function M.get_capabilities()
   return capabilities
 end
 
--- Common on_attach function for all language servers
+-- Common on_attach function for all language servers with consistent keybindings
 function M.on_attach(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   
-  -- Mappings all LSPs should have
+  -- CONSISTENT KEYBINDINGS FOR ALL LANGUAGES
   local opts = { noremap = true, silent = true, buffer = bufnr }
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
-  vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
   
-  -- Diagnostic navigation
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+  -- Documentation and information
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)                       -- Hover documentation
+  vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)          -- Signature help in insert mode
   
-  -- Enable code lens if supported
-  if client.server_capabilities.codeLensProvider then
-    vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+  -- Navigation
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)                 -- Go to definition
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)                 -- Find references
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)             -- Go to implementation
+  vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, opts)            -- Go to type definition
+  
+  -- Refactoring and editing
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)             -- Rename symbol
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)        -- Code actions
+  vim.keymap.set('n', '<leader>f', function() 
+    vim.lsp.buf.format({ async = true }) 
+  end, opts)                                                              -- Format document
+  
+  -- Diagnostics
+  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)               -- Previous diagnostic
+  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)               -- Next diagnostic
+  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)       -- Show diagnostic in float window
+  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)       -- Add diagnostics to location list
+  
+  -- Workspace
+  vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)     -- Add workspace folder
+  vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)  -- Remove workspace folder
+  vim.keymap.set('n', '<leader>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, opts)                                                               -- List workspace folders
+  
+  -- Set formatting on save if the client supports it
+  if client.server_capabilities.documentFormattingProvider then
+    vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
-      callback = vim.lsp.codelens.refresh
+      callback = function() 
+        vim.lsp.buf.format({ bufnr = bufnr }) 
+      end,
     })
   end
   
@@ -60,7 +80,6 @@ end
 
 -- Setup diagnostic display (shared across all LSPs)
 function M.setup_diagnostics()
-  -- Configure diagnostics display
   vim.diagnostic.config({
     virtual_text = true,
     signs = true,
@@ -100,8 +119,8 @@ function M.setup_handlers()
   )
 end
 
--- Helper to create language-specific server setup
-function M.make_config(server_name, extra_settings, extra_on_attach)
+-- Helper to create language-specific server setup with consistent base
+function M.make_config(server_name, extra_settings)
   -- Get standard capabilities
   local capabilities = M.get_capabilities()
   
@@ -111,15 +130,7 @@ function M.make_config(server_name, extra_settings, extra_on_attach)
     flags = {
       debounce_text_changes = 150,
     },
-    on_attach = function(client, bufnr)
-      -- Call common on_attach first
-      M.on_attach(client, bufnr)
-      
-      -- Call language-specific on_attach if provided
-      if extra_on_attach then
-        extra_on_attach(client, bufnr)
-      end
-    end
+    on_attach = M.on_attach  -- Consistent keybindings for all languages
   }
   
   -- Merge in any extra settings

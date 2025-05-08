@@ -1,4 +1,4 @@
--- Global Keymappings
+--Global Keymappings
 
 -- TMUX navigation configuration
 -- Set this to 1 to disable default mappings and use our explicit ones below
@@ -10,6 +10,10 @@ vim.api.nvim_set_keymap('n', '<C-j>', '<cmd>TmuxNavigateDown<CR>', { silent = tr
 vim.api.nvim_set_keymap('n', '<C-k>', '<cmd>TmuxNavigateUp<CR>', { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<C-l>', '<cmd>TmuxNavigateRight<CR>', { silent = true, noremap = true })
 vim.api.nvim_set_keymap('n', '<C-\\>', '<cmd>TmuxNavigatePrevious<CR>', { silent = true, noremap = true })
+
+-- Add a command to check LSP status
+vim.api.nvim_set_keymap('n', '<leader>ls', '<cmd>LspInfo<CR>', { noremap = true, silent = true })
+
 
 -- The Arduino autocmd (separate call)
 vim.api.nvim_create_autocmd('FileType', {

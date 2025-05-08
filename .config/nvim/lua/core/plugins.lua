@@ -44,7 +44,7 @@ packer.startup(function(use)
   -- LSP and completion plugins
   use {
     'neovim/nvim-lspconfig',
-    tag = 'v0.1.7',  -- Pin to a specific version tag that works with your Neovim
+    --tag = 'v0.1.7',  -- Pin to a specific version tag that works with your Neovim
   }
   
   -- Completion framework
@@ -52,8 +52,9 @@ packer.startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
   use 'hrsh7th/cmp-buffer'  -- Buffer completions
   use 'hrsh7th/cmp-path'    -- Path completions
-  use 'L3MON4D3/LuaSnip'    -- Snippet engine
+  use 'hrsh7th/cmp-cmdline'               -- Command line completions
   use 'saadparwaiz1/cmp_luasnip' -- Snippet completions
+  use 'L3MON4D3/LuaSnip'    -- Snippet engine
   
   -- Go specific plugins
   use 'ray-x/go.nvim'
@@ -78,3 +79,12 @@ packer.startup(function(use)
     end,
   }
 end)
+
+-- Register Packer commands (traditional style)
+vim.cmd([[
+  command! PackerCompile lua require('packer').compile()
+  command! PackerInstall lua require('packer').install() 
+  command! PackerUpdate lua require('packer').update()
+  command! PackerSync lua require('packer').sync()
+  command! PackerClean lua require('packer').clean()
+]])

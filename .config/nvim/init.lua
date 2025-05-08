@@ -1,8 +1,26 @@
+-- Add this near the beginning of your init.lua
+local function safe_require(module)
+  local status, result = pcall(require, module)
+  if not status then
+    print("Could not load module: " .. module)
+    return nil
+  end
+  return result
+end
 
+-- Then use safe_require instead of require for loading modules
+-- For example, change:
+-- require('plugins.lsp')
+-- to:
+safe_require('plugins.lsp')
 
 
 -- LSP Configuration
-local lspconfig = require('lspconfig')
+local has_lspconfig, lspconfig = pcall(require, 'lspconfig')
+if not has_lspconfig then
+  print("Warning: nvim-lspconfig not found. LSP features won't be available.")
+  return
+end
 
 -- Get capabilities from cmp_nvim_lsp if available
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -15,7 +33,7 @@ end
 require('plugins.lsp.go').setup(lspconfig, capabilities)
 require('plugins.lsp.javascript').setup(lspconfig, capabilities)
 require('plugins.lsp.php').setup(lspconfig, capabilities)
-require('plugins.lsp.python').setup(lspconfig, capabilities)  -- Add this line
+require('plugins.lsp.python').setup(lspconfig, capabilities)
 require('plugins.lsp.svelte').setup(lspconfig, capabilities)
 require('plugins.lsp.yaml').setup(lspconfig, capabilities)
 

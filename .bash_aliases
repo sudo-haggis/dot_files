@@ -30,8 +30,8 @@ alias cdresources='cd ~/webDev/resources '
 alias cdpluginZip='cd ~/webDev/resources/wordpress_scripts/build_scripts/plugin_zipperooo'
 
 #tree outputs
-alias Tree='tree --filelimit 10 -L'
-alias WatchTree='watch -n 5 tree -d --filelimit 10'
+alias Tree='tree --filelimit 20 -a -C  -I "node_modules|.git|dist|build|coverage" -L'
+alias WatchTree='watch -n 5 tree -d --filelimit 10 -a  -I "node_modules|.git|dist|build|coverage" -C -L'
 
 alias copy='xclip -selection clipboard'
 alias ccopy='copy_code'
@@ -39,4 +39,6 @@ alias ccopy='copy_code'
 alias py='python3 ' 
 
 #the start of the gir aliasathon... aparently there will be more of these
-alias ggraph='git log --graph --oneline --all -n 10'
+alias GGraph='git log --graph --oneline --all -n 10'
+alias GBranch='git branch'
+alias GStatus='git status'
