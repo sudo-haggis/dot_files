@@ -37,6 +37,8 @@ def start_asteroids():
 !.config/nvim/init.lua
 !.ssh/config
 !.gitconfig
+!.tools/
+!.dotfiles/
 
 # Explicitly include all Neovim configuration
 #moved to line 129 with other .conf setup
