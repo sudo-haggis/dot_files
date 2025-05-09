@@ -1,4 +1,11 @@
-# Ignore everything by default
+#mport pygame
+
+def start_asteroids():
+    print(f"Starting Asteroids!")
+
+    if __name__ == "__main__":
+        main()
+	Ignore everything by default
 *
 
 # Explicitly add dotfiles you want to track
@@ -7,6 +14,7 @@
 !.bash_profile
 !.bash_functions
 !.bash_aliases
+!.bash_tools
 
 #include all tmux, then ignore plugin directories
 !.tmux

@@ -223,6 +223,9 @@ PS1='\[\033[01;34m\]$(shorten_path)\[\033[00m\]$ '
 #alias dckLogLP5='docker logs latepoint_wordpress_lp5 -n 15'
 #alias dckExecLP5='docker exec -it latepoint_wordpress_lp5 '
 
+if [ -f ~/.bash_tools ]; then
+	. ~/.bash_tools
+fi
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
