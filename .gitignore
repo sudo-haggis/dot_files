@@ -1,13 +1,3 @@
-#mport pygame
-
-def start_asteroids():
-    print(f"Starting Asteroids!")
-
-    if __name__ == "__main__":
-        main()
-	Ignore everything by default
-*
-
 # Explicitly add dotfiles you want to track
 !.gitignore
 !.bashrc
