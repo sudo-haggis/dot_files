@@ -9,5 +9,9 @@ local function safe_require(module)
 end
 
 -- Load only core modules for Phase 1
-safe_require('core.options')  -- Basic Vim options
+safe_require('core.options')  -- Basic Vim options:w
+
 safe_require('core.keymaps')  -- Global keymaps:w
+
+-- Phase 2: Add plugin manager
+safe_require('core.plugins')  -- Plugin definitions with Packer
