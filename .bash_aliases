@@ -41,4 +41,7 @@ alias py='python3 '
 #the start of the gir aliasathon... aparently there will be more of these
 alias GGraph='git log --graph --oneline --all -n 10'
 alias GBranch='git branch'
-alias GStatus='git status'
+#alias GStatus='git status' # removed, simple enough and complicates getting to other alias. updated GStatus below to use -s and untraceked=no
+alias GStatus='git status -s --untracked-files=no'
+alias GStaged='git diff --name-only --staged'
+alias GSNotStaged='git diff --name-only'
