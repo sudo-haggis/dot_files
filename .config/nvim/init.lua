@@ -15,3 +15,6 @@ safe_require('core.keymaps')  -- Global keymaps:w
 
 -- Phase 2: Add plugin manager
 safe_require('core.plugins')  -- Plugin definitions with Packer
+
+-- Phase 3: Add UI and theme settings
+safe_require('core.theme')    -- UI and theme settings
