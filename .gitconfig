@@ -1,9 +1,10 @@
 [user]
-	name = weedavedev
+	name = sudo-haggis
 	email = 156850571+sudo-haggis@users.noreply.github.com
 [core]
 	autocrlf = input
 	editor = vim
+	hooksPath = /home/weedavedev/.git-hooks
 [credential]
 	helper = store
 [init]
