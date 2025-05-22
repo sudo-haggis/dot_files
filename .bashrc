@@ -227,6 +227,9 @@ if [ -f ~/.bash_tools ]; then
 	. ~/.bash_tools
 fi
 
+#remove binding for ctrl+x so nano stops launching randomly
+bind -r '\C-x'
+
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 export PATH="/home/weedavedev/.local/bin:/home/weedavedev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/weedavedev/go/bin:/home/weedavedev/bootdev/worldbanc/private/bin"
