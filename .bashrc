@@ -234,3 +234,4 @@ bind -r '\C-x'
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 export PATH="/home/weedavedev/.local/bin:/home/weedavedev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/weedavedev/go/bin:/home/weedavedev/bootdev/worldbanc/private/bin"
 export PATH="$HOME/.local/opt/go/bin:$PATH"
+setxkbmap -option caps:escape
