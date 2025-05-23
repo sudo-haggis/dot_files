@@ -3,7 +3,8 @@
 alias nvimAlias='nvim ~/.bash_aliases'
 
 alias ll='exa -l --icons --git'
-alias la='exa -lg --icons --git'
+#alias la='exa -lg --icons --git'
+alias la='exa -la --no-git --no-time --no-user --no-filesize'
 alias lt='exa -T --icons --git-ignore'
 alias dpsa='docker ps -a --format "table {{.Names}}\t{{.Ports | printf \"%.12s\"}}\t{{.Status}}"'
 alias dckUp='docker compose up -d'
