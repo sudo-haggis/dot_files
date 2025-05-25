@@ -26,6 +26,9 @@ packer.startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
   
+  -- add vim-tmux-navigator for seamless navigation vim <> tmux
+  use 'christoomey/vim-tmux-navigator'
+
   -- Colorscheme placeholder (will be fully implemented in Phase 3)
   -- use 'folke/tokyonight.nvim'
 end)
