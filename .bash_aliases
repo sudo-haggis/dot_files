@@ -47,3 +47,6 @@ alias GBranch='git branch'
 alias GStatus='git status -s --untracked-files=no'
 alias GStaged='git diff --name-only --staged'
 alias GSNotStaged='git diff --name-only'
+
+alias README_TEMPLATE='rsync -av /home/weedavedev/workspace/gist.github.com/sudo-haggis/GIST_TEMPLATE/README.md ./'
+ 
