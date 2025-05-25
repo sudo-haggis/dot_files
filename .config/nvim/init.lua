@@ -18,3 +18,9 @@ safe_require('core.plugins')  -- Plugin definitions with Packer
 
 -- Phase 3: Add UI and theme settings
 safe_require('core.theme')    -- UI and theme settings
+
+-- EXTRA add hardtime to make vim harde... adn me better eh? 
+safe_require('plugins.hardtime')
+
+--EXTRA add which key for bindings remindings matey! 
+safe_require('plugins.whichkey')

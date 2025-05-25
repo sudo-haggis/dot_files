@@ -29,6 +29,12 @@ packer.startup(function(use)
   -- add vim-tmux-navigator for seamless navigation vim <> tmux
   use 'christoomey/vim-tmux-navigator'
 
+  --breakbad vim habits with HardTimeVIM
+  use 'takac/vim-hardtime'
+
+  --show handy keybindings
+  use 'folke/which-key.nvim'
+
   -- Colorscheme placeholder (will be fully implemented in Phase 3)
   -- use 'folke/tokyonight.nvim'
 end)
