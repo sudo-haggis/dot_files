@@ -12,6 +12,8 @@
 #exclude plugins.. 
 .tmux/plugins/
 
+# neovim generated files
+.config/nvim/plugin/packer_compiled.lua
 
 !.profile
 !.zshrc
@@ -147,16 +149,6 @@ logs/
 !.config/dunst/
 !.config/picom/
 !.config/fish/
-
-# macOS specific
-.DS_Store
-.Trash/
-.CFUserTextEncoding
-Library/
-!Library/Application Support/Code/User/settings.json
-!Library/Application Support/Code/User/keybindings.json
-!Library/Application Support/Alfred/
-!Library/Preferences/com.googlecode.iterm2.plist
 
 # Various application data directories
 .python_history
