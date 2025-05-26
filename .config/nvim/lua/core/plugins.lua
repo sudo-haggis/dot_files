@@ -35,6 +35,15 @@ packer.startup(function(use)
   --show handy keybindings
   use 'folke/which-key.nvim'
 
+  --Completion Engine 
+  use 'hrsh7th/nvim-cmp'         -- Autocompletion plugin
+  use 'hrsh7th/cmp-nvim-lsp'     -- LSP source for nvim-cmp
+  use 'hrsh7th/cmp-buffer'       -- Buffer completions
+  use 'hrsh7th/cmp-path'         -- Path completions
+  use 'hrsh7th/cmp-cmdline'      -- Command line completions
+  use 'saadparwaiz1/cmp_luasnip' -- Snippet completions
+  use 'L3MON4D3/LuaSnip'         -- Snippet engine
+
   -- Colorscheme placeholder (will be fully implemented in Phase 3)
   -- use 'folke/tokyonight.nvim'
 end)

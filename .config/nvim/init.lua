@@ -24,3 +24,6 @@ safe_require('plugins.hardtime')
 
 -- EXTRA add which key for bindings remindings matey! 
 safe_require('plugins.whichkey')
+
+-- Phase 5 Completion Engine ENGAGE!!!
+safe_require('plugins.completion')
