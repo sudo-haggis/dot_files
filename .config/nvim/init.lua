@@ -27,3 +27,6 @@ safe_require('plugins.whichkey')
 
 -- Phase 5 Completion Engine ENGAGE!!!
 safe_require('plugins.completion')
+
+-- Phase 6 add LSP - common 
+safe_require('plugins.lsp-common')

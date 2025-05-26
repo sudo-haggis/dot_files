@@ -44,6 +44,8 @@ packer.startup(function(use)
   use 'saadparwaiz1/cmp_luasnip' -- Snippet completions
   use 'L3MON4D3/LuaSnip'         -- Snippet engine
 
+  -- LSP infrastructure config
+  use 'neovim/nvim-lspconfig'    -- LSP Configuration
 end)
 
 -- Register Packer commands
