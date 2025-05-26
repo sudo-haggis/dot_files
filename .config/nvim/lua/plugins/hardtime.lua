@@ -3,7 +3,6 @@
 local M = {}
 
 function M.setup()
-    print("Setting up hard time")
     vim.g.hardtime_default_on = 1   --enabled by deault 
     vim.g.hardtime_showmsg = 1      --show the warning message
     vim.g.hardtime_allow_different_key = 1  --allow different keys
