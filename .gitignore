@@ -12,8 +12,6 @@
 #exclude plugins.. 
 .tmux/plugins/
 
-# neovim generated files
-.config/nvim/plugin/packer_compiled.lua
 
 !.profile
 !.zshrc
@@ -31,6 +29,9 @@
 !.gitconfig
 !.tools/
 !.dotfiles/
+
+# neovim generated files
+.config/nvim/plugin/packer_compiled.lua
 
 # Explicitly include all Neovim configuration
 #moved to line 129 with other .conf setup
