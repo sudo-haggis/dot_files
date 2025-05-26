@@ -22,5 +22,5 @@ safe_require('core.theme')    -- UI and theme settings
 -- EXTRA add hardtime to make vim harde... adn me better eh? 
 safe_require('plugins.hardtime')
 
---EXTRA add which key for bindings remindings matey! 
+-- EXTRA add which key for bindings remindings matey! 
 safe_require('plugins.whichkey')
