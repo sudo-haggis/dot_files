@@ -44,8 +44,6 @@ packer.startup(function(use)
   use 'saadparwaiz1/cmp_luasnip' -- Snippet completions
   use 'L3MON4D3/LuaSnip'         -- Snippet engine
 
-  -- Colorscheme placeholder (will be fully implemented in Phase 3)
-  -- use 'folke/tokyonight.nvim'
 end)
 
 -- Register Packer commands
