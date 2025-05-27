@@ -46,6 +46,14 @@ packer.startup(function(use)
 
   -- LSP infrastructure config
   use 'neovim/nvim-lspconfig'    -- LSP Configuration
+
+  -- TreeSitter 
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+        pcall(require('nvim-treesitter.install').update { with_sync = true })
+    end,
+  }
 end)
 
 -- Register Packer commands
