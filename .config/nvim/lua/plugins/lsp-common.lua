@@ -81,7 +81,7 @@ end
 function M.setup()
   M.setup_diagnostics()
   M.setup_handlers()
-  print("LSP common configuration loaded")
+  -- print("LSP common configuration loaded")
 end
 
 -- Call setup
