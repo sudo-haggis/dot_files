@@ -1,30 +1,30 @@
-# Soft Light Theme for tmux (Easy on the eyes)
+# Improved Light Theme for tmux (proper contrast and readability)
 
 # Add Catppuccin plugin
 set -g @plugin 'dreamsofcode-io/catppuccin-tmux'
 
-# Warm soft colors for panes
-set -g pane-border-style fg='#b8c0ca'
-set -g pane-active-border-style fg='#6c7a89'
+# Improved light colors for panes - better contrast
+set -g pane-border-style fg='#c4c8da'
+set -g pane-active-border-style fg='#6f7bb6'
 
-# Window style - using a soft beige for inactive
-setw -g window-style 'bg=#f0ebe2,fg=#5d6d7e'
+# Window style - clean light background that matches Neovim
+setw -g window-style 'bg=#f7f7f7,fg=#3760bf'
 
-# Window style - using a warmer paper tone for active
-setw -g window-active-style 'bg=#f5f0e7,fg=#2c3e50'
+# Window style (active) - slightly different shade for contrast
+setw -g window-active-style 'bg=#ffffff,fg=#1e1e2e'
 
-# Status line base color
-set -g status-style 'bg=#e4dfd3,fg=#5d6d7e'
+# Status line base color - good contrast
+set -g status-style 'bg=#e1e2e7,fg=#3760bf'
 
-# Window status format - with good contrast
-set -g window-status-format "#[fg=#5d6d7e,bg=#e4dfd3,nobold] #I #[fg=#5d6d7e,bg=#e4dfd3] #W "
-set -g window-status-current-format "#[fg=#f5f0e7,bg=#5d6d7e,nobold] #I #[fg=#f5f0e7,bg=#5d6d7e,bold] #W "
+# Improved Window status format - much better contrast for visibility
+set -g window-status-format "#[fg=#3760bf,bg=#e1e2e7,nobold] #I #[fg=#3760bf,bg=#e1e2e7] #W "
+set -g window-status-current-format "#[fg=#ffffff,bg=#6f7bb6,nobold] #I #[fg=#ffffff,bg=#6f7bb6,bold] #W "
 
-# Status bar elements
-set -g status-left "#[fg=#f5f0e7,bg=#7e8c8d,bold] #S "
-set -g status-right "#[fg=#f5f0e7,bg=#7e8c8d,bold] %H:%M "
+# Status bar elements - proper contrast
+set -g status-left "#[fg=#ffffff,bg=#6f7bb6,bold] #S "
+set -g status-right "#[fg=#ffffff,bg=#6f7bb6,bold] %H:%M "
 
-# Catppuccin config
+# Catppuccin config - latte flavor for light mode
 set -g @catppuccin_flavour 'latte'
 set -g @catppuccin_status_modules_right "date_time"
 set -g @catppuccin_status_left_separator "█"
@@ -40,3 +40,13 @@ set -g @catppuccin_window_default_fill "number"
 set -g @catppuccin_window_current_fill "number"
 set -g @catppuccin_window_default_text "#W"
 set -g @catppuccin_window_current_text "#W"
+
+# Message styling (for notifications) - readable on light background
+set -g message-style bg='#6f7bb6',fg='#ffffff'
+set -g message-command-style bg='#6f7bb6',fg='#ffffff'
+
+# Copy mode highlighting - visible selection
+set -g mode-style bg='#b6bfe2',fg='#1e1e2e'
+
+# Clock mode color (when you press prefix + t)
+set -g clock-mode-colour '#6f7bb6'

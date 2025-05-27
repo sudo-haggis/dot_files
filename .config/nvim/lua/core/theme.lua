@@ -1,6 +1,6 @@
 -- core/theme.lua
 -- Basic UI settings and theme fallback
--- ENHANCED: Now includes live tmux theme synchronization!
+-- ENHANCED: Now includes live tmux theme synchronization with improved colors!
 
 -- Enable 24-bit RGB color in the TUI
 vim.opt.termguicolors = true
@@ -30,42 +30,79 @@ local function get_tmux_theme_mode()
   return "dark" -- Fallback if command fails
 end
 
--- NEW: Apply Tokyo Night Dark theme colors
+-- IMPROVED: Apply softer Tokyo Night Dark theme colors (less deep, more readable)
 local function apply_dark_theme()
   vim.cmd [[
-    highlight Normal guibg=#1a1b26 guifg=#c0caf5
-    highlight LineNr guifg=#3b4261
-    highlight CursorLine guibg=#24283b
-    highlight CursorLineNr guifg=#7aa2f7
-    highlight StatusLine guibg=#3b4261 guifg=#7aa2f7
-    highlight StatusLineNC guibg=#24283b guifg=#565f89
-    highlight VertSplit guifg=#3b4261
-    highlight SignColumn guibg=#1a1b26
-    highlight Pmenu guibg=#24283b guifg=#c0caf5
-    highlight PmenuSel guibg=#414868 guifg=#c0caf5
-    highlight Visual guibg=#33467c
-    highlight Search guibg=#3d59a1 guifg=#c0caf5
+    highlight Normal guibg=#24283b guifg=#c0caf5
+    highlight LineNr guifg=#7aa2f7
+    highlight CursorLine guibg=#2f3549
+    highlight CursorLineNr guifg=#9ece6a guibg=#2f3549
+    highlight StatusLine guibg=#414868 guifg=#c0caf5
+    highlight StatusLineNC guibg=#32394a guifg=#737aa2
+    highlight VertSplit guifg=#414868
+    highlight SignColumn guibg=#24283b
+    highlight Pmenu guibg=#32394a guifg=#c0caf5
+    highlight PmenuSel guibg=#414868 guifg=#ffffff
+    highlight PmenuSbar guibg=#32394a
+    highlight PmenuThumb guifg=#7aa2f7
+    highlight Visual guibg=#364a82
+    highlight Search guibg=#3d59a1 guifg=#ffffff
+    highlight IncSearch guibg=#f7768e guifg=#1a1b26
+    highlight Comment guifg=#565f89
+    highlight String guifg=#9ece6a
+    highlight Keyword guifg=#bb9af7
+    highlight Function guifg=#7aa2f7
+    highlight ErrorMsg guibg=#f7768e guifg=#ffffff
+    highlight WarningMsg guibg=#e0af68 guifg=#1a1b26
+    highlight Error guifg=#f7768e
+    highlight DiagnosticError guifg=#f7768e
+    highlight DiagnosticWarn guifg=#e0af68
+    highlight DiagnosticInfo guifg=#7dcfff
+    highlight DiagnosticHint guifg=#1abc9c
+    highlight Title guifg=#7aa2f7
+    highlight Question guifg=#9ece6a
+    highlight MoreMsg guifg=#9ece6a
+    highlight ModeMsg guifg=#c0caf5
+    highlight SpecialKey guifg=#565f89
+    highlight NonText guifg=#565f89
+    highlight Directory guifg=#7aa2f7
+    highlight helpHeader guifg=#bb9af7
+    highlight helpSectionDelim guifg=#7aa2f7
+    highlight helpHyperTextJump guifg=#7dcfff
+    highlight helpNote guifg=#e0af68
+    highlight helpWarning guifg=#f7768e
+    highlight helpExample guifg=#9ece6a
+    highlight TabLine guibg=#32394a guifg=#c0caf5
+    highlight TabLineFill guibg=#24283b
+    highlight TabLineSel guibg=#414868 guifg=#ffffff
   ]]
-  vim.notify("Applied dark theme (synced with tmux)", vim.log.levels.INFO)
+  vim.notify("Applied improved dark theme (synced with tmux)", vim.log.levels.INFO)
 end
 
--- NEW: Apply Tokyo Night Light theme colors  
+-- IMPROVED: Apply proper contrast light theme colors (actually visible!)
 local function apply_light_theme()
   vim.cmd [[
-    highlight Normal guibg=#f5f0e7 guifg=#2c3e50
-    highlight LineNr guifg=#5d6d7e
-    highlight CursorLine guibg=#e4dfd3
-    highlight CursorLineNr guifg=#6c7a89
-    highlight StatusLine guibg=#7e8c8d guifg=#f5f0e7
-    highlight StatusLineNC guibg=#b8c0ca guifg=#5d6d7e
-    highlight VertSplit guifg=#b8c0ca
-    highlight SignColumn guibg=#f5f0e7
-    highlight Pmenu guibg=#e4dfd3 guifg=#2c3e50
-    highlight PmenuSel guibg=#d5cfc3 guifg=#2c3e50
-    highlight Visual guibg=#d5cfc3
-    highlight Search guibg=#c5bfb3 guifg=#2c3e50
+    highlight Normal guibg=#f7f7f7 guifg=#3760bf
+    highlight LineNr guifg=#6f7bb6
+    highlight CursorLine guibg=#e9e9ed
+    highlight CursorLineNr guifg=#1e1e2e guibg=#e9e9ed
+    highlight StatusLine guibg=#6f7bb6 guifg=#f7f7f7
+    highlight StatusLineNC guibg=#c4c8da guifg=#6c6f85
+    highlight VertSplit guifg=#c4c8da
+    highlight SignColumn guibg=#f7f7f7
+    highlight Pmenu guibg=#e1e2e7 guifg=#3760bf
+    highlight PmenuSel guibg=#6f7bb6 guifg=#ffffff
+    highlight PmenuSbar guibg=#e1e2e7
+    highlight PmenuThumb guibg=#6f7bb6
+    highlight Visual guibg=#b6bfe2
+    highlight Search guibg=#2ac3de guifg=#ffffff
+    highlight IncSearch guibg=#f52a65 guifg=#ffffff
+    highlight Comment guifg=#9699b7
+    highlight String guifg=#587539
+    highlight Keyword guifg=#7847bd
+    highlight Function guifg=#166775
   ]]
-  vim.notify("Applied light theme (synced with tmux)", vim.log.levels.INFO)
+  vim.notify("Applied improved light theme (synced with tmux)", vim.log.levels.INFO)
 end
 
 -- NEW: Main function to sync Neovim theme with tmux
@@ -103,7 +140,7 @@ local function setup_theme_keybindings()
     -- Then sync Neovim with the new tmux theme
     vim.defer_fn(function()
       sync_with_tmux_theme()
-    end, 100) -- Small delay to let tmux switch first
+    end, 150) -- Slightly longer delay for smoother transition
   end
   
   -- Bind the same keys tmux uses: T and F5
