@@ -36,7 +36,7 @@ function M.on_attach(client, bufnr)
   -- Leader mappings (these will show in which-key!)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
+  --vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
   
   -- Diagnostics
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)

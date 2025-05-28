@@ -35,3 +35,6 @@ safe_require('plugins.lsp.python')
 
 -- Phase 7 add TreesSitter configuration
 safe_require('plugins.treesitter')  
+
+-- Multi language formatting tool, conform. 
+safe_require('plugins.formatting')

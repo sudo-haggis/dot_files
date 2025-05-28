@@ -54,6 +54,9 @@ packer.startup(function(use)
         pcall(require('nvim-treesitter.install').update { with_sync = true })
     end,
   }
+
+  -- Conform - Multi langauge format tool
+  use 'stevearc/conform.nvim'
 end)
 
 -- Register Packer commands
