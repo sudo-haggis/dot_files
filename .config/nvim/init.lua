@@ -30,6 +30,8 @@ safe_require('plugins.completion')
 
 -- Phase 6 add LSP - common 
 safe_require('plugins.lsp-common')
+-- add python LSP 
+safe_require('plugins.lsp.python')
 
 -- Phase 7 add TreesSitter configuration
 safe_require('plugins.treesitter')  

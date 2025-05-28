@@ -45,7 +45,7 @@ packer.startup(function(use)
   use 'L3MON4D3/LuaSnip'         -- Snippet engine
 
   -- LSP infrastructure config
-  use 'neovim/nvim-lspconfig'    -- LSP Configuration
+  use 'neovim/nvim-lspconfig'    -- LSP configuration
 
   -- TreeSitter 
   use {
