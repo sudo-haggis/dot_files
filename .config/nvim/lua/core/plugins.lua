@@ -57,6 +57,9 @@ packer.startup(function(use)
 
   -- Conform - Multi langauge format tool
   use 'stevearc/conform.nvim'
+
+  -- Ruff linter 
+  --use 'mfussenegger/nvim-lint'
 end)
 
 -- Register Packer commands

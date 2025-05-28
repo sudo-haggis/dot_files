@@ -38,3 +38,6 @@ safe_require('plugins.treesitter')
 
 -- Multi language formatting tool, conform. 
 safe_require('plugins.formatting')
+
+-- linting support - Ruff
+-- safe_require('plugins.linting')
