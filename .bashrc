@@ -91,20 +91,6 @@ if [ -n "$TMUX" ]; then
     export HISTFILE="$HOME/.bash_history_tmux_$(tmux display-message -p '#I-#P')"
 fi
 
-# some more ls aliases
-#alias ll='ls -alF'
-#alias la='ls -A'
-#alias l='ls -CF'
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -112,8 +98,6 @@ fi
 if [ -f ~/.bash_functions ]; then
     . ~/.bash_functions
 fi
-
-#trap 'echo "DEBUG trap: $BASH_COMMAND in ${BASH_SOURCE[0]}"' DEBUG
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -130,108 +114,17 @@ fi
 #set vi style controlls in terminal... be brave! 
 set -o vi
 
-
-# Function to shorten directory path
-# Shows only the last 2 directories in the path
-shorten_path() {
-  local pwd_length=${#PWD}
-  
-  # If in home directory, use ~
-  if [[ $PWD == $HOME* ]]; then
-    local relative_path=${PWD#$HOME}
-    
-    # If exactly in home directory
-    if [[ -z "$relative_path" ]]; then
-      echo "~"
-      return
-    fi
-    
-    # Get last 2 directories from path
-    local short=$(echo "$relative_path" | rev | cut -d'/' -f1,2 | rev)
-    echo "~/.../$short"
-  else
-    # Not in home directory
-    # Get last 2 directories from path
-    local short=$(echo "$PWD" | rev | cut -d'/' -f1,2 | rev)
-    echo ".../$(basename $(dirname $short))/$(basename $PWD)"
-  fi
-}
-
-#copy contents of files for claude, bespoke cat + concat command simply.    
-copy_files(){
-    if [ $# -eq 0 ]; then
-        echo "Try adding some directories as parameters"
-        return 1
-    fi
-
-    local OUTPUT=""
-    local FILES=()
-
-    for arg in "$@"; do
-        FILES+=("$arg")
-    done
-
-    for file in "${FILES[@]}"; do
-        if [ -f "$file" ]; then
-
-            OUTPUT+="====$file====\n\n"
-
-            OUTPUT+="$(cat "$file")\n\n"
-
-            OUTPUT+="====EOF $file====\n\n"
-
-            echo "Added contents of $file"
-        else 
-            echo "$file NOT FOUND"
-        fi
-    done
-
-    #echo -e "$OUTPUT"
-    printf "%b" "$OUTPUT"
-}
-
-
-
-
 # Set the prompt - no username or hostname, just the shortened path
 PS1='\[\033[01;34m\]$(shorten_path)\[\033[00m\]$ '
-
-# Custom aliases
-#alias ll='exa -l --icons --git'
-#alias la='exa -lg --icons --git'
-#alias lt='exa -T --icons --git-ignore'
-#alias copy='xclip -selection clipboard'
-#alias dpsa='docker ps -a --format "table {{.Names}}\t{{.Ports | printf \"%.12s\"}}\t{{.Status}}"'
-#alias dckUp='docker compose up -d'
-#alias dckDown='docker compose down'
-#alias dckBuild='docker compose build --no-cache'
-#alias dckWatch='watch -n 5 "docker ps -a --format \"table {{.Names}}\t{{.Ports | printf \\\"%.12s\\\"}}\t{{.Status | printf \\\"%.5s\\\"}}\"" '
-#alias dckStat='docker stats'
-#alias dckLog='docker logs -n 15'
-#alias dckExecDB='docker exec -it latepoint_db '
-#alias batlog='sed "s/; public /;\n  public /g" | sed "s/; protected /;\n  protected /g" | bat --theme=ansi --language=log --color=always'
-#alias cdlpdev='cd ~/webDev/latepoint_dev && echo "Welcome..." && git status'
-#alias cdgatecodes='cd ~/webDev/latepoint_dev/wp-content-lp5/plugins/latepoint-gate-codes/ && echo "Welcome..." && git status'
-#alias dotfiles='git --git-dir=/home/weedavedev/.dotfiles/ --work-tree=/home/weedavedev'
-#
-##alias for gatecodes
-#alias copyGatecodes='copy_files latepoint-gate-codes.php assets/css/latepoint-gate-codes.css | copy'
-#alias nvimGatecodes='nvim latepoint-gate-codes.php assets/css/latepoint-gate-codes.css'
-##ltdr alias
-#alias copyLTDR='copy_files docker-compose.yaml docker/php/Dockerfile docker/php/docker-entrypoint.sh docker/mysql/Dockerfile | copy'
-#alias nvimLTDR='nvim docker-compose.yaml docker/php/Dockerfile docker/php/docker-entrypoint.sh docker/mysql/Dockerfile'  
-#alias dckLogLP5='docker logs latepoint_wordpress_lp5 -n 15'
-#alias dckExecLP5='docker exec -it latepoint_wordpress_lp5 '
-
-if [ -f ~/.bash_tools ]; then
 	. ~/.bash_tools
 fi
 
-#remove binding for ctrl+x so nano stops launching randomly
+#STOP NANO : remove binding for ctrl+x so nano stops launching 
 bind -r '\C-x'
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 export PATH="/home/weedavedev/.local/bin:/home/weedavedev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/weedavedev/go/bin:/home/weedavedev/bootdev/worldbanc/private/bin"
 export PATH="$HOME/.local/opt/go/bin:$PATH"
+
 setxkbmap -option caps:escape
