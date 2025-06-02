@@ -29,23 +29,6 @@ nvimrg() {
     fi
 }
 
-# ── Warn about symlink directory hooks into native cd function ──
-# Shows a warning if you go into a sym link direcory
-check_symlink_portal() {
-    if [ "$(pwd -P)" != "$(pwd -L)" ]; then
-        echo "AHOY! Ye have teleported through a SYMLINK portal!"
-        echo "Apparent location: $(pwd -L)"
-        echo "Real treasure chest: $(pwd -P)"
-        echo "Type 'pwd -P' anytime to see true coordinates!"
-        echo
-    fi
-}
-# hook into cd command
-cd() {
-    builtin cd "$@" && check_symlink_portal
-}
-
-
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                           Content Management                                │
 # └─────────────────────────────────────────────────────────────────────────────┘

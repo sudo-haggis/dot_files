@@ -106,8 +106,8 @@ fi
 # │                           External Configuration Files                      │
 # └─────────────────────────────────────────────────────────────────────────────┘
 # Load custom aliases
-if [ -f ~/.bash_aliases_tools ]; then
-    . ~/.bash_aliases_tools
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
 fi
 
 # Load custom functions

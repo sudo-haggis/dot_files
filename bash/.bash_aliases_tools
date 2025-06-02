@@ -70,6 +70,9 @@ alias dckLog='docker logs -n 15'
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                           Quick Navigation                                  │
 # └─────────────────────────────────────────────────────────────────────────────┘
+# Note: Mostly replaced by z (zoxide) but still useful for specific workflows
+alias cdlpdev='cd ~/webDev/latepoint_dev && echo "Welcome..." && git status'
+alias cdgatecodes='cd ~/webDev/latepoint_dev/wp-content-lp5/plugins/latepoint-gate-codes/ && echo "Welcome..." && git status'
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              Git Aliases                                    │
