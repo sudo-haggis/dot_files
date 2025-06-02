@@ -9,7 +9,7 @@ bash/.bash_aliases_projects
 **/packer_compiled.lua
 
 # Exclude tmux plugins (managed by tpm)
-tmux/.tmux/plugins/
+tmux/.config/tmux/plugins/
 
 # Editor temp files (just in case)
 *.swp

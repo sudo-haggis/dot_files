@@ -17,7 +17,7 @@ fi
 tmux set-option -g @theme_mode "$NEW_THEME"
 
 # Source the appropriate theme file
-tmux source-file ~/.tmux/themes/${NEW_THEME}.tmux
+tmux source-file ~/.config/tmux/themes/${NEW_THEME}.tmux
 
 # Display message about theme change
 tmux display-message "Theme switched to ${NEW_THEME}"
