@@ -170,4 +170,5 @@ setxkbmap -option caps:escape
 [ -d "/snap/bin" ] && PATH="$PATH:/snap/bin"
 [ -d "$HOME/go/bin" ] && PATH="$PATH:$HOME/go/bin"
 [ -d "$HOME/.local/opt/go/bin" ] && PATH="$HOME/.local/opt/go/bin:$PATH"
+[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
 export PATH
