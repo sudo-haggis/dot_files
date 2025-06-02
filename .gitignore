@@ -3,7 +3,7 @@
 !.bashrc
 !.bash_profile
 !.bash_functions
-!.bash_aliases
+!.bash_aliases_tools
 !.bash_tools
 
 #include all tmux, then ignore plugin directories
