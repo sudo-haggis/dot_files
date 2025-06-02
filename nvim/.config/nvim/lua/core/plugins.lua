@@ -3,63 +3,63 @@
 
 -- Bootstrap packer if not installed
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-  print "Installing packer.nvim..."
-  vim.cmd [[packadd packer.nvim]]
+	fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+	print("Installing packer.nvim...")
+	vim.cmd([[packadd packer.nvim]])
 end
 
 -- Initialize packer explicitly
-vim.cmd [[packadd packer.nvim]]
+vim.cmd([[packadd packer.nvim]])
 
 -- Use protected require for Packer
-local status_ok, packer = pcall(require, 'packer')
+local status_ok, packer = pcall(require, "packer")
 if not status_ok then
-  print("Packer not found!")
-  return
+	print("Packer not found!")
+	return
 end
 
 -- Plugin configuration
 packer.startup(function(use)
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
-  
-  -- add vim-tmux-navigator for seamless navigation vim <> tmux
-  use 'christoomey/vim-tmux-navigator'
+	-- Packer can manage itself
+	use("wbthomason/packer.nvim")
 
-  --breakbad vim habits with HardTimeVIM
-  use 'takac/vim-hardtime'
+	-- add vim-tmux-navigator for seamless navigation vim <> tmux
+	use("christoomey/vim-tmux-navigator")
 
-  --show handy keybindings
-  use 'folke/which-key.nvim'
+	--breakbad vim habits with HardTimeVIM
+	use("takac/vim-hardtime")
 
-  --Completion Engine 
-  use 'hrsh7th/nvim-cmp'         -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp'     -- LSP source for nvim-cmp
-  use 'hrsh7th/cmp-buffer'       -- Buffer completions
-  use 'hrsh7th/cmp-path'         -- Path completions
-  use 'hrsh7th/cmp-cmdline'      -- Command line completions
-  use 'saadparwaiz1/cmp_luasnip' -- Snippet completions
-  use 'L3MON4D3/LuaSnip'         -- Snippet engine
+	--show handy keybindings
+	use("folke/which-key.nvim")
 
-  -- LSP infrastructure config
-  use 'neovim/nvim-lspconfig'    -- LSP configuration
+	--Completion Engine
+	use("hrsh7th/nvim-cmp") -- Autocompletion plugin
+	use("hrsh7th/cmp-nvim-lsp") -- LSP source for nvim-cmp
+	use("hrsh7th/cmp-buffer") -- Buffer completions
+	use("hrsh7th/cmp-path") -- Path completions
+	use("hrsh7th/cmp-cmdline") -- Command line completions
+	use("saadparwaiz1/cmp_luasnip") -- Snippet completions
+	use("L3MON4D3/LuaSnip") -- Snippet engine
 
-  -- TreeSitter 
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = function()
-        pcall(require('nvim-treesitter.install').update { with_sync = true })
-    end,
-  }
+	-- LSP infrastructure config
+	use("neovim/nvim-lspconfig") -- LSP configuration
 
-  -- Conform - Multi langauge format tool
-  use 'stevearc/conform.nvim'
+	-- TreeSitter
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		run = function()
+			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
+		end,
+	})
 
-  -- Ruff linter 
-  --use 'mfussenegger/nvim-lint'
+	-- Conform - Multi langauge format tool
+	use("stevearc/conform.nvim")
+
+	-- Ruff linter
+	--use 'mfussenegger/nvim-lint'
 end)
 
 -- Register Packer commands

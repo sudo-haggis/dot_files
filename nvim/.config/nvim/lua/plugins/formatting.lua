@@ -1,17 +1,9 @@
 -- lua/plugins/formatting.lua
 -- Shared formatting configuration using conform.nvim
 -- Supports multiple languages with individual formatters
+local utils = require("core.utils")
 
-local function safe_require(module)
-	local success, result = pcall(require, module)
-	if not success then
-		vim.notify("Failed to load " .. module .. ": " .. result, vim.log.levels.ERROR)
-		return nil
-	end
-	return result
-end
-
-local conform = safe_require("conform")
+local conform = utils.safe_require("conform")
 if not conform then
 	return
 end
