@@ -1,0 +1,92 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║                               Bash Aliases                                  ║
+# ║                    Custom shortcuts and command aliases                     ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                           Project-Specific Aliases                          │
+# └─────────────────────────────────────────────────────────────────────────────┘
+# Load project-specific aliases (if exists)
+if [ -f ~/.bash_aliases_project ]; then
+    . ~/.bash_aliases_project
+fi
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                              System Alerts                                  │
+# └─────────────────────────────────────────────────────────────────────────────┘
+# Alert for long running commands - Usage: sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║                              CUSTOM ALIASES                                 ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                             Configuration                                   │
+# └─────────────────────────────────────────────────────────────────────────────┘
+alias nvimAlias='nvim ~/.bash_aliases'
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                          Directory Listings                                 │
+# └─────────────────────────────────────────────────────────────────────────────┘
+alias ll='exa -l --icons --git'
+alias la='exa -la --no-git --no-time --no-user --no-filesize'
+alias lt='exa -T --icons --git-ignore'
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                             System Tools                                    │
+# └─────────────────────────────────────────────────────────────────────────────┘
+# ── Clipboard Management ──
+alias copy='xclip -selection clipboard' 
+alias ccopy='copy_code'  # Sanitized code copying with cow celebration
+
+# ── Python ──
+alias py='python3'
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                           File Management                                   │
+# └─────────────────────────────────────────────────────────────────────────────┘
+# ── Log Viewing ──
+alias batlog='sed "s/; public /;\n  public /g" | sed "s/; protected /;\n  protected /g" | bat --theme=ansi --language=log --color=always'
+
+# ── Directory Trees ──
+alias Tree='tree --filelimit 20 -a -C -I "node_modules|.git|dist|build|coverage" -L'
+alias WatchTree='watch -n 5 tree -d --filelimit 10 -a -I "node_modules|.git|dist|build|coverage" -C -L'
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                            Docker Commands                                  │
+# └─────────────────────────────────────────────────────────────────────────────┘
+# ── Container Management ──
+alias dpsa='docker ps -a --format "table {{.Names}}\t{{.Ports | printf \"%.12s\"}}\t{{.Status}}"'
+alias dckUp='docker compose up -d'
+alias dckDown='docker compose down'
+alias dckBuild='docker compose build --no-cache'
+
+# ── Container Monitoring ──
+alias dckWatch='watch -n 5 "docker ps -a --format \"table {{.Names}}\t{{.Ports | printf \\\"%.12s\\\"}}\t{{.Status | printf \\\"%.5s\\\"}}\"" '
+alias dckStat='docker stats'
+alias dckLog='docker logs -n 15'
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                           Quick Navigation                                  │
+# └─────────────────────────────────────────────────────────────────────────────┘
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                              Git Aliases                                    │
+# └─────────────────────────────────────────────────────────────────────────────┘
+# ── Repository Visualization ──
+alias GGraph='git log --graph --oneline --all -n 10'
+alias GGraph30='git log --graph --oneline --all -n 30'
+
+# ── Branch Management ──
+alias GBranch='git branch'
+
+# ── Status & Changes ──
+alias GStatus='git status -s --untracked-files=no'
+alias GStaged='git diff --name-only --staged'
+alias GSNotStaged='git diff --name-only'
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                             Templates                                       │
+# └─────────────────────────────────────────────────────────────────────────────┘
+alias README_TEMPLATE='rsync -av /home/weedavedev/workspace/gist.github.com/sudo-haggis/GIST_TEMPLATE/README.md ./'

@@ -1,5 +1,0 @@
-#External tools
-#Z - jumparound directory tool 
-if [ -d "$HOME/tools/z/" ]; then
-	. "$HOME/tools/z/z.sh"
-fi
