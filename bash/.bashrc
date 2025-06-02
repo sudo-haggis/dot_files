@@ -137,6 +137,11 @@ if [ -f ~/.bash_functions ]; then
     . ~/.bash_functions
 fi
 
+#load custom tools (zoxide etc)
+if [ -f ~/.bash_tools ]; then
+    . ~/.bash_tools
+fi
+
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                           Completion Configuration                          │
 # └─────────────────────────────────────────────────────────────────────────────┘
