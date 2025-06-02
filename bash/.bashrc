@@ -164,6 +164,10 @@ setxkbmap -option caps:escape
 # Load envman configuration
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
-# PATH configuration
-export PATH="/home/weedavedev/.local/bin:/home/weedavedev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/weedavedev/go/bin:/home/weedavedev/bootdev/worldbanc/private/bin"
-export PATH="$HOME/.local/opt/go/bin:$PATH"
+# new and improoved $PATH generationisation! 
+[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+[ -d "/snap/bin" ] && PATH="$PATH:/snap/bin"
+[ -d "$HOME/go/bin" ] && PATH="$PATH:$HOME/go/bin"
+[ -d "$HOME/.local/opt/go/bin" ] && PATH="$HOME/.local/opt/go/bin:$PATH"
+export PATH
