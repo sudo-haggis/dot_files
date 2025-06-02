@@ -36,7 +36,7 @@ conform.setup({
         -- json = { "prettier" },
         -- yaml = { "prettier" },
         -- markdown = { "prettier" },
-        -- lua = { "stylua" },
+        lua = { "stylua" },
     },
 
     -- Formatter-specific configuration
