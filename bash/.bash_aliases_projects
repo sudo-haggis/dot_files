@@ -1,6 +1,6 @@
 # ╔══════════════════════════════════════════════════════════════════════════════╗
-# ║                           Project-Specific Aliases                          ║
-# ║                      Shortcuts for current development work                 ║
+# ║                           Project-Specific Aliases                           ║
+# ║                      Shortcuts for current development work                  ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -22,7 +22,7 @@ alias cdresources='cd ~/webDev/resources'
 alias cdpluginZip='cd ~/webDev/resources/wordpress_scripts/build_scripts/plugin_zipperooo'
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
-# │                        Latepoint Docker Shortcuts                          │
+# │                        Latepoint Docker Shortcuts                           │
 # └─────────────────────────────────────────────────────────────────────────────┘
 # ── Container Access ──
 alias dckLogLP5='docker logs latepoint_wordpress_lp5 -n 15'

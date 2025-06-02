@@ -1,7 +1,13 @@
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                            ~/.bashrc Configuration                           ║
-# ║                    Executed by bash(1) for non-login shells                 ║
+# ║                    Executed by bash(1) for non-login shells                  ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                            Alias for config editin                          │ 
+# │              if .bashrc doesnt run, you can edit bash files quickly         │
+# └─────────────────────────────────────────────────────────────────────────────┘
+alias nvimAlias='cd ~/.dotfiles/bash/ && nvim .bash_aliases_tools .bash_aliases_projects .bash_functions .bashrc'
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                            Interactive Shell Check                          │
@@ -40,7 +46,7 @@ shopt -s checkwinsize
 #shopt -s globstar
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
-# │                              System Utilities                              │
+# │                              System Utilities                               │
 # └─────────────────────────────────────────────────────────────────────────────┘
 # Make less more friendly for non-text input files
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -105,19 +111,19 @@ fi
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                           External Configuration Files                      │
 # └─────────────────────────────────────────────────────────────────────────────┘
-# Load custom aliases
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+# Load custom mainly tool aliases
+if [ -f ~/.bash_aliases_tools ]; then
+    . ~/.bash_aliases_tools
+fi
+
+# Load project-specific aliases (if exists)
+if [ -f ~/.bash_aliases_project ]; then
+    . ~/.bash_aliases_project
 fi
 
 # Load custom functions
 if [ -f ~/.bash_functions ]; then
     . ~/.bash_functions
-fi
-
-# Load bash tools (if exists)
-if [ -f ~/.bash_tools ]; then
-    . ~/.bash_tools
 fi
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
