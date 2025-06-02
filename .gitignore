@@ -1,164 +1,18 @@
-# Explicitly add dotfiles you want to track
-!.gitignore
-!.bashrc
-!.bash_profile
-!.bash_functions
-!.bash_aliases_tools
-!.bash_tools
+# =============================================================================
+#                     DOTFILES REPOSITORY GITIGNORE
+# =============================================================================
 
-#include all tmux, then ignore plugin directories
-!.tmux
-!.tmux/**
-#exclude plugins.. 
-.tmux/plugins/
+# Exclude project-specific aliases (contains personal/sensitive project info)
+bash/.bash_aliases_projects
 
+# Exclude any generated/compiled files
+**/packer_compiled.lua
 
-!.profile
-!.zshrc
-!.zprofile
-!.zshenv
-!.aliases
-!.functions
-!.vimrc
-!.gvimrc
-!.vim/
-!.config/
-!.config/nvim/
-!.config/nvim/init.lua
-!.ssh/config
-!.gitconfig
-!.tools/
-!.dotfiles/
+# Exclude tmux plugins (managed by tpm)
+tmux/.tmux/plugins/
 
-# neovim generated files
-.config/nvim/plugin/packer_compiled.lua
-
-# Explicitly include all Neovim configuration
-#moved to line 129 with other .conf setup
-
-# Shell history files
-.bash_history
-.zsh_history
-
-# Common directories to ignore
-Downloads/
-Documents/
-Pictures/
-Music/
-Videos/
-Desktop/
-
-# Cache and temporary files
-.cache/
-.local/share/
-.npm/
-node_modules/
-**/node_modules/
-.yarn/
-.pnpm/
-.composer/
-.cargo/
-.rustup/
-.gradle/
-.m2/
-.nuget/
-.kube/
-tmp/
-temp/
-.tmp/
-.temp/
-
-# Browser data
-.mozilla/
-.config/google-chrome/
-.config/chromium/
-.config/BraveSoftware/
-
-# VSCode
-.vscode/
-.vscode-insiders/
-.config/Code/
-.config/VSCodium/
-
-# JetBrains IDEs
-.idea/
-.fleet/
-.WebStorm*/
-.IntelliJIdea*/
-.CLion*/
-.PyCharm*/
-.DataGrip*/
-
-# Runtime files
-.X*
-.dbus/
-.gvfs/
-
-# Potentially sensitive files
-.aws/
-.ssh/id_*
-.gnupg/
-.config/**/token
-.config/**/*token*
-.config/**/*auth*
-.netrc
-.docker/config.json
-
-# Mail and communications
-.thunderbird/
-.config/Signal/
-.config/Slack/
-.config/discord/
-.config/zoom/
-.config/Microsoft/
-.config/teams/
-
-# Game launchers and games
-.steam/
-.config/steam/
-.local/share/Steam/
-.config/Epic/
-.wine/
-
-# Logs
-.local/state/
-logs/
-*.log
-**/log/
-**/logs/
-
-# Editor swap/backup files
+# Editor temp files (just in case)
 *.swp
 *.swo
 *~
 .*.sw?
-.netrwhist
-
-# Config subdirectories - be selective
-# Whitelist specific subdirectories you want to track
-.config/*
-!.config/nvim/
-!.config/nvim/**
-!.config/nvim/**/*
-!.config/i3/
-!.config/alacritty/
-!.config/kitty/
-!.config/sway/
-!.config/bspwm/
-!.config/polybar/
-!.config/rofi/
-!.config/dunst/
-!.config/picom/
-!.config/fish/
-
-# Various application data directories
-.python_history
-.lesshst
-.wget-hsts
-.mysql_history
-.node_repl_history
-.psql_history
-.rediscli_history
-.sqlite_history
-.ipython/
-.jupyter/
