@@ -1,18 +1,11 @@
 -- lua/plugins/lsp/python.lua
 -- Python Language Server Configuration using Pyright
 
-local function safe_require(module)
-    local success, result = pcall(require, module)
-    if not success then
-        vim.notify("Failed to load " .. module .. ": " .. result, vim.log.levels.ERROR)
-        return nil
-    end
-    return result
-end
 
 -- Load LSP config and common setup
-local lspconfig = safe_require('lspconfig')
-local lsp_common = safe_require('plugins.lsp-common')
+local utils = require('core.utils')
+local lspconfig = utils.safe_require('lspconfig')
+local lsp_common = utils.safe_require('plugins.lsp-common')
 
 if not lspconfig or not lsp_common then
     return
