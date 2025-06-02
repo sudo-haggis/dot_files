@@ -2,8 +2,21 @@
 local M = {}
 
 function M.setup()
-  local cmp = require('cmp')
-  local luasnip = require('luasnip')
+  local function safe_require(module)
+    local success, result = pcall(require, module)
+    if not success then
+      vim.notify("Failed to load " .. module, vim.log.levels.ERROR)
+      return nil
+    end
+    return result
+  end
+
+  local cmp = safe_require('cmp')
+  local luasnip = safe_require('luasnip')
+  
+  if not cmp or not luasnip then
+    return -- Exit gracefully if plugins aren't available
+  end
 
   cmp.setup({
     snippet = {
