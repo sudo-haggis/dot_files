@@ -20,20 +20,31 @@ esac
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              History Configuration                          │
 # └─────────────────────────────────────────────────────────────────────────────┘
-# Don't put duplicate lines or lines starting with space in the history
-HISTCONTROL=ignoreboth
+# Enhanced history management with separate bash and tmux storage
 
-# Append to the history file, don't overwrite it
+# Create history directories if they don't exist
+mkdir -p "$HOME/.history/bash"
+mkdir -p "$HOME/.history/tmux"
+
+# Enhanced history settings
+HISTCONTROL=ignoreboth:erasedups  # Ignore duplicates and lines starting with space
+HISTSIZE=10000                    # Increased in-memory history
+HISTFILESIZE=50000               # Increased history file size
+HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "  # Add timestamps to history
+
+# Append to history file, don't overwrite
 shopt -s histappend
 
-# History length settings
-HISTSIZE=1000
-HISTFILESIZE=2000
+# Save history after each command (useful for tmux)
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
-# Tmux-specific history files organized in history folder
+# Set history file location based on environment
 if [ -n "$TMUX" ]; then
-    mkdir -p "$HOME/.config/bash/history"
-    export HISTFILE="$HOME/.config/bash/history/tmux_$(tmux display-message -p '#I-#P')"
+    # Tmux environment: per-pane history
+    export HISTFILE="$HOME/.history/tmux/session_$(tmux display-message -p '#S')_window_$(tmux display-message -p '#I')_pane_$(tmux display-message -p '#P')"
+else
+    # Regular bash: standard history file
+    export HISTFILE="$HOME/.history/bash/bash_history"
 fi
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
