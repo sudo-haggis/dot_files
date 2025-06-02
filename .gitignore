@@ -16,3 +16,4 @@ tmux/.tmux/plugins/
 *.swo
 *~
 .*.sw?
+config_test/
