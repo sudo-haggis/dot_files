@@ -4,7 +4,7 @@
 [core]
 	autocrlf = input
 	editor = vim
-	hooksPath = /home/weedavedev/.git-hooks
+	hooksPath = ~/.git-hooks
 [credential]
 	helper = store
 [init]
@@ -12,7 +12,3 @@
 	default = main
 [alias]
 	am = commit -am
-[safe]
-	directory = /home/weedavedev/webDev/latepoint_dev/wp-content-lp5/plugins/latepoint-gate-codes/
-	directory = /home/weedavedev/webDev/latepoint_dev/wp-content-lp5/plugins/latepoint-gate-codes
-	directory = /home/weedavedev/webDev/latepoint_dev/wp-content-lp5/plugins/latepoint-gate-codes/
