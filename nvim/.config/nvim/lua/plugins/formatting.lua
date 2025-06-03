@@ -21,7 +21,7 @@ conform.setup({
 		lua = { "stylua" },
 
 		-- Future language support (ready to uncomment)
-		-- go = { "gofmt", "goimports" },
+		go = { "gofmt", "goimports" },
 		-- php = { "php_cs_fixer" },
 		-- javascript = { "prettier" },
 		-- typescript = { "prettier" },
