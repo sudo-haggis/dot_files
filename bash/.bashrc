@@ -7,7 +7,7 @@
 # │                            Alias for config editin                          │ 
 # │              if .bashrc doesnt run, you can edit bash files quickly         │
 # └─────────────────────────────────────────────────────────────────────────────┘
-alias nvimAlias='cd ~/.dotfiles/bash/ && nvim .bash_aliases_tools .bash_aliases_projects .bash_functions .bashrc'
+alias nvimBASH='cd ~/.dotfiles/bash/ && nvim .bash_aliases_tools .bash_aliases_projects .bash_functions .bashrc'
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                            Interactive Shell Check                          │
