@@ -112,3 +112,62 @@ shorten_path() {
         echo ".../$(basename $(dirname $short))/$(basename $PWD)"
     fi
 }
+# ── Streamlined Git Status Function ──
+# Compact git status with essential info in ~10 lines
+GitStatus() {
+    # Check if we're in a git repository
+    if ! git rev-parse --git-dir > /dev/null 2>&1; then
+        echo "❌ Not a git repository"; return 1
+    fi
+    
+    # Current branch and upstream status
+    local branch=$(git branch --show-current)
+    local upstream=$(git rev-parse --abbrev-ref @{upstream} 2>/dev/null)
+    local status_line="⚓ Branch: ${branch:-'(detached)'}"
+    
+    if [ -n "$upstream" ]; then
+        local ahead_behind=$(git rev-list --left-right --count HEAD...$upstream 2>/dev/null | tr '\t' '/')
+        [ "$ahead_behind" != "0/0" ] && status_line+=" (${ahead_behind} ahead/behind)"
+    fi
+    echo "$status_line"
+    
+    # File counts
+    local staged=$(git diff --cached --name-only | wc -l)
+    local modified=$(git diff --name-only | wc -l)
+    echo "📁 Files: ${staged} staged, ${modified} modified"
+    
+    # Time since last commit with visual timeline
+    local last_commit_epoch=$(git log -1 --format=%ct 2>/dev/null)
+    if [ -n "$last_commit_epoch" ]; then
+        local now_epoch=$(date +%s)
+        local diff_seconds=$((now_epoch - last_commit_epoch))
+        local hours=$((diff_seconds / 3600))
+        local days=$((hours / 24))
+        
+        if [ $days -gt 0 ]; then
+            local timeline=""
+            if [ $days -le 7 ]; then
+                timeline=$(printf '🟢%.0s' $(seq 1 $days))$(printf '⚪%.0s' $(seq 1 $((7-days))))
+            else
+                timeline="🔴🔴🔴🔴🔴🔴🔴"
+            fi
+            echo "⏰ Last commit: ${days}d ago $timeline"
+        else
+            local timeline=""
+            if [ $hours -le 12 ]; then
+                local dots=$((hours / 2 + 1))
+                timeline=$(printf '🟢%.0s' $(seq 1 $dots))$(printf '⚪%.0s' $(seq 1 $((6-dots))))
+            else
+                timeline="🟡🟡🟡🟡🟡🟡"
+            fi
+            echo "⏰ Last commit: ${hours}h ago $timeline"
+        fi
+    fi
+    
+    # Show actual file status if any changes exist
+    if [ $staged -gt 0 ] || [ $modified -gt 0 ]; then
+        git status -s --untracked-files=no | head -8 | sed 's/^/   /'
+    else
+        echo "✨ Working tree clean"
+    fi
+}

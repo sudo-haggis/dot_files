@@ -79,7 +79,7 @@ alias GGraph30='git log --graph --oneline --all -n 30'
 alias GBranch='git branch'
 
 # ── Status & Changes ──
-alias GStatus='git status -s --untracked-files=no'
+#alias GStatus='git status -s --untracked-files=no'
 alias GStaged='git diff --name-only --staged'
 alias GSNotStaged='git diff --name-only'
 
