@@ -28,7 +28,7 @@ conform.setup({
 		-- html = { "prettier" },
 		-- css = { "prettier" },
 		-- json = { "prettier" },
-		-- yaml = { "prettier" },
+		yaml = { "prettier" },
 		-- markdown = { "prettier" },
 	},
 
@@ -124,24 +124,24 @@ local format_on_save_group = vim.api.nvim_create_augroup("FormatOnSave", { clear
 
 -- Simple auto-format with graceful error handling
 vim.api.nvim_create_autocmd("BufWritePre", {
-    group = format_on_save_group,
-    pattern = "*",
-    callback = function()
-        local buf = vim.api.nvim_get_current_buf()
-        local formatters = conform.list_formatters(buf)
-        
-        if #formatters > 0 then
-            local success, err = pcall(conform.format, {
-                bufnr = buf,
-                async = false,
-                timeout_ms = 2000,
-            })
-            
-            if not success then
-                vim.notify("Format failed: " .. tostring(err) .. " - saving anyway", vim.log.levels.WARN)
-            end
-        end
-    end,
+	group = format_on_save_group,
+	pattern = "*",
+	callback = function()
+		local buf = vim.api.nvim_get_current_buf()
+		local formatters = conform.list_formatters(buf)
+
+		if #formatters > 0 then
+			local success, err = pcall(conform.format, {
+				bufnr = buf,
+				async = false,
+				timeout_ms = 2000,
+			})
+
+			if not success then
+				vim.notify("Format failed: " .. tostring(err) .. " - saving anyway", vim.log.levels.WARN)
+			end
+		end
+	end,
 })
 
 -- Additional formatting commands

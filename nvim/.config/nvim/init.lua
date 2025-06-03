@@ -27,6 +27,8 @@ utils.safe_require("plugins.lsp-common")
 utils.safe_require("plugins.lsp.python")
 -- add lua LSP
 --utils.safe_require("plugins.lsp.lua")
+-- add YAML LSP
+utils.safe_require("plugins.lsp.yaml")
 
 -- Phase 7 add TreesSitter configuration
 utils.safe_require("plugins.treesitter")
