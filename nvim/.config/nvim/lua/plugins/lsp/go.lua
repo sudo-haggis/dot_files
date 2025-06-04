@@ -133,7 +133,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = "*.go",
 	callback = function()
 		-- Use goimports through LSP
-		local params = vim.lsp.util.make_range_params()
+		local params = vim.lsp.util.make_range_params(nil, "utf-16")
 		params.context = { only = { "source.organizeImports" } }
 
 		local timeout_ms = 1000
