@@ -171,8 +171,9 @@ PS1='\[\033[01;34m\]$(shorten_path)\[\033[00m\]$ '
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              Keyboard Layout                                │
 # └─────────────────────────────────────────────────────────────────────────────┘
-# Map caps lock to escape
-setxkbmap -option caps:escape
+# Map caps to esc key in { New terminal windows, Tmux session,SSH with X forward.}
+# But won't error in raw temrinal sessions  ✅
+setup_caps_escape
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              Environment Setup                              │
@@ -188,3 +189,9 @@ setxkbmap -option caps:escape
 [ -d "$HOME/.local/opt/go/bin" ] && PATH="$HOME/.local/opt/go/bin:$PATH"
 [ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
 export PATH
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/weedavedev/google-cloud-sdk/path.bash.inc' ]; then . '/home/weedavedev/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/weedavedev/google-cloud-sdk/completion.bash.inc' ]; then . '/home/weedavedev/google-cloud-sdk/completion.bash.inc'; fi
