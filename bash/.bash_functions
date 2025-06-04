@@ -171,3 +171,12 @@ GitStatus() {
         echo "✨ Working tree clean"
     fi
 }
+
+# ── Keyboard Setup ──
+setup_caps_escape() {
+    if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+        setxkbmap -option caps:escape 2>/dev/null 
+    else
+        echo "🏴‍☠️ No graphical session detected, skipping caps lock mapping"
+    fi
+}
