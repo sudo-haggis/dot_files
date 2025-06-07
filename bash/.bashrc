@@ -195,3 +195,6 @@ if [ -f '/home/weedavedev/google-cloud-sdk/path.bash.inc' ]; then . '/home/weeda
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/weedavedev/google-cloud-sdk/completion.bash.inc' ]; then . '/home/weedavedev/google-cloud-sdk/completion.bash.inc'; fi
+
+# Turso
+export PATH="$PATH:/home/weedavedev/.turso"
