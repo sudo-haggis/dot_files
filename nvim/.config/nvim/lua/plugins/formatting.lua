@@ -23,8 +23,8 @@ conform.setup({
 		-- Future language support (ready to uncomment)
 		go = { "gofmt", "goimports" },
 		-- php = { "php_cs_fixer" },
-		-- javascript = { "prettier" },
-		-- typescript = { "prettier" },
+		javascript = { "prettier" },
+		typescript = { "prettier" },
 		-- html = { "prettier" },
 		-- css = { "prettier" },
 		-- json = { "prettier" },

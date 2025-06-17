@@ -29,6 +29,7 @@ utils.safe_require("plugins.lsp.python")
 --utils.safe_require("plugins.lsp.lua")
 -- add MD LSP
 -- utils.safe_require("plugins.lsp.markdown")
+utils.safe_require("plugins.lsp.javascript")
 -- add GO LSP
 utils.safe_require("plugins.lsp.go")
 -- add YAML LSP
