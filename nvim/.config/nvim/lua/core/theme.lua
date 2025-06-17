@@ -82,8 +82,8 @@ end
 -- IMPROVED: Apply proper contrast light theme colors (actually visible!)
 local function apply_light_theme()
 	vim.cmd([[
-    highlight Normal guibg=#f7f7f7 guifg=#3760bf
-    highlight LineNr guifg=#6f7bb6
+    highlight Normal guibg=#ffffff guifg=#1e1e2e
+    highlight LineNr guifg=#9699b7
     highlight CursorLine guibg=#e9e9ed
     highlight CursorLineNr guifg=#1e1e2e guibg=#e9e9ed
     highlight StatusLine guibg=#6f7bb6 guifg=#f7f7f7
@@ -97,7 +97,7 @@ local function apply_light_theme()
     highlight Visual guibg=#b6bfe2
     highlight Search guibg=#2ac3de guifg=#ffffff
     highlight IncSearch guibg=#f52a65 guifg=#ffffff
-    highlight Comment guifg=#9699b7
+    highlight Comment guifg=#6c6f85
     highlight String guifg=#587539
     highlight Keyword guifg=#7847bd
     highlight Function guifg=#166775

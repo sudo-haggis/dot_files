@@ -8,7 +8,7 @@ set -g pane-border-style fg='#c4c8da'
 set -g pane-active-border-style fg='#6f7bb6'
 
 # Window style - clean light background that matches Neovim
-setw -g window-style 'bg=#f7f7f7,fg=#3760bf'
+setw -g window-style 'bg=#fafafa,fg=#2e3440'
 
 # Window style (active) - slightly different shade for contrast
 setw -g window-active-style 'bg=#ffffff,fg=#1e1e2e'
