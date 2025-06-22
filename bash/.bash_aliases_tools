@@ -83,6 +83,10 @@ alias GBranch='git branch'
 alias GStaged='git diff --name-only --staged'
 alias GSNotStaged='git diff --name-only'
 
+
+# ── File sizes ──
+alias gitfiles='echo echo "📁 Files STAGED for commit:" && (git diff --cached --name-only 2>/dev/null | head -10 | xargs ls -lah 2>/dev/null | awk "{print \$5, \$9}" | sort -hr || echo "   No staged files") && echo && echo "📝 Files MODIFIED (unstaged):" && (git diff --name-only 2>/dev/null | head -10 | xargs ls -lah 2>/dev/null | awk "{print \$5, \$9}" | sort -hr || echo "   No modified files") && echo && echo "📋 TOP 15 largest tracked files:" && git ls-files | xargs ls -lah 2>/dev/null | awk "{print \$5, \$9}" | sort -hr | head -15'
+
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                             Templates                                       │
 # └─────────────────────────────────────────────────────────────────────────────┘
