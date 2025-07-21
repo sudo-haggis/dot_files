@@ -11,6 +11,11 @@ vim.api.nvim_set_keymap("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>", { silent = tr
 vim.api.nvim_set_keymap("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", { silent = true, noremap = true })
 vim.api.nvim_set_keymap("n", "<C-\\>", "<cmd>TmuxNavigatePrevious<CR>", { silent = true, noremap = true })
+-- vim tab setuup
+vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', { desc = 'New tab' })
+vim.keymap.set('n', '<leader>tc', ':tabc<CR>', { desc = 'Close tab' })
+vim.keymap.set('n', '<Tab>', 'gt', { desc = 'Next tab' })
+vim.keymap.set('n', '<S-Tab>', 'gT', { desc = 'Previous tab' })
 
 -- ============================================================================
 -- LSP Keymaps Reference (conditionally set in plugins/lsp-common.lua)
