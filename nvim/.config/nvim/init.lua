@@ -18,25 +18,32 @@ utils.safe_require("plugins.hardtime")
 -- EXTRA add which key for bindings remindings matey!
 utils.safe_require("plugins.whichkey")
 
+-- Telescope and FZF BOIIII!!!
+utils.safe_require("plugins.telescope")
+
 -- Phase 5 Completion Engine ENGAGE!!!
 utils.safe_require("plugins.completion")
 
 -- Phase 6 add LSP - common
 utils.safe_require("plugins.lsp-common")
+
+-- Phase 6 add TreesSitter configuration
+utils.safe_require("plugins.treesitter")
+
+-- Phase 7 add LSP / Concealment
 -- add python LSP
 utils.safe_require("plugins.lsp.python")
 -- add lua LSP
 --utils.safe_require("plugins.lsp.lua")
 -- add MD LSP
--- utils.safe_require("plugins.lsp.markdown")
 utils.safe_require("plugins.lsp.javascript")
 -- add GO LSP
 utils.safe_require("plugins.lsp.go")
 -- add YAML LSP
 utils.safe_require("plugins.lsp.yaml")
 
--- Phase 7 add TreesSitter configuration
-utils.safe_require("plugins.treesitter")
+--utils.safe_require("plugins.markdown")
+--utils.safe_require("plugins.pandoc")
 
 -- Multi language formatting tool, conform.
 utils.safe_require("plugins.formatting")

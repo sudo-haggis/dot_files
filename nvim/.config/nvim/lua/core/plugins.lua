@@ -58,6 +58,27 @@ packer.startup(function(use)
 	-- Conform - Multi langauge format tool
 	use("stevearc/conform.nvim")
 
+
+    
+	-- NEW: Telescope fuzzy finder and dependencies
+	use({
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.4",
+		requires = {
+			{ "nvim-lua/plenary.nvim" }, -- Required dependency
+		},
+	})
+	
+	-- OPTIONAL: Telescope FZF extension for better performance
+	use({
+		"nvim-telescope/telescope-fzf-native.nvim",
+		run = "make", -- Requires make/cmake
+		cond = function()
+			return vim.fn.executable("make") == 1
+		end,
+	})
+
+
 	-- Ruff linter
 	--use 'mfussenegger/nvim-lint'
 end)
