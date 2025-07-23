@@ -11,9 +11,13 @@ bash/.bash_aliases_projects
 # Exclude tmux plugins (managed by tpm)
 tmux/.config/tmux/plugins/
 
+# Exclude test and development files
+**/*_test.*
+**/package*.json
+config_test/
+
 # Editor temp files (just in case)
 *.swp
 *.swo
 *~
 .*.sw?
-config_test/
