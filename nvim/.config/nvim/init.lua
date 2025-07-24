@@ -24,8 +24,9 @@ utils.safe_require("plugins.telescope")
 -- Phase 5 Completion Engine ENGAGE!!!
 utils.safe_require("plugins.completion")
 
--- Phase 6 add LSP - common
+-- Phase 6 add LSP - common and enhansed diagnostics
 utils.safe_require("plugins.lsp-common")
+utils.safe_require("plugins.enhanced-diagnostics")
 
 -- Phase 6 add TreesSitter configuration
 utils.safe_require("plugins.treesitter")
