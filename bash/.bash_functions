@@ -1,6 +1,7 @@
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                              Bash Functions                                 ║
 # ║                     Custom functions for enhanced workflow                  ║
+# ║                         ENHANCED: Git integration                           ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -84,14 +85,43 @@ copy_files() {
 }
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
-# │                            Prompt Utilities                                 │
+# │                        GIT-ENHANCED PROMPT UTILITIES                       │
 # └─────────────────────────────────────────────────────────────────────────────┘
 
-# ── Path Shortening ──
-# Display abbreviated directory path in prompt
-# Shows only the last 2 directories for readability
+# ── Git Branch Function with Color (Fast) ──
+# Quick git branch detection for prompt with nice colors
+git_branch_prompt() {
+    local branch
+    branch=$(git branch --show-current 2>/dev/null)
+    if [ -n "$branch" ]; then
+        # Check git status for color selection
+        local status=$(git status --porcelain 2>/dev/null)
+        local color
+        
+        if [ -z "$status" ]; then
+            # Clean repo - nice green
+            color="\033[32m"  # Green
+        elif echo "$status" | grep -q "^M\|^ M"; then
+            # Modified files - orange/yellow
+            color="\033[33m"  # Yellow
+        elif echo "$status" | grep -q "^A\|^ A"; then
+            # Staged files - blue
+            color="\033[34m"  # Blue
+        else
+            # Other changes - red
+            color="\033[31m"  # Red
+        fi
+        
+        echo -e " ${color}(${branch})\033[0m"
+    fi
+}
+
+# ── Enhanced Path Shortening with Git ──
+# Display abbreviated directory path in prompt with git branch
+# Shows only the last 2 directories for readability + git branch
 shorten_path() {
     local pwd_length=${#PWD}
+    local git_info=$(git_branch_prompt)
     
     # Handle home directory cases
     if [[ $PWD == $HOME* ]]; then
@@ -99,19 +129,20 @@ shorten_path() {
         
         # Exactly in home directory
         if [[ -z "$relative_path" ]]; then
-            echo "~"
+            echo "~${git_info}"
             return
         fi
         
         # Get last 2 directories from home-relative path
         local short=$(echo "$relative_path" | rev | cut -d'/' -f1,2 | rev)
-        echo "~/.../$short"
+        echo "~/.../$short${git_info}"
     else
         # Not in home directory - show last 2 directories
         local short=$(echo "$PWD" | rev | cut -d'/' -f1,2 | rev)
-        echo ".../$(basename $(dirname $short))/$(basename $PWD)"
+        echo ".../$(basename $(dirname $short))/$(basename $PWD)${git_info}"
     fi
 }
+
 # ── Streamlined Git Status Function ──
 # Compact git status with essential info in ~10 lines
 GitStatus() {
@@ -169,14 +200,5 @@ GitStatus() {
         git status -s --untracked-files=no | head -8 | sed 's/^/   /'
     else
         echo "✨ Working tree clean"
-    fi
-}
-
-# ── Keyboard Setup ──
-setup_caps_escape() {
-    if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
-        setxkbmap -option caps:escape 2>/dev/null 
-    else
-        echo "🏴‍☠️ No graphical session detected, skipping caps lock mapping"
     fi
 }

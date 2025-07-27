@@ -1,3 +1,8 @@
+# ============================================================================
+# DARK THEME with Colored Git Branch
+# Add this to your ~/.config/tmux/themes/dark.tmux
+# ============================================================================
+
 # Improved Tokyo Night Dark Theme for tmux (softer, more readable)
 
 # Add Catppuccin plugin (if not in main config)
@@ -9,23 +14,22 @@ set -g pane-active-border-style fg='#7aa2f7'
 
 # Window style - softer background that matches Neovim
 setw -g window-style 'bg=#24283b'
-
-# Window style (active) - slightly lighter for contrast
 setw -g window-active-style 'bg=#2f3549'
 
 # Customize Catppuccin colors to match improved Tokyo Night
-set -g @catppuccin_flavour 'mocha' # or latte, frappe, macchiato
+set -g @catppuccin_flavour 'mocha'
 set -g @catppuccin_status_modules_right "date_time"
 set -g @catppuccin_status_left_separator "█"
 set -g @catppuccin_status_right_separator "█"
 set -g @catppuccin_date_time_text "%Y-%m-%d %H:%M"
 
+# ENHANCED: Git branch with custom colors and status
+set -g status-right-length 100
+set -g status-right "#[fg=#9ece6a,bg=#414868,bold]#(cd #{pane_current_path}; git branch --show-current 2>/dev/null | sed 's/^/ ⎇ /' | sed 's/$/ /')#[fg=#7aa2f7,bg=#414868]#(cd #{pane_current_path}; git status --porcelain 2>/dev/null | wc -l | sed 's/0/✓/' | sed 's/[1-9][0-9]*/~/' | sed 's/^/ [/' | sed 's/$/ ]/')#[fg=#24283b,bg=#7aa2f7,bold] %H:%M "
+
 # Improved Window status format - better contrast and readability
 set -g window-status-format "#[fg=#c0caf5,bg=#32394a,nobold,noitalics,nounderscore] #I #[fg=#c0caf5,bg=#32394a] #W "
 set -g window-status-current-format "#[fg=#24283b,bg=#7aa2f7,nobold,noitalics,nounderscore] #I #[fg=#24283b,bg=#7aa2f7,bold] #W "
-
-# Status right with time - better contrast
-set -g status-right "#[fg=#24283b,bg=#7aa2f7,bold] %H:%M "
 
 # Override Catppuccin window formats to use #W (window name) only
 set -g @catppuccin_window_left_separator ""
