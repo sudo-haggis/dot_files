@@ -73,7 +73,7 @@ local function build_statusline()
 
 	-- Modified indicator
 	if vim.bo.modified then
-		table.insert(parts, "%#StatusLineModified# [+]")
+		table.insert(parts, "%#StatusLineModified#")
 	end
 
 	-- Right side - line info

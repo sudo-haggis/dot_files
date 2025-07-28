@@ -82,6 +82,8 @@ function M.get_git_status_indicator()
 		return " [~]" -- Other changes
 	end
 end
+another en 
+    
 
 -- Get formatted git info for statusline (branch + status)
 function M.get_git_info()

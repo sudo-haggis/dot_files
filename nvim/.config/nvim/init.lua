@@ -15,8 +15,7 @@ utils.safe_require("core.theme") -- UI and theme settings
 -- Phase Git: Add some git integration, SHOW BRANCHES!
 utils.safe_require("core.git")
 utils.safe_require("core.statusline")
--- After loading git module
--- vim.o.statusline = "%f %{v:lua.require('core.git').get_git_info()} %m%=%l/%L:%c"
+
 -- EXTRA add hardtime to make vim harde... adn me better eh?
 
 utils.safe_require("plugins.hardtime")
