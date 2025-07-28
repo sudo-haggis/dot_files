@@ -1,7 +1,7 @@
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                              Bash Functions                                 ║
 # ║                     Custom functions for enhanced workflow                  ║
-# ║                         ENHANCED: Git integration                           ║
+# ║                    FIXED: Terminal wrapping issues resolved                 ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -85,43 +85,40 @@ copy_files() {
 }
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
-# │                        GIT-ENHANCED PROMPT UTILITIES                       │
+# │                    FIXED: GIT-ENHANCED PROMPT UTILITIES                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
 
-# ── Git Branch Function with Color (Fast) ──
-# Quick git branch detection for prompt with nice colors
+# ── FIXED: Git Branch Function (No Raw Escape Sequences) ──
+# Quick git branch detection for prompt - returns plain text for PS1 processing
 git_branch_prompt() {
     local branch
     branch=$(git branch --show-current 2>/dev/null)
     if [ -n "$branch" ]; then
-        # Check git status for color selection
+        # Check git status for status indicator (no colors here!)
         local status=$(git status --porcelain 2>/dev/null)
-        local color
+        local indicator
         
         if [ -z "$status" ]; then
-            # Clean repo - nice green
-            color="\033[32m"  # Green
+            indicator="✓"  # Clean repo
         elif echo "$status" | grep -q "^M\|^ M"; then
-            # Modified files - orange/yellow
-            color="\033[33m"  # Yellow
+            indicator="●"  # Modified files
         elif echo "$status" | grep -q "^A\|^ A"; then
-            # Staged files - blue
-            color="\033[34m"  # Blue
+            indicator="+"  # Staged files
         else
-            # Other changes - red
-            color="\033[31m"  # Red
+            indicator="!"  # Other changes
         fi
         
-        echo -e " ${color}(${branch})\033[0m"
+        # Return plain text - let PS1 handle the coloring
+        echo " (${indicator}${branch})"
     fi
 }
 
-# ── Enhanced Path Shortening with Git ──
-# Display abbreviated directory path in prompt with git branch
-# Shows only the last 2 directories for readability + git branch
+# ── FIXED: Enhanced Path Shortening ──
+# Display abbreviated directory path with consistent length for terminal
 shorten_path() {
-    local pwd_length=${#PWD}
+    local max_path_length=35  # Consistent max length to prevent wrapping
     local git_info=$(git_branch_prompt)
+    local path_part=""
     
     # Handle home directory cases
     if [[ $PWD == $HOME* ]]; then
@@ -129,26 +126,38 @@ shorten_path() {
         
         # Exactly in home directory
         if [[ -z "$relative_path" ]]; then
-            echo "~${git_info}"
-            return
+            path_part="~"
+        else
+            # Get last 2 directories from home-relative path
+            local short=$(echo "$relative_path" | rev | cut -d'/' -f1,2 | rev)
+            path_part="~/…/$short"
         fi
-        
-        # Get last 2 directories from home-relative path
-        local short=$(echo "$relative_path" | rev | cut -d'/' -f1,2 | rev)
-        echo "~/.../$short${git_info}"
     else
         # Not in home directory - show last 2 directories
         local short=$(echo "$PWD" | rev | cut -d'/' -f1,2 | rev)
-        echo ".../$(basename $(dirname $short))/$(basename $PWD)${git_info}"
+        path_part="…/$short"
     fi
+    
+    # Combine path and git info, truncate if too long
+    local full_prompt="${path_part}${git_info}"
+    if [ ${#full_prompt} -gt $max_path_length ]; then
+        # Truncate path part to make room for git info
+        local available_space=$((max_path_length - ${#git_info} - 3))
+        path_part="${path_part:0:$available_space}…"
+        full_prompt="${path_part}${git_info}"
+    fi
+    
+    echo "$full_prompt"
 }
 
-# ── Streamlined Git Status Function ──
-# Compact git status with essential info in ~10 lines
+# ── Enhanced Git Status Function ──
+# Compact git status with essential info and helpful reminders
 GitStatus() {
     # Check if we're in a git repository
     if ! git rev-parse --git-dir > /dev/null 2>&1; then
-        echo "❌ Not a git repository"; return 1
+        echo "❌ Not a git repository"
+        echo "💡 Tip: Run 'git init' to initialize or check if you're in the right directory"
+        return 1
     fi
     
     # Current branch and upstream status
@@ -162,10 +171,19 @@ GitStatus() {
     fi
     echo "$status_line"
     
-    # File counts
+    # File counts with commit reminders
     local staged=$(git diff --cached --name-only | wc -l)
     local modified=$(git diff --name-only | wc -l)
-    echo "📁 Files: ${staged} staged, ${modified} modified"
+    local untracked=$(git ls-files --others --exclude-standard | wc -l)
+    
+    echo "📁 Files: ${staged} staged, ${modified} modified, ${untracked} untracked"
+    
+    # Git workflow reminders based on current state
+    if [ $staged -gt 0 ]; then
+        echo "🚀 Ready to commit! Remember: type(scope): this will... <message>"
+    elif [ $modified -gt 0 ]; then
+        echo "📝 Modified files ready for staging (git add)"
+    fi
     
     # Time since last commit with visual timeline
     local last_commit_epoch=$(git log -1 --format=%ct 2>/dev/null)
@@ -181,6 +199,7 @@ GitStatus() {
                 timeline=$(printf '🟢%.0s' $(seq 1 $days))$(printf '⚪%.0s' $(seq 1 $((7-days))))
             else
                 timeline="🔴🔴🔴🔴🔴🔴🔴"
+                echo "⚠️  Long time since last commit - consider breaking work into smaller chunks"
             fi
             echo "⏰ Last commit: ${days}d ago $timeline"
         else
@@ -198,7 +217,32 @@ GitStatus() {
     # Show actual file status if any changes exist
     if [ $staged -gt 0 ] || [ $modified -gt 0 ]; then
         git status -s --untracked-files=no | head -8 | sed 's/^/   /'
+        
+        # Quick .gitignore reminder
+        if [ $untracked -gt 0 ]; then
+            echo "💡 Don't forget to update .gitignore for untracked files if needed"
+        fi
     else
         echo "✨ Working tree clean"
+        
+        # README reminder for clean repos
+        if [ -f "README.md" ]; then
+            local readme_age=$(stat -c %Y README.md 2>/dev/null || echo 0)
+            local commit_age=$(git log -1 --format=%ct 2>/dev/null || echo 0)
+            if [ $commit_age -gt $readme_age ]; then
+                echo "📖 Consider updating README.md - it's older than your latest commits"
+            fi
+        else
+            echo "📖 No README.md found - consider adding project documentation"
+        fi
+    fi
+}
+
+# ── Keyboard Setup ──
+setup_caps_escape() {
+    if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+        setxkbmap -option caps:escape 2>/dev/null 
+    else
+        echo "🏴‍☠️ No graphical session detected, skipping caps lock mapping"
     fi
 }
