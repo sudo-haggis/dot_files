@@ -1,7 +1,7 @@
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                              Bash Functions                                 ║
 # ║                     Custom functions for enhanced workflow                  ║
-# ║                         ENHANCED: Git integration                           ║
+# ║                    FIXED: Terminal wrapping issues resolved                 ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -85,120 +85,89 @@ copy_files() {
 }
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
-# │                        GIT-ENHANCED PROMPT UTILITIES                       │
+# │                    FIXED: GIT-ENHANCED PROMPT UTILITIES                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
-
-# ── Git Branch Function with Color (Fast) ──
-# Quick git branch detection for prompt with nice colors
+# 
+# ── FINAL FIX: Git Branch Function (Self-Bracketed) ──
 git_branch_prompt() {
     local branch
     branch=$(git branch --show-current 2>/dev/null)
     if [ -n "$branch" ]; then
-        # Check git status for color selection
+        # Get just the part after the last slash
+        local short_branch="${branch##*/}"
+        
+        # Check git status for simple indicator (no colors)
         local status=$(git status --porcelain 2>/dev/null)
-        local color
+        local indicator
         
         if [ -z "$status" ]; then
-            # Clean repo - nice green
-            color="\033[32m"  # Green
+            indicator="✓"  # Clean repo
         elif echo "$status" | grep -q "^M\|^ M"; then
-            # Modified files - orange/yellow
-            color="\033[33m"  # Yellow
+            indicator="●"  # Modified files
         elif echo "$status" | grep -q "^A\|^ A"; then
-            # Staged files - blue
-            color="\033[34m"  # Blue
+            indicator="+"  # Staged files
         else
-            # Other changes - red
-            color="\033[31m"  # Red
+            indicator="!"  # Other changes
         fi
         
-        echo -e " ${color}(${branch})\033[0m"
+        # Return plain text only
+        echo " (${indicator}${short_branch})"
     fi
 }
 
-# ── Enhanced Path Shortening with Git ──
-# Display abbreviated directory path in prompt with git branch
-# Shows only the last 2 directories for readability + git branch
+# ── Streamlined Path Display ──
+# Shows abbreviated path + FULL current directory name
 shorten_path() {
-    local pwd_length=${#PWD}
-    local git_info=$(git_branch_prompt)
+    local current_dir=$(basename "$PWD")
     
-    # Handle home directory cases
-    if [[ $PWD == $HOME* ]]; then
-        local relative_path=${PWD#$HOME}
-        
-        # Exactly in home directory
-        if [[ -z "$relative_path" ]]; then
-            echo "~${git_info}"
-            return
+    if [[ $PWD == $HOME ]]; then
+        # Just home
+        echo "~"
+    elif [[ $PWD == $HOME/* ]]; then
+        # Inside home - show ~/…/current_directory
+        local parent_dir=$(dirname "$PWD")
+        if [[ $parent_dir == $HOME ]]; then
+            # Direct child of home
+            echo "~/$current_dir"
+        else
+            # Deeper - show ~/…/current_dir
+            echo "~/…/$current_dir"
         fi
-        
-        # Get last 2 directories from home-relative path
-        local short=$(echo "$relative_path" | rev | cut -d'/' -f1,2 | rev)
-        echo "~/.../$short${git_info}"
     else
-        # Not in home directory - show last 2 directories
-        local short=$(echo "$PWD" | rev | cut -d'/' -f1,2 | rev)
-        echo ".../$(basename $(dirname $short))/$(basename $PWD)${git_info}"
+        # Outside home - show /…/current_directory
+        local parent_dir=$(dirname "$PWD")
+        if [[ $(dirname "$parent_dir") == "/" ]]; then
+            # Direct child of root
+            echo "$PWD"
+        else
+            # Deeper - show /…/current_dir
+            echo "/…/$current_dir"
+        fi
     fi
 }
 
-# ── Streamlined Git Status Function ──
-# Compact git status with essential info in ~10 lines
-GitStatus() {
-    # Check if we're in a git repository
-    if ! git rev-parse --git-dir > /dev/null 2>&1; then
-        echo "❌ Not a git repository"; return 1
-    fi
-    
-    # Current branch and upstream status
-    local branch=$(git branch --show-current)
-    local upstream=$(git rev-parse --abbrev-ref @{upstream} 2>/dev/null)
-    local status_line="⚓ Branch: ${branch:-'(detached)'}"
-    
-    if [ -n "$upstream" ]; then
-        local ahead_behind=$(git rev-list --left-right --count HEAD...$upstream 2>/dev/null | tr '\t' '/')
-        [ "$ahead_behind" != "0/0" ] && status_line+=" (${ahead_behind} ahead/behind)"
-    fi
-    echo "$status_line"
-    
-    # File counts
-    local staged=$(git diff --cached --name-only | wc -l)
-    local modified=$(git diff --name-only | wc -l)
-    echo "📁 Files: ${staged} staged, ${modified} modified"
-    
-    # Time since last commit with visual timeline
-    local last_commit_epoch=$(git log -1 --format=%ct 2>/dev/null)
-    if [ -n "$last_commit_epoch" ]; then
-        local now_epoch=$(date +%s)
-        local diff_seconds=$((now_epoch - last_commit_epoch))
-        local hours=$((diff_seconds / 3600))
-        local days=$((hours / 24))
-        
-        if [ $days -gt 0 ]; then
-            local timeline=""
-            if [ $days -le 7 ]; then
-                timeline=$(printf '🟢%.0s' $(seq 1 $days))$(printf '⚪%.0s' $(seq 1 $((7-days))))
-            else
-                timeline="🔴🔴🔴🔴🔴🔴🔴"
-            fi
-            echo "⏰ Last commit: ${days}d ago $timeline"
-        else
-            local timeline=""
-            if [ $hours -le 12 ]; then
-                local dots=$((hours / 2 + 1))
-                timeline=$(printf '🟢%.0s' $(seq 1 $dots))$(printf '⚪%.0s' $(seq 1 $((6-dots))))
-            else
-                timeline="🟡🟡🟡🟡🟡🟡"
-            fi
-            echo "⏰ Last commit: ${hours}h ago $timeline"
-        fi
-    fi
-    
-    # Show actual file status if any changes exist
-    if [ $staged -gt 0 ] || [ $modified -gt 0 ]; then
-        git status -s --untracked-files=no | head -8 | sed 's/^/   /'
+# ── Quick Toggle Commands (simplified) ──
+prompt_minimal() {
+    # Just current directory + git
+    PS1='\[\033[01;34m\]\W\[\033[00m\]$(git_branch_prompt)$ '
+    echo "🏴‍☠️ Minimal prompt active"
+}
+
+prompt_standard() {
+    # Your streamlined prompt
+    PS1='\[\033[01;34m\]$(shorten_path)\[\033[00m\]$(git_branch_prompt)$ '
+    echo "🏴‍☠️ Standard streamlined prompt active"
+}
+
+# ── Aliases ──
+alias pm='prompt_minimal'
+alias ps='prompt_standard'
+
+# ── Keyboard Setup ──
+setup_caps_escape() {
+    if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+        setxkbmap -option caps:escape 2>/dev/null 
     else
-        echo "✨ Working tree clean"
+        echo "🏴‍☠️ No graphical session detected, skipping caps lock mapping"
     fi
 }
