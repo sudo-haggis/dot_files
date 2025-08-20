@@ -30,7 +30,7 @@ local function get_tmux_theme_mode()
 	return "dark" -- Fallback if command fails
 end
 
--- IMPROVED: Apply softer Tokyo Night Dark theme colors (less deep, more readable)
+-- IMPROVED: Apply softer Tokyo Night Dark theme colors (better visibility!)
 local function apply_dark_theme()
 	vim.cmd([[
     highlight Normal guibg=#24283b guifg=#c0caf5
@@ -47,8 +47,8 @@ local function apply_dark_theme()
     highlight PmenuThumb guifg=#7aa2f7
     highlight Visual guibg=#364a82
     highlight Search guibg=#3d59a1 guifg=#ffffff
-    highlight IncSearch guibg=#f7768e guifg=#1a1b26
-    highlight Comment guifg=#565f89
+    highlight IncSearch guibg=#f7768e guifg=#ffffff
+    highlight Comment guifg=#9699b7
     highlight String guifg=#9ece6a
     highlight Keyword guifg=#bb9af7
     highlight Function guifg=#7aa2f7
@@ -63,8 +63,8 @@ local function apply_dark_theme()
     highlight Question guifg=#9ece6a
     highlight MoreMsg guifg=#9ece6a
     highlight ModeMsg guifg=#c0caf5
-    highlight SpecialKey guifg=#565f89
-    highlight NonText guifg=#565f89
+    highlight SpecialKey guifg=#9699b7
+    highlight NonText guifg=#9699b7
     highlight Directory guifg=#7aa2f7
     highlight helpHeader guifg=#bb9af7
     highlight helpSectionDelim guifg=#7aa2f7
@@ -75,10 +75,25 @@ local function apply_dark_theme()
     highlight TabLine guibg=#32394a guifg=#c0caf5
     highlight TabLineFill guibg=#24283b
     highlight TabLineSel guibg=#414868 guifg=#ffffff
+    
+    " FIXED: Better git and status line visibility
+    highlight GitSignsAdd guifg=#9ece6a guibg=NONE
+    highlight GitSignsChange guifg=#e0af68 guibg=NONE  
+    highlight GitSignsDelete guifg=#f7768e guibg=NONE
+    highlight GitSignsCurrentLineBlame guifg=#9699b7 guibg=NONE
+    
+    " FIXED: Better telescope/fuzzy finder colors
+    highlight TelescopeNormal guifg=#c0caf5 guibg=#24283b
+    highlight TelescopeBorder guifg=#7aa2f7 guibg=#24283b
+    highlight TelescopePromptNormal guifg=#c0caf5 guibg=#32394a
+    highlight TelescopeSelection guibg=#414868 guifg=#c0caf5
+    
+    " FIXED: Better LSP floating window colors  
+    highlight NormalFloat guibg=#32394a guifg=#c0caf5
+    highlight FloatBorder guifg=#7aa2f7 guibg=#32394a
   ]])
-	vim.notify("Applied improved dark theme (synced with tmux)", vim.log.levels.INFO)
+	vim.notify("Applied improved dark theme with better visibility! 🌙", vim.log.levels.INFO)
 end
-
 -- IMPROVED: Apply proper contrast light theme colors (actually visible!)
 local function apply_light_theme()
 	vim.cmd([[
