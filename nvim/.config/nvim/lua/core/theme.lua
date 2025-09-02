@@ -1,6 +1,6 @@
 -- core/theme.lua
 -- Basic UI settings and theme fallback
--- ENHANCED: Now includes live tmux theme synchronization with improved colors!
+-- ENHANCED: Now includes live tmux theme synchronization with MEDIUM theme support!
 
 -- Enable 24-bit RGB color in the TUI
 vim.opt.termguicolors = true
@@ -22,15 +22,22 @@ local function get_tmux_theme_mode()
 	if handle then
 		local result = handle:read("*a")
 		handle:close()
-		-- Clean up the result and return, default to dark if empty
+		-- Clean up the result and return the actual theme name
 		local theme = result:gsub("%s+", "")
-		return (theme == "light") and "light" or "dark"
+		-- FIXED: Return actual theme instead of forcing light/dark
+		if theme == "light" then
+			return "light"
+		elseif theme == "medium" then
+			return "medium"
+		else
+			return "dark" -- default for dark or any other value
+		end
 	end
 
 	return "dark" -- Fallback if command fails
 end
 
--- IMPROVED: Apply softer Tokyo Night Dark theme colors (better visibility!)
+-- IMPROVED: Apply softer Tokyo Night Dark theme colors (less deep, more readable)
 local function apply_dark_theme()
 	vim.cmd([[
     highlight Normal guibg=#24283b guifg=#c0caf5
@@ -47,8 +54,8 @@ local function apply_dark_theme()
     highlight PmenuThumb guifg=#7aa2f7
     highlight Visual guibg=#364a82
     highlight Search guibg=#3d59a1 guifg=#ffffff
-    highlight IncSearch guibg=#f7768e guifg=#ffffff
-    highlight Comment guifg=#9699b7
+    highlight IncSearch guibg=#f7768e guifg=#1a1b26
+    highlight Comment guifg=#565f89
     highlight String guifg=#9ece6a
     highlight Keyword guifg=#bb9af7
     highlight Function guifg=#7aa2f7
@@ -63,8 +70,8 @@ local function apply_dark_theme()
     highlight Question guifg=#9ece6a
     highlight MoreMsg guifg=#9ece6a
     highlight ModeMsg guifg=#c0caf5
-    highlight SpecialKey guifg=#9699b7
-    highlight NonText guifg=#9699b7
+    highlight SpecialKey guifg=#565f89
+    highlight NonText guifg=#565f89
     highlight Directory guifg=#7aa2f7
     highlight helpHeader guifg=#bb9af7
     highlight helpSectionDelim guifg=#7aa2f7
@@ -75,30 +82,58 @@ local function apply_dark_theme()
     highlight TabLine guibg=#32394a guifg=#c0caf5
     highlight TabLineFill guibg=#24283b
     highlight TabLineSel guibg=#414868 guifg=#ffffff
-    
-    " FIXED: Better git and status line visibility
-    highlight GitSignsAdd guifg=#9ece6a guibg=NONE
-    highlight GitSignsChange guifg=#e0af68 guibg=NONE  
-    highlight GitSignsDelete guifg=#f7768e guibg=NONE
-    highlight GitSignsCurrentLineBlame guifg=#9699b7 guibg=NONE
-    
-    " FIXED: Better telescope/fuzzy finder colors
-    highlight TelescopeNormal guifg=#c0caf5 guibg=#24283b
-    highlight TelescopeBorder guifg=#7aa2f7 guibg=#24283b
-    highlight TelescopePromptNormal guifg=#c0caf5 guibg=#32394a
-    highlight TelescopeSelection guibg=#414868 guifg=#c0caf5
-    
-    " FIXED: Better LSP floating window colors  
-    highlight NormalFloat guibg=#32394a guifg=#c0caf5
-    highlight FloatBorder guifg=#7aa2f7 guibg=#32394a
   ]])
-	vim.notify("Applied improved dark theme with better visibility! 🌙", vim.log.levels.INFO)
+	vim.notify("Applied dark theme (synced with tmux)", vim.log.levels.INFO)
 end
+
+-- NEW: Apply medium/dawn theme colors (between light and dark)
+local function apply_medium_theme()
+	vim.cmd([[
+    highlight Normal guibg=#eff1f5 guifg=#4c4f69
+    highlight LineNr guifg=#89b4fa
+    highlight CursorLine guibg=#e6e9ef
+    highlight CursorLineNr guifg=#1e1e2e guibg=#e6e9ef
+    highlight StatusLine guibg=#89b4fa guifg=#eff1f5
+    highlight StatusLineNC guibg=#dce0e8 guifg=#6c6f85
+    highlight VertSplit guifg=#dce0e8
+    highlight SignColumn guibg=#eff1f5
+    highlight Pmenu guibg=#dce0e8 guifg=#4c4f69
+    highlight PmenuSel guibg=#89b4fa guifg=#ffffff
+    highlight PmenuSbar guibg=#dce0e8
+    highlight PmenuThumb guibg=#89b4fa
+    highlight Visual guibg=#bcc0cc
+    highlight Search guibg=#89b4fa guifg=#ffffff
+    highlight IncSearch guibg=#f52a65 guifg=#ffffff
+    highlight Comment guifg=#9ca0b0
+    highlight String guifg=#587539
+    highlight Keyword guifg=#7847bd
+    highlight Function guifg=#166775
+    highlight ErrorMsg guibg=#f52a65 guifg=#ffffff
+    highlight WarningMsg guibg=#8f5e15 guifg=#ffffff
+    highlight Error guifg=#f52a65
+    highlight DiagnosticError guifg=#f52a65
+    highlight DiagnosticWarn guifg=#8f5e15
+    highlight DiagnosticInfo guifg=#2ac3de
+    highlight DiagnosticHint guifg=#587539
+    highlight Title guifg=#89b4fa
+    highlight Question guifg=#587539
+    highlight MoreMsg guifg=#587539
+    highlight ModeMsg guifg=#4c4f69
+    highlight SpecialKey guifg=#9ca0b0
+    highlight NonText guifg=#9ca0b0
+    highlight Directory guifg=#89b4fa
+    highlight TabLine guibg=#dce0e8 guifg=#4c4f69
+    highlight TabLineFill guibg=#eff1f5
+    highlight TabLineSel guibg=#89b4fa guifg=#ffffff
+  ]])
+	vim.notify("Applied medium theme (synced with tmux)", vim.log.levels.INFO)
+end
+
 -- IMPROVED: Apply proper contrast light theme colors (actually visible!)
 local function apply_light_theme()
 	vim.cmd([[
-    highlight Normal guibg=#ffffff guifg=#1e1e2e
-    highlight LineNr guifg=#9699b7
+    highlight Normal guibg=#f7f7f7 guifg=#3760bf
+    highlight LineNr guifg=#6f7bb6
     highlight CursorLine guibg=#e9e9ed
     highlight CursorLineNr guifg=#1e1e2e guibg=#e9e9ed
     highlight StatusLine guibg=#6f7bb6 guifg=#f7f7f7
@@ -112,12 +147,12 @@ local function apply_light_theme()
     highlight Visual guibg=#b6bfe2
     highlight Search guibg=#2ac3de guifg=#ffffff
     highlight IncSearch guibg=#f52a65 guifg=#ffffff
-    highlight Comment guifg=#6c6f85
+    highlight Comment guifg=#9699b7
     highlight String guifg=#587539
     highlight Keyword guifg=#7847bd
     highlight Function guifg=#166775
   ]])
-	vim.notify("Applied improved light theme (synced with tmux)", vim.log.levels.INFO)
+	vim.notify("Applied light theme (synced with tmux)", vim.log.levels.INFO)
 end
 
 -- NEW: Main function to sync Neovim theme with tmux
@@ -126,6 +161,8 @@ local function sync_with_tmux_theme()
 
 	if theme_mode == "light" then
 		apply_light_theme()
+	elseif theme_mode == "medium" then
+		apply_medium_theme()
 	else
 		apply_dark_theme()
 	end
@@ -150,12 +187,12 @@ local function setup_theme_keybindings()
 	-- Function that toggles tmux theme AND syncs Neovim
 	local function toggle_and_sync_theme()
 		-- First, run the tmux theme toggle script
-		vim.fn.system("~/.tmux/scripts/toggle_theme.sh")
+		vim.fn.system("~/.config/tmux/scripts/toggle_theme.sh")
 
 		-- Then sync Neovim with the new tmux theme
 		vim.defer_fn(function()
 			sync_with_tmux_theme()
-		end, 150) -- Slightly longer delay for smoother transition
+		end, 300) -- Slightly longer delay for 3-theme cycling
 	end
 
 	-- Bind the same keys tmux uses: T and F5
@@ -194,5 +231,6 @@ return {
 	sync_with_tmux = sync_with_tmux_theme,
 	apply_dark = apply_dark_theme,
 	apply_light = apply_light_theme,
+	apply_medium = apply_medium_theme, -- NEW!
 	get_tmux_mode = get_tmux_theme_mode,
 }
