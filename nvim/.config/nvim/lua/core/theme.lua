@@ -38,7 +38,7 @@ local function get_tmux_theme_mode()
 end
 
 -- IMPROVED: Apply softer Tokyo Night Dark theme colors (less deep, more readable)
-local function apply_dark_theme()
+function apply_dark_theme()
 	vim.cmd([[
     highlight Normal guibg=#24283b guifg=#c0caf5
     highlight LineNr guifg=#7aa2f7
@@ -82,12 +82,29 @@ local function apply_dark_theme()
     highlight TabLine guibg=#32394a guifg=#c0caf5
     highlight TabLineFill guibg=#24283b
     highlight TabLineSel guibg=#414868 guifg=#ffffff
+    highlight Normal guibg=#24283b guifg=#c0caf5
+    highlight Identifier guifg=#c0caf5         
+    highlight Type guifg=#7dcfff               
+    highlight Constant guifg=#ff9e64           
+    highlight PreProc guifg=#bb9af7            
+    highlight Special guifg=#7dcfff            
+    highlight Delimiter guifg=#c0caf5       
+    highlight Operator guifg=#89b4fa       
+    highlight @variable guifg=#c0caf5     
+    highlight @parameter guifg=#e0af68   
+    highlight @property guifg=#7dcfff       
+    highlight @field guifg=#7dcfff        
+    highlight @method guifg=#7aa2f7        
+    highlight @constructor guifg=#bb9af7
+    highlight @punctuation guifg=#c0caf5 
+    highlight @bracket guifg=#c0caf5    
+    highlight Normal guibg=#24283b guifg=#c0caf5 ctermfg=15 ctermbg=0
   ]])
 	vim.notify("Applied dark theme (synced with tmux)", vim.log.levels.INFO)
 end
 
 -- NEW: Apply medium/dawn theme colors (between light and dark)
-local function apply_medium_theme()
+function apply_medium_theme()
 	vim.cmd([[
     highlight Normal guibg=#eff1f5 guifg=#4c4f69
     highlight LineNr guifg=#89b4fa
@@ -130,7 +147,7 @@ local function apply_medium_theme()
 end
 
 -- IMPROVED: Apply proper contrast light theme colors (actually visible!)
-local function apply_light_theme()
+function apply_light_theme()
 	vim.cmd([[
     highlight Normal guibg=#f7f7f7 guifg=#3760bf
     highlight LineNr guifg=#6f7bb6
