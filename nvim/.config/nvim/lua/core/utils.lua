@@ -30,5 +30,11 @@ function M.safe_setup(module_name, setup_function)
 	end
 	return false
 end
+-- Simpler version - just set the directories
+vim.opt.directory = "~/.config/nvim/tmp//,/tmp//"
+vim.opt.backupdir = "~/.config/nvim/tmp//,/tmp//"
+vim.opt.undodir = "~/.config/nvim/tmp"
 
+-- Ensure directory exists
+os.execute("mkdir -p ~/.config/nvim/tmp")
 return M
