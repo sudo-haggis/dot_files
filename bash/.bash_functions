@@ -115,6 +115,26 @@ git_branch_prompt() {
     fi
 }
 
+# THE FINAL COUUNT DOWN! well not really. 
+nvim_diff_files() {
+    local file="$1"
+    local commit="${2:-HEAD}"
+
+    if [ -z "$file" ]; then 
+        echo "Usage: nvim_diff_files <file> [commit]"
+        echo "eg: nvim_diff_files miscelaniousfile.js HEAD~2"
+    fi
+
+   local temp_file="./git_$(basename "$file")_$commit"
+    git show "$commit:$file" > "$temp_file" 2>/dev/null || {
+        echo "File $file Not found in $commit"
+        return 1
+    }
+
+    nvim -d "$file" "$temp_file" 
+}
+
+
 # ── Streamlined Path Display ──
 # Shows abbreviated path + FULL current directory name
 shorten_path() {
