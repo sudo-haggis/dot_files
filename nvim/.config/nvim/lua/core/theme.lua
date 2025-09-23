@@ -1,6 +1,7 @@
 -- core/theme.lua
 -- Basic UI settings and theme fallback
--- ENHANCED: Now includes live tmux theme synchronization with MEDIUM theme support!
+-- ENHANCED: Now includes live tmux theme synchronization with TRUE MEDIUM theme support!
+-- FIXED: All themes now have complete color definitions with proper medium values
 
 -- Enable 24-bit RGB color in the TUI
 vim.opt.termguicolors = true
@@ -37,10 +38,11 @@ local function get_tmux_theme_mode()
 	return "dark" -- Fallback if command fails
 end
 
--- IMPROVED: Apply softer Tokyo Night Dark theme colors (less deep, more readable)
+-- DARK THEME: Tokyo Night Dark (deep, rich colors)
 function apply_dark_theme()
 	vim.cmd([[
-    highlight Normal guibg=#24283b guifg=#c0caf5
+    " Base UI colors - Dark
+    highlight Normal guibg=#24283b guifg=#c0caf5 ctermfg=15 ctermbg=0
     highlight LineNr guifg=#7aa2f7
     highlight CursorLine guibg=#2f3549
     highlight CursorLineNr guifg=#9ece6a guibg=#2f3549
@@ -73,16 +75,11 @@ function apply_dark_theme()
     highlight SpecialKey guifg=#565f89
     highlight NonText guifg=#565f89
     highlight Directory guifg=#7aa2f7
-    highlight helpHeader guifg=#bb9af7
-    highlight helpSectionDelim guifg=#7aa2f7
-    highlight helpHyperTextJump guifg=#7dcfff
-    highlight helpNote guifg=#e0af68
-    highlight helpWarning guifg=#f7768e
-    highlight helpExample guifg=#9ece6a
     highlight TabLine guibg=#32394a guifg=#c0caf5
     highlight TabLineFill guibg=#24283b
     highlight TabLineSel guibg=#414868 guifg=#ffffff
-    highlight Normal guibg=#24283b guifg=#c0caf5
+    
+    " Dark theme syntax colors
     highlight Identifier guifg=#c0caf5         
     highlight Type guifg=#7dcfff               
     highlight Constant guifg=#ff9e64           
@@ -98,57 +95,75 @@ function apply_dark_theme()
     highlight @constructor guifg=#bb9af7
     highlight @punctuation guifg=#c0caf5 
     highlight @bracket guifg=#c0caf5    
-    highlight Normal guibg=#24283b guifg=#c0caf5 ctermfg=15 ctermbg=0
   ]])
 	vim.notify("Applied dark theme (synced with tmux)", vim.log.levels.INFO)
 end
 
--- NEW: Apply medium/dawn theme colors (between light and dark)
+-- MEDIUM THEME: White-based, softer than full light theme
 function apply_medium_theme()
 	vim.cmd([[
-    highlight Normal guibg=#eff1f5 guifg=#4c4f69
-    highlight LineNr guifg=#89b4fa
-    highlight CursorLine guibg=#e6e9ef
-    highlight CursorLineNr guifg=#1e1e2e guibg=#e6e9ef
-    highlight StatusLine guibg=#89b4fa guifg=#eff1f5
-    highlight StatusLineNC guibg=#dce0e8 guifg=#6c6f85
-    highlight VertSplit guifg=#dce0e8
-    highlight SignColumn guibg=#eff1f5
-    highlight Pmenu guibg=#dce0e8 guifg=#4c4f69
-    highlight PmenuSel guibg=#89b4fa guifg=#ffffff
-    highlight PmenuSbar guibg=#dce0e8
-    highlight PmenuThumb guibg=#89b4fa
-    highlight Visual guibg=#bcc0cc
-    highlight Search guibg=#89b4fa guifg=#ffffff
-    highlight IncSearch guibg=#f52a65 guifg=#ffffff
-    highlight Comment guifg=#9ca0b0
-    highlight String guifg=#587539
-    highlight Keyword guifg=#7847bd
-    highlight Function guifg=#166775
-    highlight ErrorMsg guibg=#f52a65 guifg=#ffffff
-    highlight WarningMsg guibg=#8f5e15 guifg=#ffffff
-    highlight Error guifg=#f52a65
-    highlight DiagnosticError guifg=#f52a65
-    highlight DiagnosticWarn guifg=#8f5e15
-    highlight DiagnosticInfo guifg=#2ac3de
-    highlight DiagnosticHint guifg=#587539
-    highlight Title guifg=#89b4fa
-    highlight Question guifg=#587539
-    highlight MoreMsg guifg=#587539
-    highlight ModeMsg guifg=#4c4f69
-    highlight SpecialKey guifg=#9ca0b0
-    highlight NonText guifg=#9ca0b0
-    highlight Directory guifg=#89b4fa
-    highlight TabLine guibg=#dce0e8 guifg=#4c4f69
-    highlight TabLineFill guibg=#eff1f5
-    highlight TabLineSel guibg=#89b4fa guifg=#ffffff
+    " Base UI colors - Medium (white-based, softer light theme)
+    highlight Normal guibg=#f0efff guifg=#4a5568
+    highlight LineNr guifg=#8a95a8
+    highlight CursorLine guibg=#f0f2f5
+    highlight CursorLineNr guifg=#2d3748 guibg=#f0f2f5
+    highlight StatusLine guibg=#8a95a8 guifg=#fafafa
+    highlight StatusLineNC guibg=#e2e8f0 guifg=#718096
+    highlight VertSplit guifg=#e2e8f0
+    highlight SignColumn guibg=#fafafa
+    highlight Pmenu guibg=#f0f2f5 guifg=#4a5568
+    highlight PmenuSel guibg=#8a95a8 guifg=#ffffff
+    highlight PmenuSbar guibg=#f0f2f5
+    highlight PmenuThumb guibg=#8a95a8
+    highlight Visual guibg=#d6e3f0
+    highlight Search guibg=#63b3ed guifg=#ffffff
+    highlight IncSearch guibg=#f56565 guifg=#ffffff
+    highlight Comment guifg=#a0aec0
+    highlight String guifg=#68d391
+    highlight Keyword guifg=#9f7aea
+    highlight Function guifg=#4299e1
+    highlight ErrorMsg guibg=#f56565 guifg=#ffffff
+    highlight WarningMsg guibg=#ed8936 guifg=#ffffff
+    highlight Error guifg=#f56565
+    highlight DiagnosticError guifg=#f56565
+    highlight DiagnosticWarn guifg=#ed8936
+    highlight DiagnosticInfo guifg=#63b3ed
+    highlight DiagnosticHint guifg=#68d391
+    highlight Title guifg=#4299e1
+    highlight Question guifg=#68d391
+    highlight MoreMsg guifg=#68d391
+    highlight ModeMsg guifg=#4a5568
+    highlight SpecialKey guifg=#a0aec0
+    highlight NonText guifg=#a0aec0
+    highlight Directory guifg=#4299e1
+    highlight TabLine guibg=#e2e8f0 guifg=#4a5568
+    highlight TabLineFill guibg=#fafafa
+    highlight TabLineSel guibg=#8a95a8 guifg=#ffffff
+    
+    " Medium theme syntax colors (white-based, softer than full light)
+    highlight Identifier guifg=#4a5568         
+    highlight Type guifg=#3182ce               
+    highlight Constant guifg=#d69e2e           
+    highlight PreProc guifg=#805ad5            
+    highlight Special guifg=#3182ce            
+    highlight Delimiter guifg=#4a5568       
+    highlight Operator guifg=#4299e1       
+    highlight @variable guifg=#4a5568     
+    highlight @parameter guifg=#d69e2e   
+    highlight @property guifg=#3182ce       
+    highlight @field guifg=#3182ce        
+    highlight @method guifg=#4299e1        
+    highlight @constructor guifg=#805ad5
+    highlight @punctuation guifg=#4a5568 
+    highlight @bracket guifg=#4a5568    
   ]])
 	vim.notify("Applied medium theme (synced with tmux)", vim.log.levels.INFO)
 end
 
--- IMPROVED: Apply proper contrast light theme colors (actually visible!)
+-- LIGHT THEME: High contrast light theme
 function apply_light_theme()
 	vim.cmd([[
+    " Base UI colors - Light
     highlight Normal guibg=#f7f7f7 guifg=#3760bf
     highlight LineNr guifg=#6f7bb6
     highlight CursorLine guibg=#e9e9ed
@@ -168,6 +183,40 @@ function apply_light_theme()
     highlight String guifg=#587539
     highlight Keyword guifg=#7847bd
     highlight Function guifg=#166775
+    highlight ErrorMsg guibg=#f52a65 guifg=#ffffff
+    highlight WarningMsg guibg=#8f5e15 guifg=#ffffff
+    highlight Error guifg=#f52a65
+    highlight DiagnosticError guifg=#f52a65
+    highlight DiagnosticWarn guifg=#8f5e15
+    highlight DiagnosticInfo guifg=#2ac3de
+    highlight DiagnosticHint guifg=#587539
+    highlight Title guifg=#6f7bb6
+    highlight Question guifg=#587539
+    highlight MoreMsg guifg=#587539
+    highlight ModeMsg guifg=#3760bf
+    highlight SpecialKey guifg=#9699b7
+    highlight NonText guifg=#9699b7
+    highlight Directory guifg=#6f7bb6
+    highlight TabLine guibg=#c4c8da guifg=#3760bf
+    highlight TabLineFill guibg=#f7f7f7
+    highlight TabLineSel guibg=#6f7bb6 guifg=#ffffff
+    
+    " Light theme syntax colors
+    highlight Identifier guifg=#3760bf         
+    highlight Type guifg=#166775               
+    highlight Constant guifg=#8f5e15           
+    highlight PreProc guifg=#7847bd            
+    highlight Special guifg=#166775            
+    highlight Delimiter guifg=#3760bf       
+    highlight Operator guifg=#6f7bb6       
+    highlight @variable guifg=#3760bf     
+    highlight @parameter guifg=#8f5e15   
+    highlight @property guifg=#166775       
+    highlight @field guifg=#166775        
+    highlight @method guifg=#166775        
+    highlight @constructor guifg=#7847bd
+    highlight @punctuation guifg=#3760bf 
+    highlight @bracket guifg=#3760bf    
   ]])
 	vim.notify("Applied light theme (synced with tmux)", vim.log.levels.INFO)
 end

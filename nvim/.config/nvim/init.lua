@@ -55,3 +55,4 @@ utils.safe_require("plugins.lsp.yaml")
 utils.safe_require("plugins.formatting")
 -- linting support - Ruff
 -- utils.safe_require('plugins.linting')
+utils.safe_require("plugins.nvim-colorizer")
