@@ -89,9 +89,6 @@ alias GD='nvim_diff_files '
 alias GGraph='git log --graph --oneline --all -n 10'
 alias GGraph30='git log --graph --oneline --all -n 30'
 
-# ── Branch Management ──
-alias GBranch='git branch'
-
 # ── Status & Changes ──
 #alias gitWatch='watch -n 5 git status'
 #update gitwatch to a funciton...
