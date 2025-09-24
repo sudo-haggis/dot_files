@@ -87,7 +87,41 @@ copy_files() {
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                    FIXED: GIT-ENHANCED PROMPT UTILITIES                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
-# 
+ 
+# Function to set up git completion for aliases
+setup_git_completion() {
+    # Check if git completion is available
+    if ! type __git_complete &>/dev/null; then
+        # Try to load git completion if not already loaded
+        if [ -f /usr/share/bash-completion/completions/git ]; then
+            source /usr/share/bash-completion/completions/git
+        elif [ -f /etc/bash_completion.d/git ]; then
+            source /etc/bash_completion.d/git
+        elif [ -f ~/.local/share/bash-completion/completions/git ]; then
+            source ~/.local/share/bash-completion/completions/git
+        fi
+    fi
+    
+    # Set up completion for each alias (if __git_complete is available)
+    if type __git_complete &>/dev/null; then
+        __git_complete GSW _git_switch
+        __git_complete GB _git_branch  
+        __git_complete GCO _git_checkout
+        __git_complete GM _git_merge
+        __git_complete GR _git_rebase
+        __git_complete GP _git_push
+        __git_complete GF _git_fetch
+        __git_complete GL _git_log
+        
+        echo "🏴‍☠️ Git alias completion loaded successfully, captain!"
+    else
+        echo "⚠️  Git completion functions not found - basic aliases still work"
+    fi
+}
+
+# Run the setup function
+setup_git_completion
+
 # ── FINAL FIX: Git Branch Function (Self-Bracketed) ──
 git_branch_prompt() {
     local branch
