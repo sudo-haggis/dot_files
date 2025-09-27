@@ -109,3 +109,59 @@ alias gitfiles='echo echo "📁 Files STAGED for commit:" && (git diff --cached 
 # │                             Templates                                       │
 # └─────────────────────────────────────────────────────────────────────────────┘
 alias README_TEMPLATE='rsync -av /home/weedavedev/workspace/gist.github.com/sudo-haggis/GIST_TEMPLATE/README.md ./'
+
+# Add these to ~/.dotfiles/bash/.bash_aliases_tools
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                          Project Tmux Sessions                             │
+# └─────────────────────────────────────────────────────────────────────────────┘
+
+# Main project session management
+alias project-session='~/.dotfiles/tmux/.config/tmux/scripts/project-session.sh'
+
+# Quick shortcuts
+alias psave='project-session save'
+alias pload='project-session load'
+alias pinit='project-session init'
+
+# Smart session launcher - just type 'psession' in any project
+alias psession='project-session auto'
+
+# Enhanced directory navigation with auto-session detection
+cdp() {
+    cd "$1"
+    if [ -f ".tmux-layout" ] || [ -f ".tmux-session" ]; then
+        echo "🏴‍☠️ Ahoy! Found project session. Run 'psession' to load it!"
+    fi
+}
+
+# Capture existing sessions to project files
+alias pcapture='~/.dotfiles/tmux/.config/tmux/scripts/capture-sessions.sh'
+
+# Project session status checker
+pstatus() {
+    if [ -f ".tmux-layout" ]; then
+        echo "📋 Project has tmux layout template"
+        echo "   Created: $(stat -c %y .tmux-layout | cut -d' ' -f1)"
+    fi
+    
+    if [ -f ".tmux-session" ]; then
+        echo "💾 Project has saved session data"
+        echo "   Modified: $(stat -c %y .tmux-session | cut -d' ' -f1)"
+    fi
+    
+    if [ ! -f ".tmux-layout" ] && [ ! -f ".tmux-session" ]; then
+        echo "❌ No project session found"
+        echo "💡 Run 'pinit' to create one, or 'pcapture' to capture existing"
+    fi
+    
+    # Check if session is currently running
+    local project_name=$(basename "$(pwd)")
+    local session_name="${project_name//[^a-zA-Z0-9]/_}"
+    
+    if tmux has-session -t "$session_name" 2>/dev/null; then
+        echo "🟢 Session '$session_name' is currently running"
+    else
+        echo "⚪ Session '$session_name' is not running"
+    fi
+}
