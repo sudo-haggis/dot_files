@@ -38,15 +38,15 @@ utils.safe_require("plugins.treesitter")
 
 -- Phase 7 add LSP / Concealment
 -- add python LSP
-utils.safe_require("plugins.lsp.python")
+-- utils.safe_require("plugins.lsp.python")
 -- add lua LSP
 --utils.safe_require("plugins.lsp.lua")
 -- add MD LSP
 utils.safe_require("plugins.lsp.javascript")
 -- add GO LSP
-utils.safe_require("plugins.lsp.go")
+-- utils.safe_require("plugins.lsp.go")
 -- add YAML LSP
-utils.safe_require("plugins.lsp.yaml")
+-- utils.safe_require("plugins.lsp.yaml")
 
 --utils.safe_require("plugins.markdown")
 --utils.safe_require("plugins.pandoc")
