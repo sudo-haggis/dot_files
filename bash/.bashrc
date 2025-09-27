@@ -7,7 +7,7 @@
 # │                            Alias for config editin                          │ 
 # │              if .bashrc doesnt run, you can edit bash files quickly         │
 # └─────────────────────────────────────────────────────────────────────────────┘
-alias nvimBASH='cd ~/.dotfiles/bash/ && nvim .bash_aliases_tools .bash_aliases_projects .bash_functions .bashrc'
+alias nvimBASH='cd ~/.dotfiles/bash/ && nvim .bash_aliases_tools .bash_aliases_projects .bash_functions .bashrc .inputrc'
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                            Interactive Shell Check                          │
@@ -154,19 +154,11 @@ if ! shopt -oq posix; then
 fi
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
-# │                              Terminal Behavior                              │
-# └─────────────────────────────────────────────────────────────────────────────┘
-# Enable vi-style controls in terminal
-set -o vi
-
-# Remove ctrl+x binding to prevent nano from launching
-bind -r '\C-x'
-
-# ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              Custom Prompt                                  │
 # └─────────────────────────────────────────────────────────────────────────────┘
 # Custom prompt with shortened path (overrides standard PS1 above)
 PS1='\[\033[01;34m\]$(shorten_path)\[\033[00m\]$(git_branch_prompt)$ '
+
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              Keyboard Layout                                │
 # └─────────────────────────────────────────────────────────────────────────────┘

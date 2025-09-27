@@ -1,0 +1,11 @@
+# ~/.inputrc - Readline configuration for all programs
+# (bash, python, mysql, psql, etc.)
+
+# Case-insensitive completion (main fix!)
+set completion-ignore-case on
+
+# Vi-style editing (moved from .bashrc)
+set editing-mode vi
+
+# Remove ctrl+x binding (moved from .bashrc)
+"\C-x": ""
