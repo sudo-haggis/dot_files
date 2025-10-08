@@ -1,0 +1,295 @@
+# vim: set filetype=bash:
+
+#!/bin/bash
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║                     TMUX SESSION LAYOUT MANAGER                             ║
+# ║         Capture and recreate tmux session layouts (lightweight)             ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+
+set -e  # Exit on error
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                         CONFIGURATION                                       │
+# └─────────────────────────────────────────────────────────────────────────────┘
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEFAULT_OUTPUT=".tmux-layout"
+TEMPLATE_DIR="$HOME/.dotfiles/tmux/sessions"
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                         SAVE SESSION LAYOUT                                 │
+# └─────────────────────────────────────────────────────────────────────────────┘
+save_layout() {
+    local output_file="${1:-$DEFAULT_OUTPUT}"
+    
+    echo "🔍 Capturing current tmux session layout..."
+
+    # Check if in tmux
+    if [[ -z "$TMUX" ]]; then 
+        echo "❌ Error: Not in a tmux session"
+        echo "💡 Start tmux first: tmux new -s my-session"
+        exit 1
+    fi
+
+    # Get current session name
+    local session_name
+    session_name=$(tmux display-message -p '#S')
+    
+    echo "📋 Session: $session_name"
+
+    # Start building the layout file
+    cat > "$output_file" << EOF
+#!/bin/bash
+# TMUX Session Layout: $session_name
+# Generated: $(date '+%Y-%m-%d %H:%M:%S')
+# Run this script to recreate the session layout
+
+SESSION_NAME="\${1:-$session_name}"
+
+# Check if session already exists
+if tmux has-session -t "\$SESSION_NAME" 2>/dev/null; then
+    echo "⚠️  Session '\$SESSION_NAME' already exists"
+    read -p "Attach to existing session? (y/n) " -n 1 -r
+    echo
+    if [[ \$REPLY =~ ^[Yy]$ ]]; then
+        tmux attach-session -t "\$SESSION_NAME"
+        exit 0
+    else
+        exit 1
+    fi
+fi
+
+echo "🚀 Creating session: \$SESSION_NAME"
+
+# Create new session (detached)
+tmux new-session -d -s "\$SESSION_NAME"
+
+EOF
+
+    # Get all windows in session
+    local windows
+    windows=$(tmux list-windows -t "$session_name" -F "#{window_index}:#{window_name}")
+    
+    local window_count=0
+    echo "🪟 Capturing windows..."
+
+    # Process each window
+    while IFS=":" read -r window_index window_name; do
+        window_count=$((window_count + 1))
+        
+        echo "  Window $window_index: $window_name"
+
+        # Get pane info
+        local pane_count
+        pane_count=$(tmux list-panes -t "$session_name:$window_index" | wc -l)
+        
+        local layout
+        layout=$(tmux list-windows -t "$session_name:$window_index" -F "#{window_layout}")
+
+        # Add window to script
+        if [[ $window_count -eq 1 ]]; then
+            # First window - rename default
+            cat >> "$output_file" << EOF
+
+# ═══ Window $window_index: $window_name ═══
+tmux rename-window -t "\$SESSION_NAME:$window_index" '$window_name'
+EOF
+        else
+            # Additional windows
+            cat >> "$output_file" << EOF
+
+# ═══ Window $window_index: $window_name ═══
+tmux new-window -t "\$SESSION_NAME:$window_index" -n '$window_name'
+EOF
+        fi
+
+        # Create panes if more than one
+        if [[ $pane_count -gt 1 ]]; then
+            echo "    └─ $pane_count panes"
+            
+            cat >> "$output_file" << EOF
+
+# Create $pane_count panes
+EOF
+            for ((i=1; i < pane_count; i++)); do 
+                echo "tmux split-window -t \"\$SESSION_NAME:$window_index\"" >> "$output_file"
+            done
+
+            cat >> "$output_file" << EOF
+tmux select-layout -t "\$SESSION_NAME:$window_index" '$layout'
+EOF
+        fi
+
+        # Get working directories
+        local pane_dirs
+        pane_dirs=$(tmux list-panes -t "$session_name:$window_index" -F "#{pane_index}:#{pane_current_path}")
+
+        cat >> "$output_file" << EOF
+
+# Set working directories
+EOF
+        while IFS=':' read -r pane_index pane_dir; do
+            echo "tmux send-keys -t \"\$SESSION_NAME:$window_index.$pane_index\" 'cd \"$pane_dir\"' Enter" >> "$output_file"
+        done <<< "$pane_dirs"
+
+    done <<< "$windows"
+
+    # Add footer
+    cat >> "$output_file" << 'EOF'
+
+# Select first window and attach
+tmux select-window -t "$SESSION_NAME:1"
+echo "✅ Session '$SESSION_NAME' created!"
+tmux attach-session -t "$SESSION_NAME"
+EOF
+
+    # Make executable
+    chmod +x "$output_file"
+
+    echo ""
+    echo "✅ Layout saved to: $output_file"
+    echo "📊 Captured: $window_count windows"
+    echo ""
+    echo "To restore: ./$output_file [session-name]"
+}
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                         LOAD SESSION LAYOUT                                 │
+# └─────────────────────────────────────────────────────────────────────────────┘
+load_layout() {
+    local layout_file="${1:-$DEFAULT_OUTPUT}"
+
+    if [[ ! -f "$layout_file" ]]; then
+        echo "❌ Error: Layout file not found: $layout_file"
+        echo "💡 Usage: $0 load [layout-file]"
+        exit 1
+    fi
+
+    echo "🔄 Loading layout from: $layout_file"
+    
+    # Make executable if not already
+    chmod +x "$layout_file"
+    
+    # Run the layout file
+    bash "$layout_file" "${2:-}"
+}
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                         SAVE AS TEMPLATE                                    │
+# └─────────────────────────────────────────────────────────────────────────────┘
+save_template() {
+    local template_name="$1"
+    
+    if [[ -z "$template_name" ]]; then
+        echo "❌ Error: Template name required"
+        echo "💡 Usage: $0 template <name>"
+        exit 1
+    fi
+
+    # Create template directory
+    mkdir -p "$TEMPLATE_DIR"
+    
+    local output_file="$TEMPLATE_DIR/${template_name}.tmux-layout"
+    
+    # Save using the same function
+    save_layout "$output_file"
+    
+    echo ""
+    echo "🎨 Template saved!"
+    echo "📁 Location: $output_file"
+    echo ""
+    echo "🐙 Git reminder: git add tmux/sessions/ && git commit"
+}
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                         LIST TEMPLATES                                      │
+# └─────────────────────────────────────────────────────────────────────────────┘
+list_templates() {
+    if [[ ! -d "$TEMPLATE_DIR" ]]; then
+        echo "📁 No templates directory found"
+        echo "💡 Create one with: $0 template <name>"
+        exit 0
+    fi
+
+    echo "📋 Available session templates:"
+    echo ""
+    
+    local count=0
+    for template in "$TEMPLATE_DIR"/*.tmux-layout; do
+        if [[ -f "$template" ]]; then
+            local name=$(basename "$template" .tmux-layout)
+            local windows=$(grep -c "^# ═══ Window" "$template" 2>/dev/null || echo "?")
+            echo "  🎨 $name ($windows windows)"
+            echo "     $template"
+            count=$((count + 1))
+        fi
+    done
+    
+    if [[ $count -eq 0 ]]; then
+        echo "  (none yet)"
+        echo ""
+        echo "💡 Create with: $0 template <name>"
+    fi
+}
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                         MAIN COMMAND HANDLER                                │
+# └─────────────────────────────────────────────────────────────────────────────┘
+show_help() {
+    cat << EOF
+🏴‍☠️ TMUX Session Layout Manager
+
+USAGE:
+    $0 <command> [arguments]
+
+COMMANDS:
+    save [file]           Save current session layout
+                         Default: .tmux-layout
+                         
+    load [file]          Load and create session from layout file
+                         Default: .tmux-layout
+                         
+    template <name>      Save current session as reusable template
+                         Saved to: ~/.dotfiles/tmux/sessions/
+                         
+    list                 List all available templates
+
+EXAMPLES:
+    $0 save                      # Save to .tmux-layout
+    $0 save my-layout           # Save to my-layout
+    $0 load                      # Load from .tmux-layout
+    $0 template dev-4pane       # Save as template
+    $0 list                      # Show all templates
+
+WORKFLOW:
+    1. Setup your tmux session with windows/panes
+    2. Run: $0 save
+    3. Layout saved to .tmux-layout (git-trackable!)
+    4. On another machine: ./.tmux-layout
+
+EOF
+}
+
+# Main command dispatcher
+case "${1:-help}" in
+    save)
+        save_layout "${2:-$DEFAULT_OUTPUT}"
+        ;;
+    load)
+        load_layout "${2:-$DEFAULT_OUTPUT}" "$3"
+        ;;
+    template)
+        save_template "$2"
+        ;;
+    list)
+        list_templates
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    *)
+        echo "❌ Unknown command: $1"
+        echo ""
+        show_help
+        exit 1
+        ;;
+esac
