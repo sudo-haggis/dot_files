@@ -1,5 +1,3 @@
-# vim: set filetype=bash:
-
 #!/bin/bash
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                     TMUX SESSION LAYOUT MANAGER                             ║
@@ -102,20 +100,58 @@ tmux new-window -t "\$SESSION_NAME:$window_index" -n '$window_name'
 EOF
         fi
 
-        # Create panes if more than one
+        # Create panes if more than one (using split directions, not exact layouts)
         if [[ $pane_count -gt 1 ]]; then
             echo "    └─ $pane_count panes"
             
+            # Get pane dimensions to determine split directions
+            local pane_info
+            pane_info=$(tmux list-panes -t "$session_name:$window_index" -F "#{pane_index}:#{pane_width}:#{pane_height}:#{pane_top}:#{pane_left}")
+            
             cat >> "$output_file" << EOF
 
-# Create $pane_count panes
+# Create $pane_count panes with splits
 EOF
-            for ((i=1; i < pane_count; i++)); do 
-                echo "tmux split-window -t \"\$SESSION_NAME:$window_index\"" >> "$output_file"
+            
+            # Analyze pane arrangement to determine split pattern
+            local pane_array=()
+            while IFS=':' read -r p_idx p_width p_height p_top p_left; do
+                pane_array+=("$p_idx:$p_width:$p_height:$p_top:$p_left")
+            done <<< "$pane_info"
+            
+            # Simple split detection: compare positions of first two panes
+            if [[ ${#pane_array[@]} -ge 2 ]]; then
+                local pane0=(${pane_array[0]//:/ })
+                local pane1=(${pane_array[1]//:/ })
+                
+                # If pane1 is to the right of pane0, it's a vertical split (side-by-side)
+                if [[ ${pane1[4]} -gt ${pane0[4]} ]]; then
+                    echo "tmux split-window -h -t \"\$SESSION_NAME:$window_index\"  # Vertical split" >> "$output_file"
+                else
+                    echo "tmux split-window -v -t \"\$SESSION_NAME:$window_index\"  # Horizontal split" >> "$output_file"
+                fi
+            fi
+            
+            # For additional panes, add simple splits
+            for ((i=2; i < pane_count; i++)); do
+                local curr_pane=(${pane_array[$i]//:/ })
+                local prev_pane=(${pane_array[$((i-1))]//:/ })
+                
+                # Determine split direction based on position relative to previous pane
+                if [[ ${curr_pane[4]} -gt ${prev_pane[4]} ]]; then
+                    echo "tmux split-window -h -t \"\$SESSION_NAME:$window_index\"  # Vertical split" >> "$output_file"
+                elif [[ ${curr_pane[3]} -gt ${prev_pane[3]} ]]; then
+                    echo "tmux split-window -v -t \"\$SESSION_NAME:$window_index\"  # Horizontal split" >> "$output_file"
+                else
+                    # Default to horizontal if unclear
+                    echo "tmux split-window -v -t \"\$SESSION_NAME:$window_index\"  # Horizontal split" >> "$output_file"
+                fi
             done
-
+            
             cat >> "$output_file" << EOF
-tmux select-layout -t "\$SESSION_NAME:$window_index" '$layout'
+
+# Optional: Manually adjust pane sizes with:
+# tmux resize-pane -t "\$SESSION_NAME:$window_index.0" -x 50%
 EOF
         fi
 
