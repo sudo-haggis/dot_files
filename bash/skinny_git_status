@@ -1,0 +1,57 @@
+#!/bin/bash
+# Save this as ~/bin/skinny_git_status (make sure ~/bin is in your PATH)
+# Adding this to the $PATH variable will make the function avaiable gloablly due to /bin/ decleration
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "❌ Not git repo"
+    exit 1
+fi
+
+# Path shortening function (embedded)
+shorten_path() {
+    local current_dir=$(basename "$PWD")
+    
+    if [[ $PWD == $HOME ]]; then
+        echo "~"
+    elif [[ $PWD == $HOME/* ]]; then
+        local parent_dir=$(dirname "$PWD")
+        if [[ $parent_dir == $HOME ]]; then
+            echo "~/$current_dir"
+        else
+            echo "~/…/$current_dir"
+        fi
+    else
+        local parent_dir=$(dirname "$PWD")
+        if [[ $(dirname "$parent_dir") == "/" ]]; then
+            echo "$PWD"
+        else
+            echo "/…/$current_dir"
+        fi
+    fi
+}
+
+# Show location and branch on one line
+branch=$(git branch --show-current 2>/dev/null)
+echo "$(shorten_path) [${branch:-'detached'}]"
+
+# Modified files - show only filenames (no paths)
+modified_files=$(git diff --name-only HEAD 2>/dev/null)
+if [ -n "$modified_files" ]; then
+    echo "Modified:"
+    echo "$modified_files" | while read -r file; do
+        echo "  $(basename "$file")"
+    done
+fi
+
+# Untracked files - top 3, filenames only
+untracked_files=$(git ls-files --others --exclude-standard 2>/dev/null)
+if [ -n "$untracked_files" ]; then
+    untracked_count=$(echo "$untracked_files" | wc -l)
+    echo "Untracked ($untracked_count):"
+    echo "$untracked_files" | head -3 | while read -r file; do
+        if [ -f "$file" ]; then
+            echo "  $(basename "$file")"
+        fi
+    done
+fi
