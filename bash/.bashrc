@@ -179,6 +179,8 @@ setup_caps_escape
 [ -d "$HOME/go/bin" ] && PATH="$PATH:$HOME/go/bin"
 [ -d "$HOME/.local/opt/go/bin" ] && PATH="$HOME/.local/opt/go/bin:$PATH"
 [ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
+# Turso
+PATH="$PATH:/home/weedavedev/.turso"
 export PATH
 
 # The next line updates PATH for the Google Cloud SDK.
@@ -187,9 +189,17 @@ if [ -f '/home/weedavedev/google-cloud-sdk/path.bash.inc' ]; then . '/home/weeda
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/weedavedev/google-cloud-sdk/completion.bash.inc' ]; then . '/home/weedavedev/google-cloud-sdk/completion.bash.inc'; fi
 
-# Turso
-export PATH="$PATH:/home/weedavedev/.turso"
+# Homebrew evaluations 
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
