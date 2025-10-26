@@ -30,6 +30,7 @@ alias lt='exa -T --icons --git-ignore'
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                    zoxide setup, fast cd movements :                        │
 # └─────────────────────────────────────────────────────────────────────────────┘
+
 alias zi='zoxide query -i'  # Interactive selection
 alias zq='zoxide query -l'   # List all tracked paths
 

@@ -1,5 +1,5 @@
 #External tools
-#Z - jumparound directory tool 
-if [ -d "$HOME/tools/z/" ]; then
-	. "$HOME/tools/z/z.sh"
+
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init bash)"
 fi
