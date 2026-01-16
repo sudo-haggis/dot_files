@@ -47,6 +47,8 @@ utils.safe_require("plugins.lsp.javascript")
 utils.safe_require("plugins.lsp.go")
 -- add YAML LSP
 utils.safe_require("plugins.lsp.yaml")
+-- add BASH LSP support
+utils.safe_require("plugins.lsp.bash")
 
 --utils.safe_require("plugins.markdown")
 --utils.safe_require("plugins.pandoc")
