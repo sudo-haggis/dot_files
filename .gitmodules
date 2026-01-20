@@ -4,3 +4,6 @@
 [submodule "tools/github_email_reset"]
 	path = tools/github_email_reset
 	url = https://gist.github.com/sudo-haggis/bfe3af6e1133d2da84138ad2f689e997
+[submodule "tools/z"]
+	path = tools/z
+	url = https://github.com/rupa/z
