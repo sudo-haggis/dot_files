@@ -1,0 +1,3 @@
+[submodule "tools/wallpaper_swapper"]
+	path = tools/wallpaper_swapper
+	url = https://gist.github.com/sudo-haggis/6ba7730332ac2d830e926a014f2ae8ca
