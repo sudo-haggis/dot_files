@@ -1,11 +1,90 @@
-# ~/.inputrc - Readline configuration for all programs
-# (bash, python, mysql, psql, etc.)
+# ~/.inputrc - Readline configuration
+# Controls behavior for bash, python REPL, mysql, psql, and any program using GNU readline
+# Part of dotfiles/bash/
 
-# Case-insensitive completion (main fix!)
-set completion-ignore-case on
-
-# Vi-style editing (moved from .bashrc)
+# ===== EDITING MODE =====
+# Vi-style command line editing (press Esc for normal mode, i for insert)
 set editing-mode vi
 
-# Remove ctrl+x binding (moved from .bashrc)
+# Show mode indicator in prompt (optional but helpful)
+set show-mode-in-prompt on
+set vi-ins-mode-string "\1\e[6 q\2"  # Cursor: bar in insert mode
+set vi-cmd-mode-string "\1\e[2 q\2"  # Cursor: block in command mode
+
+# ===== COMPLETION BEHAVIOR =====
+# Case-insensitive tab completion
+set completion-ignore-case on
+
+# Treat hyphens and underscores as equivalent when completing
+set completion-map-case on
+
+# Show all matches for ambiguous completions immediately (no double-tab needed)
+set show-all-if-ambiguous on
+
+# Show all matches if nothing matched after first tab
+set show-all-if-unmodified on
+
+# ===== VISUAL ENHANCEMENTS =====
+# Show file type indicators (/, @, *, etc.) in completion listings
+set visible-stats on
+
+# Display completions in color based on file type
+set colored-stats on
+
+# Color the common prefix in completion matches
+set colored-completion-prefix on
+
+# Add trailing slash when autocompleting symlinks to directories
+set mark-symlinked-directories on
+
+# ===== COMPLETION DISPLAY =====
+# Page completion listings if they're too long (instead of asking)
+set page-completions on
+
+# Display completions horizontally in alphabetical order
+set print-completions-horizontally off
+
+# Number of completions to show before asking to display them all
+set completion-query-items 200
+
+# ===== HISTORY BEHAVIOR =====
+# Append slash to completed directory names
+set mark-directories on
+
+# Don't expand tildes in completion
+set expand-tilde off
+
+# ===== BELL =====
+# Never ring the terminal bell
+set bell-style none
+
+# ===== KEY BINDINGS =====
+# Remove ctrl+x binding (if it was causing issues)
 "\C-x": ""
+
+# Ctrl+l to clear screen (works in vi mode)
+"\C-l": clear-screen
+
+# ===== VI MODE SPECIFIC =====
+# In vi insert mode, press jk quickly to enter normal mode (alternative to Esc)
+# Uncomment if you want this:
+# set keymap vi-insert
+# "jk": vi-movement-mode
+
+# ===== NOTES =====
+# Vi mode keybindings (after pressing Esc):
+# - h/j/k/l: move cursor left/down/up/right
+# - w/b: jump word forward/backward
+# - 0/$: beginning/end of line
+# - A: append at end
+# - I: insert at beginning
+# - cw: change word
+# - dd: delete line
+# - v: open line in $EDITOR
+# - /: search history forward
+# - ?: search history backward
+# - n/N: next/previous history match
+# 
+# Press 'i' or 'a' to return to insert mode
+#
+# Reload this config: bind -f ~/.inputrc
