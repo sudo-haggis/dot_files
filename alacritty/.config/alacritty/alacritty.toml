@@ -1,0 +1,284 @@
+# Alacritty Configuration
+# Location: ~/.config/alacritty/alacritty.toml
+# Part of dotfiles/alacritty/
+# No cats were harmed (or installed) in the making of this config 🐦
+
+# ===== IMPORTS (Optional) =====
+# Uncomment to split configs across files
+# import = [
+#   "~/.config/alacritty/themes/gruvbox.toml",
+#   "~/.config/alacritty/keybindings.toml"
+# ]
+
+# ===== GENERAL =====
+[env]
+# Set environment variables for spawned processes
+TERM = "xterm-256color"
+
+# ===== WINDOW =====
+[window]
+# Window dimensions (in columns/lines, not pixels)
+dimensions = { columns = 120, lines = 35 }
+
+# Padding around terminal content
+padding = { x = 6, y = 6 }
+
+# Make padding scale with DPI
+dynamic_padding = true
+
+# Window decorations
+# Options: Full, None, Transparent (macOS only), Buttonless (macOS only)
+decorations = "Full"
+
+# Startup mode
+# Options: Windowed, Maximized, Fullscreen
+# startup_mode = "Windowed"
+
+# Window title
+title = "Alacritty"
+
+# Window class (Linux/BSD only)
+class = { instance = "Alacritty", general = "Alacritty" }
+
+# GTK theme variant
+# Options: "Dark", "Light", "None"
+decorations_theme_variant = "Dark"
+
+# ===== SCROLLING =====
+[scrolling]
+# Maximum lines in scrollback buffer (0 disables, max 100000)
+history = 10000
+
+# Lines scrolled per scroll event (mouse/touchpad/touchscreen)
+# IMPORTANT: This affects touchscreen scrolling speed!
+multiplier = 3
+
+# ===== FONT =====
+[font]
+# Font family
+normal = { family = "Hack", style = "Regular" }
+bold = { family = "Hack", style = "Bold" }
+italic = { family = "Hack", style = "Italic" }
+bold_italic = { family = "Hack", style = "Bold Italic" }
+
+# Font size in points
+size = 11.0
+
+# Offset is extra space around each character
+# offset = { x = 0, y = 0 }
+
+# Glyph offset determines spacing between glyphs
+# glyph_offset = { x = 0, y = 0 }
+
+# Font alternatives (if JetBrains Mono not available):
+# - "Fira Code" (with ligatures)
+# - "Cascadia Code"
+# - "Hack"
+# - "DejaVu Sans Mono"
+# Install JetBrains Mono: sudo apt install fonts-jetbrains-mono
+
+# ===== COLORS (Gruvbox Dark) =====
+[colors.primary]
+background = "#282828"  # dark0
+foreground = "#ebdbb2"  # light1
+
+[colors.normal]
+black   = "#282828"  # dark0
+red     = "#cc241d"  # bright_red
+green   = "#98971a"  # bright_green
+yellow  = "#d79921"  # bright_yellow
+blue    = "#458588"  # bright_blue
+magenta = "#b16286"  # bright_purple
+cyan    = "#689d6a"  # bright_aqua
+white   = "#a89984"  # light3
+
+[colors.bright]
+black   = "#928374"  # gray
+red     = "#fb4934"  # bright_red
+green   = "#b8bb26"  # bright_green
+yellow  = "#fabd2f"  # bright_yellow
+blue    = "#83a598"  # bright_blue
+magenta = "#d3869b"  # bright_purple
+cyan    = "#8ec07c"  # bright_aqua
+white   = "#ebdbb2"  # light1
+
+# Dim colors (optional - used when dimmed)
+# [colors.dim]
+# black   = "#32302f"
+# red     = "#9d0006"
+# green   = "#79740e"
+# yellow  = "#b57614"
+# blue    = "#076678"
+# magenta = "#8f3f71"
+# cyan    = "#427b58"
+# white   = "#928374"
+
+# ===== CURSOR =====
+[cursor]
+# Cursor style
+# Options for shape: Block, Underline, Beam
+style = { shape = "Block", blinking = "Off" }
+
+# Vi mode cursor style (when in vim mode)
+vi_mode_style = { shape = "Block", blinking = "Off" }
+
+# Cursor blinking interval in milliseconds
+# blink_interval = 750
+
+# Time after cursor stops blinking (0 = never)
+# blink_timeout = 0
+
+# Render cursor as hollow box when window not focused
+unfocused_hollow = true
+
+# Cursor thickness (0.0 to 1.0 relative to cell width)
+thickness = 0.15
+
+# ===== SELECTION =====
+[selection]
+# Characters used as word separators for semantic selection
+semantic_escape_chars = ",│`|:\"' ()[]{}<>	"
+
+# Copy to clipboard when text is selected
+save_to_clipboard = true
+
+# ===== TERMINAL =====
+[terminal]
+# Enable OSC 52 (copy/paste through escape sequences)
+osc52 = "CopyPaste"
+
+# ===== MOUSE =====
+[mouse]
+# Hide mouse cursor after inactivity (seconds)
+hide_when_typing = true
+
+# ===== HINTS (URL/path detection) =====
+# Enable URL hints with Ctrl+Shift+U (or custom binding)
+[[hints.enabled]]
+command = "xdg-open"  # Open URLs with default browser
+hyperlinks = true
+post_processing = true
+persist = false
+mouse.enabled = true
+binding = { key = "U", mods = "Control|Shift" }
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\\u0000-\\u001F\\u007F-\\u009F<>\"\\s{-}\\^⟨⟩`]+"
+
+# ===== KEYBOARD =====
+[keyboard]
+# Standard key bindings
+# Format: { key = "KEY", mods = "MODIFIERS", action = "ACTION" }
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "Insert"
+mods = "Shift"
+action = "PasteSelection"
+
+# Font size control
+[[keyboard.bindings]]
+key = "Plus"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
+action = "ResetFontSize"
+
+# Scrolling
+[[keyboard.bindings]]
+key = "PageUp"
+mods = "Shift"
+action = "ScrollPageUp"
+
+[[keyboard.bindings]]
+key = "PageDown"
+mods = "Shift"
+action = "ScrollPageDown"
+
+[[keyboard.bindings]]
+key = "Home"
+mods = "Shift"
+action = "ScrollToTop"
+
+[[keyboard.bindings]]
+key = "End"
+mods = "Shift"
+action = "ScrollToBottom"
+
+# Vi mode (Ctrl+Shift+Space to enter)
+[[keyboard.bindings]]
+key = "Space"
+mods = "Control|Shift"
+action = "ToggleViMode"
+
+# New window
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "CreateNewWindow"
+
+# Search mode
+[[keyboard.bindings]]
+key = "F"
+mods = "Control|Shift"
+action = "SearchForward"
+
+# Clear screen
+[[keyboard.bindings]]
+key = "L"
+mods = "Control"
+chars = "\f"
+
+# ===== DEBUG (Optional) =====
+# [debug]
+# Enables debug logging
+# log_level = "Info"  # Trace, Debug, Info, Warn, Error, Off
+# print_events = false
+# highlight_damage = false
+# prefer_egl = false
+
+# ===== NOTES =====
+# Touchscreen scrolling: ENABLED by default in Alacritty v0.12.0+
+# - Touch and drag vertically to scroll
+# - Scrolling speed controlled by [scrolling].multiplier
+# 
+# Reload config: NO RESTART NEEDED! Alacritty auto-reloads on save
+#
+# Vi Mode keybindings (Ctrl+Shift+Space to enter):
+# - h/j/k/l: move cursor
+# - w/b: word forward/back
+# - 0/$: line start/end
+# - g/G: buffer start/end
+# - v: visual selection
+# - y: yank (copy)
+# - /: search forward
+# - ?: search backward
+# - n/N: next/previous match
+# - Esc: exit vi mode
+#
+# Useful actions for custom bindings:
+# - ScrollPageUp / ScrollPageDown / ScrollLineUp / ScrollLineDown
+# - ScrollToTop / ScrollToBottom
+# - Copy / Paste / PasteSelection
+# - IncreaseFontSize / DecreaseFontSize / ResetFontSize
+# - SearchForward / SearchBackward
+# - ToggleViMode / ToggleFullscreen
+# - CreateNewWindow / Quit
+# - ClearHistory / ClearLogNotice
+#
+# Full documentation: https://alacritty.org/config-alacritty.html
