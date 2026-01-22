@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=Notion
+Exec=snap run chrome --app=https://notion.so
+Icon=/home/weedavedev/Pictures/app_icons/Notion-logo.svg.png
+StartupWMClass=notion
+Categories=Office;ProjectManagement;
+Keywords=notes;workspace;wiki;documents;

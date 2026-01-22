@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=gnome-terminal -- tmux new-session -A -s houston
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=false
+Name=Terminal with Tmux
+Comment=Start Terminal with Tmux at login

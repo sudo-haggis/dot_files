@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Go PWA Launcher
+Exec=/home/weedavedev/go-pwa-launcher/pwa-launcher
+Terminal=false
+X-GNOME-Autostart-enabled=true
+Comment=Launches PWA applications at login using Go
