@@ -13,7 +13,7 @@
 # ===== GENERAL =====
 [env]
 # Set environment variables for spawned processes
-TERM = "xterm-256color"
+TERM = "alacritty-direct"
 
 # ===== WINDOW =====
 [window]
