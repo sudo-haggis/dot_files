@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Startup Script Runner
+Comment=Run custom startup scripts from ~/.scripts
+Exec=/home/davey/.scripts/startup-runner.sh
+Terminal=false
+X-GNOME-Autostart-enabled=true
+Hidden=false
