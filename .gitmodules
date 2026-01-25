@@ -1,9 +1,9 @@
-[submodule "tools/wallpaper_swapper"]
-	path = tools/wallpaper_swapper
+[submodule "tools/tools/wallpaper_swapper"]
+	path = tools/tools/wallpaper_swapper
 	url = https://gist.github.com/sudo-haggis/6ba7730332ac2d830e926a014f2ae8ca
-[submodule "tools/github_email_reset"]
-	path = tools/github_email_reset
+[submodule "tools/tools/github_email_reset"]
+	path = tools/tools/github_email_reset
 	url = https://gist.github.com/sudo-haggis/bfe3af6e1133d2da84138ad2f689e997
-[submodule "tools/z"]
-	path = tools/z
+[submodule "tools/tools/z"]
+	path = tools/tools/z
 	url = https://github.com/rupa/z
