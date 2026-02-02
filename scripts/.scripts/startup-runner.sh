@@ -1,6 +1,8 @@
 #!/bin/bash
 #run list of ecetutable scripts on start up 
-
+# TODO: need to ensure this script run on start up always
+# TODO: need to dynamialyly fuind the screen device number, or thow a pop up asking for it! 
+#
 #1. map-touchscreens.sh - for zen touch as second touch
 
 SCRIPT_DIR="$HOME/.scripts"
