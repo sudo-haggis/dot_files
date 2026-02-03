@@ -225,3 +225,41 @@ setup_caps_escape() {
         echo "🏴‍☠️ No graphical session detected, skipping caps lock mapping"
     fi
 }
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                         Smart Git Tag Override                             │
+# │            Intercepts 'git tag vX.Y.Z' to auto-sync versions                │
+# └─────────────────────────────────────────────────────────────────────────────┘
+
+# Override git command to intercept semantic version tagging
+git() {
+    # Check if this is a semantic version tag creation (git tag v1.2.3)
+    if [[ "$1" == "tag" ]] && [[ "$2" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] && [[ "$3" != "-d" ]]; then
+        # Check if smart-tag script exists
+        if [ -x ~/.git-hooks/smart-tag.sh ]; then
+            echo "🏴‍☠️ Intercepted! Using smart tagger..."
+            ~/.git-hooks/smart-tag.sh "$2"
+        else
+            echo "⚠️  Smart tag script not found at ~/.git-hooks/smart-tag.sh"
+            echo "    Falling back to standard git tag"
+            command git "$@"
+        fi
+    else
+        # Pass all other git commands through to real git
+        command git "$@"
+    fi
+}
+
+# Examples of what gets intercepted vs passed through:
+# 
+# INTERCEPTED (runs smart-tag.sh):
+#   git tag v2.1.0
+#   git tag v1.0.0
+# 
+# PASSED THROUGH (normal git):
+#   git tag                    # List tags
+#   git tag -l "v*"            # List with pattern
+#   git tag -d v2.1.0          # Delete tag
+#   git tag my-feature         # Non-semantic tag
+#   git commit                 # All other git commands
+#   git push --tags            # Push tags
