@@ -4,6 +4,8 @@ local utils = require("core.utils")
 -- Load only core modules for Phase 1
 utils.safe_require("core.options") -- Basic Vim options:w
 
+utils.safe_require("core.autocmds") -- automated commands
+
 utils.safe_require("core.keymaps") -- Global keymaps:w
 
 -- Phase 2: Add plugin manager
