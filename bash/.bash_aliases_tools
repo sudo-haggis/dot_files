@@ -104,7 +104,7 @@ alias GC='git commit -m '
 alias GB='git branch '
 alias GSW='git switch '
 alias GD='nvim_diff_files '
-
+#alias GR "No alias, just using GR function"
 # ── Repository Visualization ──
 alias GGraph='git log --graph --oneline --all -n 10'
 alias GGraph30='git log --graph --oneline --all -n 30'

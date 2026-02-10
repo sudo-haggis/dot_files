@@ -263,3 +263,18 @@ git() {
 #   git tag my-feature         # Non-semantic tag
 #   git commit                 # All other git commands
 #   git push --tags            # Push tags
+
+alias_grep(){
+    # $1 = file
+    # $2 = phrase
+    if [[ -z $2  ]] || [[ ! -f $1 ]]; then
+        echo "alias_grep <file> <string> - swapped for alias usage"
+        return 1
+    fi
+
+    grep "$2" "$1"
+}
+
+GR(){
+    git rebase -i HEAD~${1:-1}
+    }
