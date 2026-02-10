@@ -14,7 +14,7 @@ rgfzf() {
     local query="$1"
     local path="${2:-.}"
     local preview_cmd="line=\$(echo {} | cut -d: -f2); start=\$((line-5 > 0 ? line-5 : 1)); bat --color=always --highlight-line \$line --line-range \$start:\$((line+5)) \$(echo {} | cut -d: -f1) 2>/dev/null || rg --color=always --context 5 '$query' \$(echo {} | cut -d: -f1)"
-    
+
     rg --line-number "$query" "$path" | fzf --ansi --preview "$preview_cmd" --preview-window=up:60%
 }
 
@@ -22,7 +22,7 @@ rgfzf() {
 # Search with rgfzf and open result in nvim at the exact line
 nvimrg() {
     local selection=$(rgfzf "$1" "$2")
-    
+
     if [ -n "$selection" ]; then
         local file=$(echo "$selection" | cut -d: -f1)
         local line=$(echo "$selection" | cut -d: -f2)
@@ -39,7 +39,7 @@ nvimrg() {
 copy_code() {
     # Sanitize input: remove ANSI codes, carriage returns, trailing spaces
     cat | sed 's/\x1B\[[0-9;]*[JKmsu]//g' | sed 's/\r$//' | sed 's/[ \t]*$//' | copy
-    
+
     # Victory celebration with ASCII cow
     echo -e "\033[36m"
     echo "   < Code sanitized! >"
@@ -75,7 +75,7 @@ copy_files() {
             OUTPUT+="$(cat "$file")\n\n"
             OUTPUT+="====EOF $file====\n\n"
             echo "Added contents of $file"
-        else 
+        else
             echo "$file NOT FOUND"
         fi
     done
@@ -87,7 +87,7 @@ copy_files() {
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                    FIXED: GIT-ENHANCED PROMPT UTILITIES                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
- 
+
 # Function to set up git completion for aliases
 setup_git_completion() {
     # Check if git completion is available
@@ -101,18 +101,18 @@ setup_git_completion() {
             source ~/.local/share/bash-completion/completions/git
         fi
     fi
-    
+
     # Set up completion for each alias (if __git_complete is available)
     if type __git_complete &>/dev/null; then
         __git_complete GSW _git_switch
-        __git_complete GB _git_branch  
+        __git_complete GB _git_branch
         __git_complete GCO _git_checkout
         __git_complete GM _git_merge
         __git_complete GR _git_rebase
         __git_complete GP _git_push
         __git_complete GF _git_fetch
         __git_complete GL _git_log
-        
+
         echo "🏴‍☠️ Git alias completion loaded successfully, captain!"
     else
         echo "⚠️  Git completion functions not found - basic aliases still work"
@@ -129,11 +129,11 @@ git_branch_prompt() {
     if [ -n "$branch" ]; then
         # Get just the part after the last slash
         local short_branch="${branch##*/}"
-        
+
         # Check git status for simple indicator (no colors)
         local status=$(git status --porcelain 2>/dev/null)
         local indicator
-        
+
         if [ -z "$status" ]; then
             indicator="✓"  # Clean repo
         elif echo "$status" | grep -q "^M\|^ M"; then
@@ -143,18 +143,18 @@ git_branch_prompt() {
         else
             indicator="!"  # Other changes
         fi
-        
+
         # Return plain text only
         echo " (${indicator}${short_branch})"
     fi
 }
 
-# THE FINAL COUUNT DOWN! well not really. 
+# THE FINAL COUUNT DOWN! well not really.
 nvim_diff_files() {
     local file="$1"
     local commit="${2:-HEAD}"
 
-    if [ -z "$file" ]; then 
+    if [ -z "$file" ]; then
         echo "Usage: nvim_diff_files <file> [commit]"
         echo "eg: nvim_diff_files miscelaniousfile.js HEAD~2"
     fi
@@ -165,7 +165,7 @@ nvim_diff_files() {
         return 1
     }
 
-    nvim -d "$file" "$temp_file" 
+    nvim -d "$file" "$temp_file"
 }
 
 
@@ -173,7 +173,7 @@ nvim_diff_files() {
 # Shows abbreviated path + FULL current directory name
 shorten_path() {
     local current_dir=$(basename "$PWD")
-    
+
     if [[ $PWD == $HOME ]]; then
         # Just home
         echo "~"
@@ -220,7 +220,7 @@ alias ps='prompt_standard'
 # ── Keyboard Setup ──
 setup_caps_escape() {
     if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
-        setxkbmap -option caps:escape 2>/dev/null 
+        setxkbmap -option caps:escape 2>/dev/null
     else
         echo "🏴‍☠️ No graphical session detected, skipping caps lock mapping"
     fi
@@ -251,11 +251,11 @@ git() {
 }
 
 # Examples of what gets intercepted vs passed through:
-# 
+#
 # INTERCEPTED (runs smart-tag.sh):
 #   git tag v2.1.0
 #   git tag v1.0.0
-# 
+#
 # PASSED THROUGH (normal git):
 #   git tag                    # List tags
 #   git tag -l "v*"            # List with pattern

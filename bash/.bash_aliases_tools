@@ -2,6 +2,7 @@
 # ║                               Bash Aliases                                  ║
 # ║                    Custom shortcuts and command aliases                     ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
+alias what_al='alias_grep ~/.bash_aliases_tools'
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              System Alerts                                  │
