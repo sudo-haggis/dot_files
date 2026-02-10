@@ -16,7 +16,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                             Configuration                                   │
 # └─────────────────────────────────────────────────────────────────────────────┘
-# -- nvim 
+# -- nvim
 alias nvimCONFIG='cd ~/.dotfiles/nvim/.config/nvim/ && nvim init.lua lua/core/*.lua lua/plugins/*.lua lua/plugins/lsp/*.lua'
 alias nvimTMUX='cd ~/.dotfiles/tmux/.config/tmux/ && nvim *.* scripts/* themes/*'
 
@@ -39,7 +39,7 @@ alias zq='zoxide query -l'   # List all tracked paths
 # │                             System Tools                                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
 # ── Clipboard Management ──
-alias copy='xclip -selection clipboard' 
+alias copy='xclip -selection clipboard'
 alias ccopy='copy_code'  # Sanitized code copying with cow celebration
 
 # ── Python ──
@@ -95,7 +95,7 @@ alias claspWatch='watch -n 5 clasp status'
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              Git Aliases                                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
-#First add a gitignore files... 
+#First add a gitignore files...
 alias GSAddIgnore='touch .gitignore && git add .gitignore && git commit -m "feat(gitignore): add intial gitignore"'
 # SHORT hand quick commands, with trailing space for params (-c, --name-only etc)
 alias GS='git status '
@@ -148,3 +148,9 @@ alias tmux-launch='~/.config/tmux/scripts/tmux-layout load'
 # 3. File saved to ./.tmux-layout (git-trackable!)
 # 4. On another machine: tmux-launch
 #    OR just: ./.tmux-layout
+#
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                          Tmux Popups                                        │
+# └─────────────────────────────────────────────────────────────────────────────┘
+alias tpop_lazygit='~/.config/tmux/scripts/popup/popup-lazygit.sh'
+alias tpop_todo-git='~/.config/tmux/scripts/popup/popup-todo-git.sh'
