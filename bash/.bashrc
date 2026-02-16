@@ -164,7 +164,7 @@ PS1='\[\033[01;34m\]$(shorten_path)\[\033[00m\]$(git_branch_prompt)$ '
 # └─────────────────────────────────────────────────────────────────────────────┘
 # Map caps to esc key in { New terminal windows, Tmux session,SSH with X forward.}
 # But won't error in raw temrinal sessions  ✅
-setup_caps_escape
+# setup_caps_escape  - We moved this t~/.config/autostart instead, run once per login, not per terminal launch.
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              Environment Setup                              │
