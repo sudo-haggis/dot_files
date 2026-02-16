@@ -22,3 +22,7 @@ config_test/
 *~
 .*.sw?
 *.log
+
+ssh/.ssh/*
+!ssh/.ssh/config
+
