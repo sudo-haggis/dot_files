@@ -48,4 +48,11 @@ EOF
 
 chmod +x /tmp/startup-display.sh
 
-gnome-terminal -- /tmp/startup-display.sh
+# Try preferred terminal, fall back to available ones
+if command -v alacritty &>/dev/null; then
+    alacritty -e /tmp/startup-display.sh &
+elif command -v gnome-terminal &>/dev/null; then
+    gnome-terminal -- /tmp/startup-display.sh &
+else
+    xterm -e /tmp/startup-display.sh &  # Last resort
+fi
