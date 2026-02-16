@@ -217,14 +217,18 @@ prompt_standard() {
 alias pm='prompt_minimal'
 alias ps='prompt_standard'
 
-# ── Keyboard Setup ──
-setup_caps_escape() {
-    if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
-        setxkbmap -option caps:escape 2>/dev/null
-    else
-        echo "🏴‍☠️ No graphical session detected, skipping caps lock mapping"
-    fi
-}
+# Keyboard caps and esc proper mapping moved to startup scripts.
+# hosted and stowed from dotfiles ~/.dotfiles/.scripts/autostart i think.
+#
+# called from ~/.config/autostart/autostart.desktop
+## ── Keyboard Setup ──
+#setup_caps_escape() {
+#    if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+#        setxkbmap -option caps:escape 2>/dev/null
+#    else
+#        echo "🏴‍☠️ No graphical session detected, skipping caps lock mapping"
+#    fi
+#}
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                         Smart Git Tag Override                             │

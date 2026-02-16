@@ -8,6 +8,7 @@
 SCRIPT_DIR="$HOME/.scripts"
 STARTUP_SCRIPTS=(
     "map-touchscreens.sh"
+    "swap_caps_n_esc.sh"
     #add more scripts here
 )
 
