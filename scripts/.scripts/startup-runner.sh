@@ -32,3 +32,20 @@ if [[ -d "$SCRIPT_DIR" ]]; then
 fi
 
 echo -e "$results" # testing
+
+cat > /tmp/startup-display.sh << EOF
+#!/bin/bash
+echo "Start up scripts report for ya cap'n"
+echo "===================================="
+echo ""
+echo -e "$results"
+echo ""
+read -n1 -p "Press any key to close... or 'i' to interact with the helm" key
+if [[ "\$key" == "i" ]]; then
+    cd $SCRIPT_DIR && exec bash
+fi
+EOF
+
+chmod +x /tmp/startup-display.sh
+
+gnome-terminal -- /tmp/startup-display.sh
