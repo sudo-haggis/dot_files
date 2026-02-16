@@ -5,7 +5,7 @@
 
 if command -v gsettings &>/dev/null; then
     #GNOME - use Gsettings
-    gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escpae']"
+    gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
     echo "Caps mapped to Esc via GNOME"
 elif [ -n "$DISPLAY" ]; then
     # X11 - use set xkbmap
