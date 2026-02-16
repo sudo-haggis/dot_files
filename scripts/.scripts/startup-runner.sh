@@ -12,12 +12,23 @@ STARTUP_SCRIPTS=(
     #add more scripts here
 )
 
+results=""
+
 if [[ -d "$SCRIPT_DIR" ]]; then
-    for script_name in "${STARTUP_SCRIPTS[@]}"; do 
+    for script_name in "${STARTUP_SCRIPTS[@]}"; do
         script_path="$SCRIPT_DIR/$script_name"
 
         if [[ -f "$script_path" && -x "$script_path" ]]; then
-            "$script_path"
+            output=$("$script_path" 2>&1)
+            exit_code=$? #last exit code
+
+            if [[ $exit_code -eq 0 ]]; then
+                results+="$script_name - $output\n"
+            else
+                results+="$script_name - FAILED: $output\n"
+            fi
         fi
     done
 fi
+
+echo -e "$results" # testing
