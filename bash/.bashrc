@@ -172,16 +172,24 @@ PS1='\[\033[01;34m\]$(shorten_path)\[\033[00m\]$(git_branch_prompt)$ '
 # Load envman configuration
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
-# new and improoved $PATH generationisation! 
-[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
-[ -d "/snap/bin" ] && PATH="$PATH:/snap/bin"
-[ -d "$HOME/go/bin" ] && PATH="$PATH:$HOME/go/bin"
-[ -d "$HOME/.local/opt/go/bin" ] && PATH="$HOME/.local/opt/go/bin:$PATH"
-[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
-# Turso
-PATH="$PATH:/home/weedavedev/.turso"
-export PATH
+# new and improoved $PATH generationisation!
+append_to_path() {
+    # Adds the path to the end of the $PATH collection
+    # :TODO-8 We should make a prepend option, for custom binaries we want prioratised over system ones !
+    if [[ -n $1 ]]; then
+        [[ ":$PATH:" != *":$1:"* ]] && [ -d "$1" ] && PATH="$PATH:$1"
+    fi
+}
+
+append_to_path "$HOME/.local/bin"
+append_to_path "$HOME/bin"
+append_to_path "/snap/bin"
+append_to_path "$HOME/go/bin"
+append_to_path "$HOME/.local/opt/go/bin"
+append_to_path "$HOME/.cargo/bin"
+append_to_path "$HOME/.turso"
+
+export PATH #off to the big bad world with you PATH
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/weedavedev/google-cloud-sdk/path.bash.inc' ]; then . '/home/weedavedev/google-cloud-sdk/path.bash.inc'; fi
