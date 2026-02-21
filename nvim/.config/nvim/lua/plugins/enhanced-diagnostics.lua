@@ -127,22 +127,6 @@ function M.setup()
 		end
 	end, vim.tbl_extend("force", opts, { desc = "Close floating windows" }))
 
-	-- Alternative close method with 'q' in normal mode
-	vim.keymap.set("n", "q", function()
-		-- Only close diagnostics if we're not in a special buffer
-		if vim.bo.buftype == "" then -- Normal buffer
-			for _, win in ipairs(vim.api.nvim_list_wins()) do
-				local config = vim.api.nvim_win_get_config(win)
-				if config.relative ~= "" then -- It's a floating window
-					pcall(vim.api.nvim_win_close, win, true)
-					return -- Exit after closing
-				end
-			end
-		end
-		-- If no floating windows, do normal 'q' behavior (record macro)
-		vim.cmd("normal! q")
-	end, vim.tbl_extend("force", opts, { desc = "Close diagnostics or record macro" }))
-
 	-- Show all buffer diagnostics in quickfix
 	vim.keymap.set("n", "<leader>E", function()
 		vim.diagnostic.setqflist()
