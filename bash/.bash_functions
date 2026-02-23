@@ -214,8 +214,8 @@ prompt_standard() {
 }
 
 # ── Aliases ──
-alias pm='prompt_minimal'
-alias ps='prompt_standard'
+#alias pm='prompt_minimal'
+#alias ps='prompt_standard'
 
 # Keyboard caps and esc proper mapping moved to startup scripts.
 # hosted and stowed from dotfiles ~/.dotfiles/.scripts/autostart i think.
