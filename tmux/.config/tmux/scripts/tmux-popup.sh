@@ -29,4 +29,10 @@ if [[ -z "${TMUX:-}" ]]; then
 fi
 
 # ── Launch ────────────────────────────────────────────────────────────────────
-tmux display-popup -E -w "$WIDTH" -h "$HEIGHT" -d "$WORKDIR" "$CMD"
+if [[ "$CMD" =~ ^tmux ]]; then
+    # Pass through - tmux handles its own TTY
+    tmux display-popup -E -w "$WIDTH" -h "$HEIGHT" -d "$WORKDIR" "$CMD"
+else
+    # Wrap in an interactice bash to TUI apps
+    tmux display-popup -E -w "$WIDTH" -h "$HEIGHT" -d "$WORKDIR" "bash -i -c '$CMD'"
+fi
