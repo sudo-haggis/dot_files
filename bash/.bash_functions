@@ -291,3 +291,15 @@ launch_lazygit() {
     fi
 }
 
+
+# scribbles is a new function so save modes toa  file, that we will git save and be grep-able. a CLI notes app as you are...
+scribbles() {
+    if [[ -z "$2" ]]; then
+        grep -h $1 ~/workspace/scribbles/*
+        return 1
+    fi
+
+    echo $2 >> "$HOME/workspace/scribbles/$1.md"
+    echo "'$2' saved in scribbeles/$1.md"
+    return 1
+}
