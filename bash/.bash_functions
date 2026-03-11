@@ -296,7 +296,7 @@ launch_lazygit() {
 scribbles() {
     #TODO: lets add a "SB -search" that will call  "tpop_search" in scribbles dir, and show interactive searches, then return"
     #set dir of scribbles
-    local scribbles_dir="$HOME/workspace/scribbles"
+    local scribbles_dir="$HOME/scribbles"
 
     #no params, just show help
     if [[ $# -eq 0 ]]; then
