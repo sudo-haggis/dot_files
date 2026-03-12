@@ -159,3 +159,5 @@ alias tpop_nvim='~/.config/tmux/scripts/popup/popup-nvim.sh'
 alias tpop_bat='~/.config/tmux/scripts/popup/popup-bat.sh'
 alias tpop_search='~/.config/tmux/scripts/popup/popup-search.sh'
 alias tpop_navigate='~/.config/tmux/scripts/popup/popup-nav.sh'
+
+alias lazyG='launch_lazygit'

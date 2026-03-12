@@ -282,3 +282,12 @@ alias_grep(){
 GR(){
     git rebase -i HEAD~${1:-1}
     }
+
+launch_lazygit() {
+    if [ -n "$TMUX" ]; then
+        bash -e "$HOME/.config/tmux/scripts/popup/popup-lazygit.sh"
+    else
+        lazygit
+    fi
+}
+
