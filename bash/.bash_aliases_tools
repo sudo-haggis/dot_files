@@ -2,7 +2,9 @@
 # ║                               Bash Aliases                                  ║
 # ║                    Custom shortcuts and command aliases                     ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
-alias what_al='alias_grep ~/.bash_aliases_tools'
+
+# Command removed as we should just use "alias | grep <phrase>"
+
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                              System Alerts                                  │
