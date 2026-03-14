@@ -162,3 +162,8 @@ alias tpop_navigate='~/.config/tmux/scripts/popup/popup-nav.sh'
 alias tpop_gitdiff='~/.config/tmux/scripts/popup/popup-gitdiff.sh'
 
 alias lazyG='launch_lazygit'
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │                          Scribbles Aliasese                                 │
+# └─────────────────────────────────────────────────────────────────────────────┘
+alias SB='scribbles'

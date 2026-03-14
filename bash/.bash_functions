@@ -291,3 +291,43 @@ launch_lazygit() {
     fi
 }
 
+
+# scribbles is a new function so save modes toa  file, that we will git save and be grep-able. a CLI notes app as you are...
+scribbles() {
+    #TODO: lets add a "SB -search" that will call  "tpop_search" in scribbles dir, and show interactive searches, then return"
+    #set dir of scribbles
+    local scribbles_dir="$HOME/scribbles"
+
+    #no params, just show help
+    if [[ $# -eq 0 ]]; then
+        echo "Scribbles <phrase> <file_name_to_append_2>"
+        return 1
+    fi
+
+
+    #One param... lets grep everything in the folder
+    if [[ -z "$2" ]]; then
+        grep -h "$1" "$scribbles_dir"/*
+        return 1
+    fi
+
+
+    #lets deal with more params:
+    # Param1 entry string to append
+    # Param2 file name. (minus type, always .md files)
+    local file="$scribbles_dir/$2.md"
+    # Do we want this new file created? abandon script if not #dirtysimple
+    if [[ ! -f "$file" ]]; then
+        read -p "Are you sure you want to create new file in scribbles collective? (Y)" response
+        if [[ "$response" != [yY] ]]; then
+            echo "Abandoning new file creation"
+            return 0
+        fi
+    fi
+
+    #append to file, create if it doesnt exist.
+    echo $1 >> "$file"
+    #TODO: add git entry "docs($2): $1 appended"
+    echo "'$1' saved to $scribbles_dir/$2.md"
+    return 1
+}
