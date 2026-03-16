@@ -114,6 +114,7 @@ alias GGraph30='git log --graph --oneline --all -n 30'
 alias GTree="git log --graph --pretty=format:'%Cred%h%Creset -%C(blue)%d%Creset %<(60,trunc)%s %C(dim white)%an %cr%Creset' --all --date-order"
 alias GTTree="git log --graph --pretty=format:'%Cred%h%Creset -%C(blue)%d%Creset %<(60,trunc)%s %<(8,trunc)%an' --date-order -30"
 alias GTBranches="git log --graph --pretty=format:'%C(blue)%d%Creset' --simplify-by-decoration --all --date-order -20"
+alias GLog="git log --oneline main..$(git branch --show-current)"
 
 # ── Status & Changes ──
 #alias gitWatch='watch -n 5 git status'
