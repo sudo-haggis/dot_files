@@ -3,10 +3,9 @@
 
 -- Load LSP config and common setup
 local utils = require("core.utils")
-local lspconfig = utils.safe_require("lspconfig")
 local lsp_common = utils.safe_require("plugins.lsp-common")
 
-if not lspconfig or not lsp_common then
+if not lsp_common then
 	return
 end
 
@@ -68,77 +67,49 @@ local js_ts_config = {
 		"typescript.tsx",
 	},
 
-	-- Root directory detection (finds project root)
-	root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+	-- Root directory detection
+	root_dir = function(fname)
+		return vim.fs.root(fname, { "package.json", "tsconfig.json", "jsconfig.json", ".git" })
+	end,
 
 	-- Single file support
 	single_file_support = true,
 
 	-- Additional initialization options
 	init_options = {
-		preferences = {
-			disableSuggestions = false,
-		},
+		hostInfo = "neovim",
 	},
 }
 
 -- Setup TypeScript Language Server (using modern ts_ls)
-lspconfig.ts_ls.setup(js_ts_config)
+vim.lsp.config("ts_ls", js_ts_config)
+vim.lsp.enable("ts_ls")
 
 -- JavaScript/TypeScript-specific autocommands
-local js_ts_group = vim.api.nvim_create_augroup("JavaScriptTypeScriptLSP", { clear = true })
+local js_ts_group = vim.api.nvim_create_augroup("JsTsLSP", { clear = true })
 
--- Auto-organize imports on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-	group = js_ts_group,
-	pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
-	callback = function()
-		-- Only organize imports if LSP is active
-		local clients = vim.lsp.get_active_clients({ bufnr = 0 })
-		for _, client in ipairs(clients) do
-			if client.name == "ts_ls" then
-				-- Organize imports
-				vim.lsp.buf.execute_command({
-					command = "_typescript.organizeImports",
-					arguments = { vim.api.nvim_buf_get_name(0) },
-				})
-			end
-		end
-	end,
-})
-
--- Enhanced JavaScript/TypeScript-specific keybindings
+-- Enhanced JS/TS keybindings
 vim.api.nvim_create_autocmd("FileType", {
 	group = js_ts_group,
 	pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
 	callback = function()
 		local opts = { noremap = true, silent = true, buffer = true }
 
-		-- TypeScript/JavaScript specific mappings
 		vim.keymap.set(
 			"n",
-			"<leader>oi",
+			"<leader>ti",
 			":TSLspOrganizeImports<CR>",
-			vim.tbl_extend("force", opts, { desc = "Organize imports" })
+			vim.tbl_extend("force", opts, { desc = "Organize TS/JS imports" })
 		)
-
 		vim.keymap.set(
 			"n",
-			"<leader>ru",
+			"<leader>tr",
 			":TSLspRemoveUnused<CR>",
 			vim.tbl_extend("force", opts, { desc = "Remove unused variables" })
 		)
-
 		vim.keymap.set(
 			"n",
-			"<leader>rf",
-			":TSLspRenameFile<CR>",
-			vim.tbl_extend("force", opts, { desc = "Rename file and update imports" })
-		)
-
-		vim.keymap.set(
-			"n",
-			"<leader>ai",
+			"<leader>ta",
 			":TSLspAddMissingImports<CR>",
 			vim.tbl_extend("force", opts, { desc = "Add missing imports" })
 		)
@@ -200,4 +171,4 @@ vim.diagnostic.config({
 }, vim.api.nvim_create_namespace("js_ts_diagnostics"))
 
 -- Success notification
-vim.notify("JavaScript/TypeScript LSP (tsserver) configured successfully! ⚡", vim.log.levels.INFO)
+vim.notify("JavaScript/TypeScript LSP (ts_ls) configured successfully! ⚡", vim.log.levels.INFO)

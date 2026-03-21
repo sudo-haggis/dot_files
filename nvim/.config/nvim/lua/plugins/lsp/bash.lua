@@ -4,10 +4,9 @@
 
 -- Load LSP config and common setup
 local utils = require("core.utils")
-local lspconfig = utils.safe_require("lspconfig")
 local lsp_common = utils.safe_require("plugins.lsp-common")
 
-if not lspconfig or not lsp_common then
+if not lsp_common then
 	return
 end
 
@@ -32,14 +31,17 @@ local bash_config = {
 	filetypes = { "sh", "bash" },
 
 	-- Root directory detection
-	root_dir = lspconfig.util.root_pattern(".git", vim.fn.getcwd()),
+	root_dir = function(fname)
+		return vim.fs.root(fname, { ".git" })
+	end,
 
 	-- Single file support
 	single_file_support = true,
 }
 
 -- Setup BASH LSP
-lspconfig.bashls.setup(bash_config)
+vim.lsp.config("bashls", bash_config)
+vim.lsp.enable("bashls")
 
 -- BASH-specific autocommands
 local bash_group = vim.api.nvim_create_augroup("BashLSP", { clear = true })
