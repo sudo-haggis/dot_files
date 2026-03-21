@@ -4,10 +4,9 @@
 
 -- Load LSP config and common setup
 local utils = require("core.utils")
-local lspconfig = utils.safe_require("lspconfig")
 local lsp_common = utils.safe_require("plugins.lsp-common")
 
-if not lspconfig or not lsp_common then
+if not lsp_common then
 	return
 end
 
@@ -21,7 +20,6 @@ local go_config = {
 		-- Go-specific keybindings
 		local opts = { noremap = true, silent = true, buffer = bufnr }
 
-		-- Go-specific mappings
 		vim.keymap.set("n", "<leader>gt", ":GoTest<CR>", vim.tbl_extend("force", opts, { desc = "Run Go tests" }))
 		vim.keymap.set(
 			"n",
@@ -106,11 +104,9 @@ local go_config = {
 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
 
 	-- Root directory detection - Go projects
-	root_dir = lspconfig.util.root_pattern(
-		"go.work", -- Go workspace
-		"go.mod", -- Go module
-		".git" -- Fallback to git repo
-	),
+	root_dir = function(fname)
+		return vim.fs.root(fname, { "go.work", "go.mod", ".git" })
+	end,
 
 	-- Single file support
 	single_file_support = true,
@@ -122,7 +118,8 @@ local go_config = {
 }
 
 -- Setup Go LSP
-lspconfig.gopls.setup(go_config)
+vim.lsp.config("gopls", go_config)
+vim.lsp.enable("gopls")
 
 -- Go-specific autocommands
 local go_group = vim.api.nvim_create_augroup("GoLSP", { clear = true })
@@ -132,7 +129,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	group = go_group,
 	pattern = "*.go",
 	callback = function()
-		-- Use goimports through LSP
 		local params = vim.lsp.util.make_range_params(nil, "utf-16")
 		params.context = { only = { "source.organizeImports" } }
 
@@ -154,73 +150,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	group = go_group,
 	pattern = "*.go",
 	callback = function()
-		-- Only format if no external formatter (conform.nvim should handle this)
 		local conform_available = pcall(require, "conform")
 		if not conform_available then
 			vim.lsp.buf.format({ async = false })
-		end
-	end,
-})
-
--- Custom Go commands
-vim.api.nvim_create_user_command("GoTest", function()
-	vim.cmd("!go test ./...")
-end, { desc = "Run all Go tests" })
-
-vim.api.nvim_create_user_command("GoTestFile", function()
-	local file = vim.fn.expand("%:t:r")
-	vim.cmd("!go test -run " .. file)
-end, { desc = "Run tests for current file" })
-
-vim.api.nvim_create_user_command("GoCoverage", function()
-	vim.cmd("!go test -cover ./...")
-end, { desc = "Run Go tests with coverage" })
-
-vim.api.nvim_create_user_command("GoImports", function()
-	-- Trigger organize imports
-	vim.lsp.buf.code_action({
-		context = { only = { "source.organizeImports" } },
-		apply = true,
-	})
-end, { desc = "Organize Go imports" })
-
-vim.api.nvim_create_user_command("GoFillStruct", function()
-	-- Request fill struct code action
-	vim.lsp.buf.code_action({
-		context = { only = { "refactor.rewrite" } },
-		apply = false,
-	})
-end, { desc = "Fill Go struct" })
-
-vim.api.nvim_create_user_command("GoIfErr", function()
-	-- Simple if err != nil snippet (basic implementation)
-	local line = vim.api.nvim_get_current_line()
-	local cursor = vim.api.nvim_win_get_cursor(0)
-	local indent = string.match(line, "^%s*") or ""
-
-	local err_block = {
-		indent .. "if err != nil {",
-		indent .. "\treturn err",
-		indent .. "}",
-	}
-
-	vim.api.nvim_buf_set_lines(0, cursor[1], cursor[1], false, err_block)
-end, { desc = "Add if err != nil block" })
-
--- Go file type specific settings
-vim.api.nvim_create_autocmd("FileType", {
-	group = go_group,
-	pattern = "go",
-	callback = function()
-		-- Go-specific vim settings
-		vim.opt_local.tabstop = 4
-		vim.opt_local.shiftwidth = 4
-		vim.opt_local.expandtab = false -- Go uses tabs, not spaces
-		vim.opt_local.textwidth = 100 -- Go community standard
-
-		-- Enable inlay hints if available
-		if vim.lsp.inlay_hint then
-			vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
 		end
 	end,
 })

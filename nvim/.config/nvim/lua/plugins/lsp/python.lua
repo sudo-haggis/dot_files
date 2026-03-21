@@ -3,10 +3,9 @@
 
 -- Load LSP config and common setup
 local utils = require("core.utils")
-local lspconfig = utils.safe_require("lspconfig")
 local lsp_common = utils.safe_require("plugins.lsp-common")
 
-if not lspconfig or not lsp_common then
+if not lsp_common then
 	return
 end
 
@@ -51,21 +50,17 @@ local python_config = {
 	filetypes = { "python" },
 
 	-- Root directory detection
-	root_dir = lspconfig.util.root_pattern(
-		"pyproject.toml",
-		"setup.py",
-		"setup.cfg",
-		"requirements.txt",
-		"Pipfile",
-		".git"
-	),
+	root_dir = function(fname)
+		return vim.fs.root(fname, { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git" })
+	end,
 
 	-- Single file support
 	single_file_support = true,
 }
 
 -- Setup Pyright LSP
-lspconfig.pyright.setup(python_config)
+vim.lsp.config("pyright", python_config)
+vim.lsp.enable("pyright")
 
 -- Python-specific autocommands
 local python_group = vim.api.nvim_create_augroup("PythonLSP", { clear = true })
