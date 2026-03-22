@@ -19,6 +19,13 @@ NC='\033[0m'
 
 echo -e "${BLUE}🔒 Scanning for secrets...${NC}"
 
+if ! command -v gitleaks &>/dev/null; then
+    read -p "gitleaks not installed, still proceed? (Y)" check
+    if [[ ! "$check" =~ [yY] ]]; then
+        exit 1
+    fi
+fi
+
 if ! gitleaks protect --verbose --no-banner 2>/dev/null; then
     echo ""
     echo -e "${RED}❌ SECRETS DETECTED!${NC}"
