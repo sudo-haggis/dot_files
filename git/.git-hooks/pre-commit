@@ -1,0 +1,17 @@
+#!/bin/bash
+# Pre-commit hook: Placeholder for future checks
+# Currently empty - version syncing moved to pre-push
+
+# You can add things here like:
+# - Code formatting checks
+# - Linting
+# - Test runs
+# - etc.
+
+if git diff --cached | grep -qE "^(<<<<<<<|=======|>>>>>>>)"; then
+    echo -e "${RED} CONFLICT MARKER FOUND${NC}"
+    exit 1
+fi
+
+# For now, just exit successfully
+exit 0

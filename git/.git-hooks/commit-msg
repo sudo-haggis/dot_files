@@ -1,0 +1,84 @@
+#!/bin/bash
+# Commit-msg hook: Enforce conventional commit format
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# Get commit message (first non-comment, non-empty line)
+commit_msg=$(grep -v '^#' "$1" | grep -v '^$' | head -1)
+
+# Allow bypass with ! prefix
+if [[ $commit_msg =~ ^! ]]; then
+    echo -e "${YELLOW}⚠️  Format check bypassed${NC}"
+    exit 0
+fi
+
+# check and exit it fix up or squash xcommit is found
+if echo $commit_msg | grep -qE "^(fixup!|squash) "; then
+    echo "Fixup commit being skipped"
+    exit 0
+fi
+
+# Pattern: type(scope): message OR type: message
+pattern='^(feat|bugfix|docs|style|refactor|perf|test|chore)(\([a-z][a-z0-9_-]*\))?: .+'
+
+# Three checks
+format_ok=false
+message_ok=false
+length_ok=false
+
+# Check 1: Format matches pattern
+if [[ $commit_msg =~ $pattern ]]; then
+    format_ok=true
+fi
+
+# Check 2: Message part is long enough
+if [[ $commit_msg =~ :[[:space:]]+(.+) ]]; then
+    msg_part="${BASH_REMATCH[1]}"
+    if [[ ${#msg_part} -ge 10 ]]; then
+        message_ok=true
+    fi
+fi
+
+# Check 3: Total length is within range
+total_length=${#commit_msg}
+if [[ $total_length -ge 20 ]] && [[ $total_length -le 120 ]]; then
+    length_ok=true
+fi
+
+# All checks passed?
+if [[ $format_ok == true ]] && [[ $message_ok == true ]] && [[ $length_ok == true ]]; then
+    echo -e "${GREEN}✅ Valid commit message${NC}"
+    exit 0
+fi
+
+# Build error output
+successes=""
+errors=""
+
+if [[ $format_ok == true ]]; then
+    successes+="✓format "
+else
+    errors+="  ${RED}❌ Format: type(scope): message | Bypass: !${NC}\n"
+fi
+
+if [[ $message_ok == true ]]; then
+    successes+="✓message "
+else
+    errors+="  ${RED}❌ Message: too short (min 10 chars)${NC}\n"
+fi
+
+if [[ $length_ok == true ]]; then
+    successes+="✓length"
+else
+    errors+="  ${RED}❌ Length: $total_length chars (20-120)${NC}\n"
+fi
+
+# Print error report
+echo -e "${RED}!!! COMMIT MSG ERROR! ${GREEN}[$successes]${NC}"
+echo -e -n "$errors"
+
+exit 1

@@ -1,0 +1,166 @@
+#!/bin/bash
+# Pre-push hook: Security scan + Version sync
+# 1. Run gitleaks to detect secrets
+# 2. Sync version headers to latest tag (if tags exist)
+
+set -e
+
+# Consistent color scheme
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+# ============================================================================
+# PART 1: SECURITY SCAN (GITLEAKS)
+# ============================================================================
+
+echo -e "${BLUE}🔒 Scanning for secrets...${NC}"
+
+if ! gitleaks protect --verbose --no-banner 2>/dev/null; then
+    echo ""
+    echo -e "${RED}❌ SECRETS DETECTED!${NC}"
+    echo -e "${RED}   Push blocked for security${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}✅ No secrets detected${NC}"
+echo ""
+
+# ============================================================================
+# PART 2: VERSION SYNC (IF TAGS EXIST)
+# ============================================================================
+
+# Get latest git tag
+LATEST_TAG=$(git tag -l "v*" | sort -V | tail -1)
+
+# Skip version sync if no tags exist
+if [ -z "$LATEST_TAG" ]; then
+    echo -e "${CYAN}📦 No version tags found - skipping version sync${NC}"
+    exit 0
+fi
+
+# Validate tag format
+if ! [[ "$LATEST_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo -e "${YELLOW}⚠️  Latest tag '$LATEST_TAG' not semantic versioning${NC}"
+    exit 0
+fi
+
+echo -e "${BLUE}🔍 Checking version consistency against $LATEST_TAG...${NC}"
+
+files_updated=0
+files_with_version=0
+files_opted_out=0
+
+# Check if file has version header in first 10 lines
+has_version_header() {
+    head -10 "$1" 2>/dev/null | grep -qE "@version|__version__|version\s*[:=]"
+}
+
+# Check if file opted out (VERSION=null, etc.)
+is_opted_out() {
+    head -10 "$1" 2>/dev/null | grep -qiE "@version\s+(null|none|N/A)|__version__\s*=\s*[\"'](null|none|N/A)[\"']|version\s*[:=]\s*[\"']?(null|none|N/A)"
+}
+
+# Get version from file
+get_file_version() {
+    local file="$1"
+
+    if [[ "$file" =~ \.(js|ts|php)$ ]]; then
+        head -10 "$file" | grep "@version" | sed 's/.*@version[[:space:]]*//' | head -1
+    elif [[ "$file" =~ \.py$ ]]; then
+        head -10 "$file" | grep "__version__" | sed "s/.*[\"']\(v\?[0-9.]*\)[\"'].*/\1/" | head -1
+    elif [[ "$file" =~ \.go$ ]]; then
+        head -10 "$file" | grep "version" | sed 's/.*"\(v\?[0-9.]*\)".*/\1/' | head -1
+    fi
+}
+
+# Update version in file
+update_file_version() {
+    local file="$1"
+    local new_version="$2"
+
+    if [[ "$file" =~ \.(js|ts|php)$ ]]; then
+        sed -i "s/@version.*/@version $new_version/" "$file"
+    elif [[ "$file" =~ \.py$ ]]; then
+        sed -i "s/__version__[[:space:]]*=[[:space:]]*[\"']v\?[0-9.]*[\"']/__version__ = \"$new_version\"/" "$file"
+    elif [[ "$file" =~ \.go$ ]]; then
+        sed -i "s/version[[:space:]]*=[[:space:]]*\"v\?[0-9.]*\"/version = \"$new_version\"/" "$file"
+    fi
+}
+
+# Search all git-tracked files
+git ls-files | while read file; do
+    [ ! -f "$file" ] && continue
+    [ ! -r "$file" ] && continue
+
+    has_version_header "$file" || continue
+    ((files_with_version++)) || true
+
+    if is_opted_out "$file"; then
+        ((files_opted_out++))
+        continue
+    fi
+
+    FILE_VERSION=$(get_file_version "$file")
+    [ -z "$FILE_VERSION" ] && continue
+
+    NORMALIZED_FILE="${FILE_VERSION#v}"
+    NORMALIZED_TAG="${LATEST_TAG#v}"
+
+    if [ "$NORMALIZED_FILE" != "$NORMALIZED_TAG" ]; then
+        echo -e "${RED}  ❌ $file: $FILE_VERSION (should be $LATEST_TAG)${NC}"
+        ((files_updated++)) || true
+    fi
+done
+
+# Check package.json
+if [ -f "package.json" ]; then
+    PACKAGE_VERSION=$(grep '"version"' package.json | cut -d'"' -f4 2>/dev/null || echo "")
+    CLEAN_TAG=${LATEST_TAG#v}
+
+    if [ -n "$PACKAGE_VERSION" ] && [ "$PACKAGE_VERSION" != "$CLEAN_TAG" ]; then
+        echo -e "${RED}  ❌ package.json: $PACKAGE_VERSION (should be $CLEAN_TAG)${NC}"
+        ((files_updated++)) || true
+    fi
+fi
+
+# Check pyproject.toml
+if [ -f "pyproject.toml" ]; then
+    PYPROJECT_VERSION=$(grep '^version' pyproject.toml | cut -d'"' -f2 2>/dev/null || echo "")
+    CLEAN_TAG=${LATEST_TAG#v}
+
+    if [ -n "$PYPROJECT_VERSION" ] && [ "$PYPROJECT_VERSION" != "$CLEAN_TAG" ]; then
+        echo -e "${RED}  ❌ pyproject.toml: $PYPROJECT_VERSION (should be $CLEAN_TAG)${NC}"
+        ((files_updated++))
+    fi
+fi
+
+# Summary and decision
+if [ $files_updated -gt 0 ]; then
+    echo ""
+    echo -e "${RED}❌ VERSION MISMATCH DETECTED!${NC}"
+    echo -e "${RED}   $files_updated file(s) don't match tag $LATEST_TAG${NC}"
+    echo ""
+    echo -e "${YELLOW}Fix options:${NC}"
+    echo -e "${YELLOW}  1. Update files manually and commit${NC}"
+    echo -e "${YELLOW}  2. Run: git commit -am 'chore: sync versions to $LATEST_TAG'${NC}"
+    echo -e "${YELLOW}  3. Bypass check: git push --no-verify${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}✅ All versions match tag${NC}"
+
+# Show stats if version headers exist
+if [ $files_with_version -gt 0 ]; then
+    echo -e "${CYAN}📊 Files with version headers: $files_with_version${NC}"
+    if [ $files_opted_out -gt 0 ]; then
+        echo -e "${CYAN}   Opted out (VERSION=null): $files_opted_out${NC}"
+    fi
+fi
+
+echo ""
+echo -e "${GREEN}✅ Pre-push checks passed - safe to push!${NC}"
+exit 0

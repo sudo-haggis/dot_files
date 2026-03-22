@@ -1,0 +1,17 @@
+[user]
+	name = sudo-haggis
+	email = 156850571+sudo-haggis@users.noreply.github.com
+[core]
+	autocrlf = input
+	editor = vim
+	hooksPath = ~/.git-hooks
+[init]
+	defaultBranch = main
+	default = main
+[alias]
+	am = commit -am
+	tree = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %<(60,trunc)%s' --all --date-order
+[pull]
+	rebase = true
+[rebase]
+	autosquash = true
