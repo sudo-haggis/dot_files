@@ -3,7 +3,7 @@
 	email = 156850571+sudo-haggis@users.noreply.github.com
 [core]
 	autocrlf = input
-	editor = vim
+	editor = nvim
 	hooksPath = ~/.git-hooks
 [init]
 	defaultBranch = main
