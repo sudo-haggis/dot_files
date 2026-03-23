@@ -60,3 +60,5 @@ utils.safe_require("plugins.formatting")
 -- linting support - Ruff
 -- utils.safe_require('plugins.linting')
 utils.safe_require("plugins.nvim-colorizer")
+-- utils.safe_require('plugins.mini.pairs')
+utils.safe_require("plugins.autopairs")

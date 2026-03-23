@@ -80,6 +80,9 @@ packer.startup(function(use)
 	use({ "NvChad/nvim-colorizer.lua" })
 	-- Ruff linter
 	--use 'mfussenegger/nvim-lint'
+
+    -- mini.pairs for paranthesis matching
+    use('echasnovski/mini.pairs')
 end)
 
 -- Register Packer commands
