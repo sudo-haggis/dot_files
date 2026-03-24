@@ -9,7 +9,6 @@ bash/.bash_aliases_projects
 **/packer_compiled.lua
 
 # Exclude tmux plugins (managed by tpm)
-tmux/.config/tmux/plugins/
 
 # Exclude test and development files
 **/*_test.*
