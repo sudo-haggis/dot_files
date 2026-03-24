@@ -10,12 +10,17 @@ function M.setup()
 		return
 	end
 
-	autopairs.setup(
-        -- Example: disable backtick pairing
+	autopairs.setup({
+		mappings = {
+			['"'] = false,
+			["`"] = false,
+			["'"] = false,
+		},
+		-- Example: disable backtick pairing
 		-- mappings = {
 		-- 	['`'] = false,
 		-- },
-    )
+	})
 end
 
 M.setup()
