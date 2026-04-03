@@ -30,6 +30,7 @@ conform.setup({
 		-- json = { "prettier" },
 		yaml = { "prettier" },
 		-- markdown = { "prettier" },
+		sh = { "shfmt" },
 	},
 
 	-- Formatter-specific configuration
@@ -63,6 +64,10 @@ conform.setup({
 		-- prettier = {
 		--     prepend_args = { "--tab-width=2", "--single-quote" },
 		-- },
+
+		shfmt = {
+			prepend_args = { "-i", "2", "-ci" },
+		},
 	},
 
 	-- Default options
