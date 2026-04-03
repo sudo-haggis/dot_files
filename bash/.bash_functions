@@ -294,6 +294,11 @@ scribbles() {
         return 1
     fi
 
+    #sync with github
+    if [[ "$1" == "sync" ]]; then
+        git -C "$scribbles_dir" pull --rebase -X ours && git push
+        return 1
+    fi
 
     #One param... lets grep everything in the folder
     if [[ -z "$2" ]]; then
