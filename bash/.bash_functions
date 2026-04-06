@@ -87,6 +87,9 @@ copy_files() {
 #mkdir and jump straight insid eit to save a cd call
 mkcd() { builtin mkdir -p "$@" && cd "$@";}
 
+# experimental cd function to show contents of dir after move, maybe bad idea
+cd() { builtin cd "$@" && exa -lla --header --smart-group --modified --icons --git; }
+
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                    FIXED: GIT-ENHANCED PROMPT UTILITIES                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
