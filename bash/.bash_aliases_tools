@@ -60,6 +60,8 @@ alias mkdir='mkdir -pv'
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                           File Management                                   │
 # └─────────────────────────────────────────────────────────────────────────────┘
+# -- dif files in colour --
+alias diff='colordiff'
 # ── Log Viewing ──
 alias batlog='sed "s/; public /;\n  public /g" | sed "s/; protected /;\n  protected /g" | bat --theme=ansi --language=log --color=always'
 
