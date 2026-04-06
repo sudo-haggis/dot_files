@@ -49,6 +49,8 @@ alias ccopy='copy_code'  # Sanitized code copying with cow celebration
 # ── Python ──
 alias py='python3'
 
+alias fd='fdfind'
+
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                           Dir Management                                   │
 # └─────────────────────────────────────────────────────────────────────────────┘
