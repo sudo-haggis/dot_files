@@ -84,6 +84,9 @@ copy_files() {
     printf "%b" "$OUTPUT"
 }
 
+#mkdir and jump straight insid eit to save a cd call
+mkcd() { builtin mkdir -p "$@" && cd "$@";}
+
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                    FIXED: GIT-ENHANCED PROMPT UTILITIES                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
