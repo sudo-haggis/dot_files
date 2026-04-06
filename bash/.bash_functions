@@ -90,6 +90,7 @@ mkcd() { builtin mkdir -p "$@" && cd "$@";}
 # experimental cd function to show contents of dir after move, maybe bad idea
 cd() { builtin cd "$@" && exa -lla --header --smart-group --modified --icons --git; }
 
+tree() { exa "$@" -lla --tree --level 4 --header --smart-group --modified --git -I "node_modules|.git" --icons; }
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                    FIXED: GIT-ENHANCED PROMPT UTILITIES                    │
 # └─────────────────────────────────────────────────────────────────────────────┘
