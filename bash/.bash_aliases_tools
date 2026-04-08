@@ -28,8 +28,8 @@ alias tmux_houston='tmux new-session -A houston'
 # │                          Directory Listings :                               │
 # └─────────────────────────────────────────────────────────────────────────────┘
 alias ll='exa -l --icons --git'
-alias la='exa -la --no-git --no-time --no-user --no-filesize'
 alias lt='exa -T --icons --git-ignore'
+alias la='exa -la --no-git --no-time --no-user --icons'
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │                    zoxide setup, fast cd movements :                        │
