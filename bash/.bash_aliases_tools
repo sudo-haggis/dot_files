@@ -28,7 +28,6 @@ alias tmux_houston='tmux new-session -A houston'
 # │                          Directory Listings :                               │
 # └─────────────────────────────────────────────────────────────────────────────┘
 alias ll='exa -l --icons --git'
-alias lt='exa -T --icons --git-ignore'
 alias la='exa -la --no-git --no-time --no-user --icons'
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -66,7 +65,7 @@ alias diff='colordiff'
 alias batlog='sed "s/; public /;\n  public /g" | sed "s/; protected /;\n  protected /g" | bat --theme=ansi --language=log --color=always'
 
 # ── Directory Trees ──
-alias Tree='tree'
+alias ltree='exa -a --tree --level 3 --icons --git-ignore'
 
 # - quick jumps
 alias ..='cd ..'
