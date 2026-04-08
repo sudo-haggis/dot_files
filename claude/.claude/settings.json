@@ -4,7 +4,7 @@
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": false,
-    "excludedCommands": ["docker", "docker-compose"],
+    "excludedCommands": ["docker", "docker-compose"]
   },
 
   "permissions": {
