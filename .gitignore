@@ -34,10 +34,10 @@ claude/.claude/shell-snapshots/
 claude/.claude/history.jsonl
 claude/.claude/mcp-needs-auth-cache.json
 claude/.claude/plugins/
+claude/.claude/projects/
 
 # BUT keep these treasures!
 !claude/.claude/CLAUDE.md
 !claude/.claude/settings.json
 !claude/.claude/settings.example.json
 !claude/.claude/scripts/
-!claude/.claude/projects/
