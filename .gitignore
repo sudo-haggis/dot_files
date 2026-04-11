@@ -25,3 +25,19 @@ config_test/
 ssh/.ssh/*
 !ssh/.ssh/config
 
+# Claude Code - ignore local/sensitive files
+claude/.claude/.credentials.json
+claude/.claude/backups/
+claude/.claude/cache/
+claude/.claude/sessions/
+claude/.claude/shell-snapshots/
+claude/.claude/history.jsonl
+claude/.claude/mcp-needs-auth-cache.json
+claude/.claude/plugins/
+
+# BUT keep these treasures!
+!claude/.claude/CLAUDE.md
+!claude/.claude/settings.json
+!claude/.claude/settings.example.json
+!claude/.claude/scripts/
+!claude/.claude/projects/
