@@ -11,6 +11,7 @@ vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.clipboard = "unnamedplus" -- Use system clipboard
 vim.opt.termguicolors = true -- Enable true color support
 vim.opt.completeopt = "menu,menuone,noselect" -- Required for LSP
+vim.opt.colorcoloumn = "80,120" -- viseul guide for length of chars. 80 - 100.
 
 -- Set leader key to space
 vim.g.mapleader = " "
