@@ -18,6 +18,10 @@
       "Read(~/.gnupg/*)",
       "Read(.env)",
       "Read(.env.*)"
+    ],
+    "allow": [
+      "Bash(git *)",
+      "Bash(node *)"
     ]
   },
   "sandbox": {
