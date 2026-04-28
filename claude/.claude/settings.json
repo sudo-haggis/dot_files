@@ -1,11 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "attribution": {
-    "gitCommitMessage": "Co-authored-by: Claude <claude@anthropic.com>",
-    "gitTrailer": ""
-  },
+  "attribution": {},
   "permissions": {
-    "allow": [],
+    "allow": [
+      "Bash(git *)",
+      "Bash(node *)"
+    ],
     "deny": [
       "Edit(~/.ssh/*)",
       "Edit(~/.aws/*)",
@@ -18,14 +18,11 @@
       "Read(~/.gnupg/*)",
       "Read(.env)",
       "Read(.env.*)"
-    ],
-    "allow": [
-      "Bash(git *)",
-      "Bash(node *)"
     ]
   },
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": false
-  }
+  },
+  "theme": "dark-daltonized"
 }

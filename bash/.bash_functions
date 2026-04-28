@@ -281,8 +281,10 @@ GR(){
         git rebase -i HEAD~$1
     elif [[ "$1" =~ ^(abort|continue)$ ]]; then
         git rebase --"$1"
+    elif [[ -n "$1" ]]; then
+        git rebase "$1"
     else
-        echo "bad rebase command, 0-9 or abort/continue only"
+        echo "usage: GR <n|abort|continue|branch>"
         return 1
     fi
     }
