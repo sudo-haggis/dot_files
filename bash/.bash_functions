@@ -277,7 +277,14 @@ git() {
 
 
 GR(){
-    git rebase -i HEAD~${1:-1}
+    if [[ "$1" =~ ^[1-9][0-9]*$ ]]; then
+        git rebase -i HEAD~$1
+    elif [[ "$1" =~ ^(abort|continue)$ ]]; then
+        git rebase --"$1"
+    else
+        echo "bad rebase command, 0-9 or abort/continue only"
+        return 1
+    fi
     }
 
 launch_lazygit() {
